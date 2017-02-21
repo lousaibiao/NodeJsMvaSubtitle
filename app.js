@@ -44,7 +44,7 @@ https.get(subtitleUrl, res=>{
             });
             for (var index = 0; index < items.length; index++) {
                 var item = items[index];
-                var s = (index)+" \r\n "+item["$"]["begin"]+" --> "+item["$"]["end"]+"\r\n"+item["_"]+"\r\n";
+                var s = (index+1)+" \r\n"+item["$"]["begin"]+" --> "+item["$"]["end"]+"\r\n"+item["_"]+"\r\n\r\n";
                 //Note that it is unsafe to use fs.writeFile multiple times on the same file without waiting for the callback. For this scenario, fs.createWriteStream is strongly recommended.
                 // fs.appendFile(fileName,s);
                 writer.write(s);
