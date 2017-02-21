@@ -1,9 +1,9 @@
-1 
- 00:00:02.201 --> 00:00:03.412
->> Hey, I'm Jeff Fritz.
 0 
  00:00:00.340 --> 00:00:02.200
 Hi, I'm Scott Hanselman.
+1 
+ 00:00:02.201 --> 00:00:03.412
+>> Hey, I'm Jeff Fritz.
 2 
  00:00:03.413 --> 00:00:08.064
 >> And this is, the intermediateASP.NET Core 1.0 MVA.
@@ -37,12 +37,12 @@ Let's start with a littlediscussion, about where we left off
 12 
  00:00:30.411 --> 00:00:33.580
 and we're looking at this littlebasic Movies application.
-14 
- 00:00:34.771 --> 00:00:38.130
-But this particular segment,is gonna focus on Tag Helpers,
 13 
  00:00:33.581 --> 00:00:34.770
 It's not really complicated.
+14 
+ 00:00:34.771 --> 00:00:38.130
+But this particular segment,is gonna focus on Tag Helpers,
 15 
  00:00:38.131 --> 00:00:40.970
 which we've briefly touched on,but didn't really dig into.
@@ -76,12 +76,12 @@ You mean create, read,update, delete, right?
 25 
  00:01:01.951 --> 00:01:04.780
 it's like, I got some stuff andI need to do the basics.
-27 
- 00:01:06.311 --> 00:01:11.160
-if we look over here on the side,we've got Delete and then Details.
 26 
  00:01:04.781 --> 00:01:06.310
 So speaking of crud,
+27 
+ 00:01:06.311 --> 00:01:11.160
+if we look over here on the side,we've got Delete and then Details.
 28 
  00:01:11.161 --> 00:01:15.300
 It's kind of the extra D, in crud.
@@ -157,15 +157,15 @@ that'll generate andadd on some features to that.
 52 
  00:02:23.591 --> 00:02:26.697
 So in this case.We have this asp-action attribute,
+53 
+ 00:02:26.698 --> 00:02:29.569
+that we've added onto the anchor tag.
 54 
  00:02:29.570 --> 00:02:34.557
 Now, we're adding a feature to it tosay, let's create an anchor tag for
 55 
  00:02:34.558 --> 00:02:39.280
 the Create action, that's definedinside my asp controller.
-53 
- 00:02:26.698 --> 00:02:29.569
-that we've added onto the anchor tag.
 56 
  00:02:39.281 --> 00:02:47.083
 >> Couldn't I just go <ahref= "/movies/create">New,
@@ -196,24 +196,24 @@ And we're getting this ability tomap and recreate that route, based
 65 
  00:03:12.071 --> 00:03:15.975
 on how our URL scheme, has beendefined inside of our application.
-67 
- 00:03:18.421 --> 00:03:19.200
->> Yes.
 66 
  00:03:15.976 --> 00:03:18.420
 >> That's an important reminder,that routing it's two-way.
-69 
- 00:03:23.851 --> 00:03:28.540
-comes in as the URL, we figure outthat it's the, Movies controller.
+67 
+ 00:03:18.421 --> 00:03:19.200
+>> Yes.
 68 
  00:03:19.201 --> 00:03:23.850
 >> Right, sothe idea being that if /movies/index
-71 
- 00:03:31.762 --> 00:03:33.204
-what will the URL look like.
+69 
+ 00:03:23.851 --> 00:03:28.540
+comes in as the URL, we figure outthat it's the, Movies controller.
 70 
  00:03:28.541 --> 00:03:31.761
 But we can also say, given anyfunction on a Movies controller,
+71 
+ 00:03:31.762 --> 00:03:33.204
+what will the URL look like.
 72 
  00:03:33.205 --> 00:03:36.169
 Does that mean, I couldtheoretically change this to films.
@@ -568,12 +568,12 @@ I see the @model.
 189 
  00:09:33.301 --> 00:09:36.230
 I do not see, the Tag Helper adding.
-191 
- 00:09:37.830 --> 00:09:41.673
->> So, previously when we weredoing things in IIS and we had
 190 
  00:09:36.231 --> 00:09:37.829
 How does it know aboutthis Tag Helper?
+191 
+ 00:09:37.830 --> 00:09:41.673
+>> So, previously when we weredoing things in IIS and we had
 192 
  00:09:41.674 --> 00:09:46.319
 that Web.config, that was ableto drive configuration settings,
@@ -661,15 +661,15 @@ And I think Environmentis really fun.
 220 
  00:10:56.159 --> 00:10:58.813
 Anchor is kind of spelled out alittle bit cuz it's kind of weird to
+221 
+ 00:10:58.814 --> 00:11:00.906
+have tags [CROSSTALK] A>> Anchor is A.
 222 
  00:11:00.907 --> 00:11:02.165
 >> So yeah.
 223 
  00:11:02.166 --> 00:11:03.110
 >> But that's a really good point.
-221 
- 00:10:58.814 --> 00:11:00.906
-have tags [CROSSTALK] A>> Anchor is A.
 224 
  00:11:03.111 --> 00:11:03.860
 So let's think about that.
@@ -682,12 +682,12 @@ That's HTML.
 227 
  00:11:08.939 --> 00:11:10.695
 That's not HTML.
-229 
- 00:11:11.851 --> 00:11:17.360
-Tag Helpers don't necessarily haveto augment an existing HTML tag.
 228 
  00:11:10.696 --> 00:11:11.850
 >> Yep.>> So
+229 
+ 00:11:11.851 --> 00:11:17.360
+Tag Helpers don't necessarily haveto augment an existing HTML tag.
 230 
  00:11:17.361 --> 00:11:19.710
 >> Right,you can create your own tags.
@@ -772,12 +772,12 @@ So I'll go and hit refresh.
 257 
  00:12:16.361 --> 00:12:19.520
 Now I've proven that thatRazor is in fact that.
-259 
- 00:12:23.761 --> 00:12:25.630
-We're in the movies view here.
 258 
  00:12:19.521 --> 00:12:23.760
 So I'm just editingthe index.cshtml view.
+259 
+ 00:12:23.761 --> 00:12:25.630
+We're in the movies view here.
 260 
  00:12:25.631 --> 00:12:29.430
 And we can go andadd something to that.
@@ -1183,12 +1183,12 @@ See how I hover over the HTML andit just says, yeah,
 394 
  00:18:23.711 --> 00:18:25.378
 that's an h2 doesn'treally tell me a lot.
-396 
- 00:18:28.201 --> 00:18:31.120
-So it's not only tellingme the Tag Helper, but
 395 
  00:18:25.379 --> 00:18:28.200
 This is C# behind it right there.
+396 
+ 00:18:28.201 --> 00:18:31.120
+So it's not only tellingme the Tag Helper, but
 397 
  00:18:31.121 --> 00:18:35.208
 it's literally saying the exactobject, the exact namespace and
@@ -1522,12 +1522,12 @@ that stuff.
 507 
  00:23:03.391 --> 00:23:04.304
 That's a good one.
-509 
- 00:23:06.759 --> 00:23:10.140
-that I sometimes forgetthe order of the arguments.
 508 
  00:23:04.305 --> 00:23:06.758
 [INAUDIBLE] I've gotten sobad with for
+509 
+ 00:23:06.759 --> 00:23:10.140
+that I sometimes forgetthe order of the arguments.
 510 
  00:23:10.141 --> 00:23:11.310
 I have to write it by hand.
@@ -1642,21 +1642,21 @@ the kabob casing, did not know that.
 547 
  00:25:00.721 --> 00:25:03.375
 >> [LAUGH]>> Fascinating bit of context there
-549 
- 00:25:05.776 --> 00:25:06.645
-So there's Count.
 548 
  00:25:03.376 --> 00:25:05.775
 that we did not have,a little bit of history, okay?
+549 
+ 00:25:05.776 --> 00:25:06.645
+So there's Count.
 550 
  00:25:08.205 --> 00:25:12.970
 So then this base here where wecan't return in the middle of that.
-552 
- 00:25:14.379 --> 00:25:17.850
-in the middle of the for loop, butwe do have this TagHelper output.
 551 
  00:25:12.971 --> 00:25:14.378
 >> No.>> Cuz you can't return
+552 
+ 00:25:14.379 --> 00:25:17.850
+in the middle of the for loop, butwe do have this TagHelper output.
 553 
  00:25:17.851 --> 00:25:21.123
 So what we're gonna do is we'regonna take that content and
@@ -1666,27 +1666,27 @@ we're just gonna Append the HTML.
 555 
  00:25:23.091 --> 00:25:26.051
 Okay, we gonna go andjust say Append, Append, Append.
-557 
- 00:25:27.811 --> 00:25:28.930
-But what do we wanna do?
 556 
  00:25:26.052 --> 00:25:27.810
 We're gonna for loop through that.
+557 
+ 00:25:27.811 --> 00:25:28.930
+But what do we wanna do?
 558 
  00:25:28.931 --> 00:25:32.570
 Well, we're gonna say repeat, right?
-560 
- 00:25:37.261 --> 00:25:38.360
-it could be a whole bunch of stuff.
 559 
  00:25:32.571 --> 00:25:37.260
 And there is some HTML,not just a little chunk of HTML, but
-562 
- 00:25:40.721 --> 00:25:42.720
->> Right, andit could be a deep tree.
+560 
+ 00:25:37.261 --> 00:25:38.360
+it could be a whole bunch of stuff.
 561 
  00:25:38.361 --> 00:25:40.720
 >> Yeah,anything that's inside this tag.
+562 
+ 00:25:40.721 --> 00:25:42.720
+>> Right, andit could be a deep tree.
 563 
  00:25:42.721 --> 00:25:44.790
 >> Sure.>> Going all the way down.
@@ -1714,12 +1714,12 @@ going on there.
 571 
  00:26:01.051 --> 00:26:02.110
 >> And if there's caching.
-573 
- 00:26:03.071 --> 00:26:04.270
-Do we not wanna use caching?
 572 
  00:26:02.111 --> 00:26:03.070
 Do we want to use caching?
+573 
+ 00:26:03.071 --> 00:26:04.270
+Do we not wanna use caching?
 574 
  00:26:04.271 --> 00:26:05.790
 We gotta think about that as well.
@@ -1750,12 +1750,12 @@ in your signature, I think youneed an Async keyword on that.
 583 
  00:26:24.721 --> 00:26:29.970
 When I did the override,it popped up the little,
-585 
- 00:26:32.590 --> 00:26:35.973
-But it did not include the Async,[CROSSTALK] so
 584 
  00:26:29.971 --> 00:26:31.462
 what kind of overridedo you wanna do?
+585 
+ 00:26:32.590 --> 00:26:35.973
+But it did not include the Async,[CROSSTALK] so
 586 
  00:26:35.974 --> 00:26:38.588
 that override helper did not know.
@@ -1765,12 +1765,12 @@ So if I hover over this,it's saying well, it's awaitable.
 588 
  00:26:42.861 --> 00:26:45.580
 So we can do something about that,so we'll say async.
-590 
- 00:26:49.291 --> 00:26:50.610
->> Visual Studio is happy.
 589 
  00:26:45.581 --> 00:26:49.290
 All right, andthen my squigglies go away.
+590 
+ 00:26:49.291 --> 00:26:50.610
+>> Visual Studio is happy.
 591 
  00:26:50.611 --> 00:26:54.600
 >> Okay, so this is inthe namespace WebApplication23.
@@ -1789,12 +1789,12 @@ I don't know.
 596 
  00:27:04.528 --> 00:27:05.603
 I don't know.
-598 
- 00:27:08.273 --> 00:27:10.430
-that, you can readthe docs all you want.
 597 
  00:27:05.604 --> 00:27:08.272
 This is the thing we were talkingabout in the introductory thing is
+598 
+ 00:27:08.273 --> 00:27:10.430
+that, you can readthe docs all you want.
 599 
  00:27:10.431 --> 00:27:12.570
 But ultimately you do haveto experiment for yourself.
@@ -1813,12 +1813,12 @@ So I'm not getting anykind of IntelliSense here.
 604 
  00:27:24.400 --> 00:27:25.107
 >> No.
-606 
- 00:27:26.991 --> 00:27:30.850
->> So let's go back,like you said to view imports.
 605 
  00:27:25.108 --> 00:27:26.990
 >> All right.>> It doesn't know what repeat is.
+606 
+ 00:27:26.991 --> 00:27:30.850
+>> So let's go back,like you said to view imports.
 607 
  00:27:30.851 --> 00:27:31.490
 >> There it is.
@@ -1846,21 +1846,21 @@ And we'll see if I canget repeat to show up.
 615 
  00:27:55.051 --> 00:27:59.400
 So let's see if I have to open andclose that document again.
-617 
- 00:28:00.821 --> 00:28:03.210
-Maybe I have to re-compile.
 616 
  00:27:59.401 --> 00:28:00.820
 I don't know.
+617 
+ 00:28:00.821 --> 00:28:03.210
+Maybe I have to re-compile.
 618 
  00:28:03.211 --> 00:28:03.840
 Where'd that go?
-620 
- 00:28:11.251 --> 00:28:12.420
-There it is.
 619 
  00:28:03.841 --> 00:28:07.132
 That was in Movies, okay?
+620 
+ 00:28:11.251 --> 00:28:12.420
+There it is.
 621 
  00:28:12.421 --> 00:28:13.320
 >> Interesting, so
@@ -1894,12 +1894,12 @@ look at that.
 631 
  00:28:31.131 --> 00:28:34.160
 >> That right there, let's just zoomin and drink that in for a second.
-633 
- 00:28:39.281 --> 00:28:40.370
->> Sure.
 632 
  00:28:34.161 --> 00:28:39.280
 Cuz this really is the moment forme when I got TagHelpers, right?
+633 
+ 00:28:39.281 --> 00:28:40.370
+>> Sure.
 634 
  00:28:40.371 --> 00:28:42.970
 >> I'm in HTML,I'm thinking HTML is convenient.
@@ -1936,12 +1936,12 @@ A string like this?
 645 
  00:29:06.165 --> 00:29:07.995
 I don't know, let's find out.
-647 
- 00:29:12.604 --> 00:29:15.390
-Oops, let me zoom out andfinish my repeat.
 646 
  00:29:07.996 --> 00:29:09.441
 I bet you bad thingsare gonna happen.
+647 
+ 00:29:12.604 --> 00:29:15.390
+Oops, let me zoom out andfinish my repeat.
 648 
  00:29:20.645 --> 00:29:22.100
 Okay, did it save?
@@ -1993,12 +1993,12 @@ Isn't that good?
 664 
  00:30:00.007 --> 00:30:04.870
 So now I can go and do that anywherethings need to be repeated.
-666 
- 00:30:06.231 --> 00:30:10.980
-I move it with a larger scope->> Sure.
 665 
  00:30:04.871 --> 00:30:06.230
 If I pick it up and
+666 
+ 00:30:06.231 --> 00:30:10.980
+I move it with a larger scope->> Sure.
 667 
  00:30:12.290 --> 00:30:13.300
 >> Things are gonna change.
@@ -2041,24 +2041,24 @@ I'm gonna go back overto Visual Studio.
 680 
  00:30:51.161 --> 00:30:52.960
 And again, I could addthis in a number of ways.
-682 
- 00:30:54.968 --> 00:30:56.660
->> Mm-hm.>> Some people like to do it
 681 
  00:30:52.961 --> 00:30:54.967
 Some people like to do itin their project.Jason.
+682 
+ 00:30:54.968 --> 00:30:56.660
+>> Mm-hm.>> Some people like to do it
 683 
  00:30:56.661 --> 00:30:58.310
 at the command prompt.
 684 
  00:30:58.311 --> 00:31:01.238
 Other people like to right-click anddo it within the-
-686 
- 00:31:02.061 --> 00:31:03.990
->> Graphically within References.
 685 
  00:31:01.239 --> 00:31:02.060
 >> Graphically.
+686 
+ 00:31:02.061 --> 00:31:03.990
+>> Graphically within References.
 687 
  00:31:03.991 --> 00:31:05.740
 Totally up to you howyou wanna do that.
@@ -2254,12 +2254,12 @@ control vendors are makingTag Helpers now for ASP.NET Core.
 751 
  00:34:08.109 --> 00:34:08.649
 >> Mm-hm.
-753 
- 00:34:12.531 --> 00:34:16.274
-of those vendors, or a chartcontrol, there's now Tag Helpers
 752 
  00:34:08.650 --> 00:34:12.530
 >> So if you're used to and familiarwith using a grid control from one
+753 
+ 00:34:12.531 --> 00:34:16.274
+of those vendors, or a chartcontrol, there's now Tag Helpers
 754 
  00:34:16.275 --> 00:34:20.388
 available that will do the samefunctionality inside ASP.Net Core.

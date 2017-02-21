@@ -35,19 +35,19 @@ https.get(subtitleUrl, res=>{
             var items = result.tt.body[0].div[0].p
             
             var temp = JSON.stringify(items);
-            // fs.writeFile("1.txt",temp,(e)=>{
-            //     if (e){
-            //         fs.writeFile("error.txt",e.message);
-            //     }
-            // });
-            // return ;
-            // var i = 1;
+            var writer = fs.createWriteStream(fileName,{
+                flags: 'w',  
+                defaultEncoding: 'utf8',  
+                fd: null,  
+                mode: 0o666,
+                autoClose: true
+            });
             for (var index = 0; index < items.length; index++) {
                 var item = items[index];
                 var s = (index)+" \r\n "+item["$"]["begin"]+" --> "+item["$"]["end"]+"\r\n"+item["_"]+"\r\n";
-                fs.appendFile(fileName,s);
-                // console.log(index);
-                // i++;
+                //Note that it is unsafe to use fs.writeFile multiple times on the same file without waiting for the callback. For this scenario, fs.createWriteStream is strongly recommended.
+                // fs.appendFile(fileName,s);
+                writer.write(s);
             }
             console.log("finish");
         });
