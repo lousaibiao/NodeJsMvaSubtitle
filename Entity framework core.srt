@@ -1,0 +1,5036 @@
+1 
+00:00:00.950 --> 00:00:01.460
+Hey there.
+
+2 
+00:00:01.461 --> 00:00:06.670
+Welcome back to ASP.NET Core1.0 Intermediate tutorials.
+
+3 
+00:00:06.671 --> 00:00:10.330
+My name is Jeff Fritz, and this is->> Hey, I'm Rowan Miller.
+
+4 
+00:00:10.331 --> 00:00:12.760
+I work as a program manageron the Entity Framework Team
+
+5 
+00:00:12.761 --> 00:00:14.150
+here at Microsoft.
+
+6 
+00:00:14.151 --> 00:00:16.778
+>> So we're going to continue goingthrough some of our content about
+
+7 
+00:00:16.779 --> 00:00:18.135
+ASP.NET core 1.0.
+
+8 
+00:00:18.136 --> 00:00:20.770
+And we're gonna build on some ofthe things that we did a little bit
+
+9 
+00:00:20.771 --> 00:00:22.010
+earlier today.
+
+10 
+00:00:22.011 --> 00:00:25.340
+So, we've done lists ofproducts through a web API.
+
+11 
+00:00:25.341 --> 00:00:28.550
+And we've done some otherthings with data in memory.
+
+12 
+00:00:28.551 --> 00:00:31.470
+But what happens when we needthat data to persist, right?
+
+13 
+00:00:31.471 --> 00:00:35.190
+A database or some other storagemedium would be a great help,
+
+14 
+00:00:35.191 --> 00:00:39.070
+but we really want to get intosaving to that database, and
+
+15 
+00:00:39.071 --> 00:00:42.060
+we want to use a tool likeEntity Framework to help with that.
+
+16 
+00:00:42.061 --> 00:00:45.440
+So we saw a little bit with EntityFramework in our security module
+
+17 
+00:00:45.441 --> 00:00:49.140
+when we added Facebookaccess to the application.
+
+18 
+00:00:49.141 --> 00:00:51.680
+Let's take a little bit ofa deeper look at Entity Framework
+
+19 
+00:00:51.681 --> 00:00:53.110
+in this module.
+
+20 
+00:00:53.111 --> 00:00:55.766
+So Rowan, what is Entity Framework?
+
+21 
+00:00:55.767 --> 00:00:58.789
+>> So, Entity Framework is an objectrelational mapper for .NET.
+
+22 
+00:00:58.790 --> 00:01:00.100
+So it's kind of two parts to that.
+
+23 
+00:01:00.101 --> 00:01:04.170
+So, an object relational mapper is,I write objects.
+
+24 
+00:01:04.171 --> 00:01:06.560
+I'm writing C#, orVB.NET or something.
+
+25 
+00:01:06.561 --> 00:01:08.660
+I'm writing classes,and I wanna write code.
+
+26 
+00:01:08.661 --> 00:01:09.200
+>> Okay.
+
+27 
+00:01:09.201 --> 00:01:10.870
+>> I'm mapping toa relational database, and
+
+28 
+00:01:10.871 --> 00:01:12.270
+those two thingsare not the same thing.
+
+29 
+00:01:12.271 --> 00:01:14.665
+In one, I write C#,in the other one, I write SQL.
+
+30 
+00:01:14.666 --> 00:01:15.780
+>> Right.>> And so,
+
+31 
+00:01:15.781 --> 00:01:17.580
+an object relational mapjust bridges that gap.
+
+32 
+00:01:17.581 --> 00:01:19.410
+It maps between the two.
+
+33 
+00:01:19.411 --> 00:01:22.370
+It means I can writequeries in code, and
+
+34 
+00:01:22.371 --> 00:01:25.203
+the object relational map will takecare of translating those into SQL.
+
+35 
+00:01:25.204 --> 00:01:27.879
+>> Queries in C# or .NET code?
+
+36 
+00:01:27.880 --> 00:01:28.492
+>> Exactly.
+
+37 
+00:01:28.493 --> 00:01:29.074
+>> Okay.
+
+38 
+00:01:29.075 --> 00:01:30.290
+>> Yep, absolutely.
+
+39 
+00:01:30.291 --> 00:01:34.777
+And then for .NET, obviously it justmeans that this Entity framework
+
+40 
+00:01:34.778 --> 00:01:36.358
+specific to .NET code.
+
+41 
+00:01:36.359 --> 00:01:38.460
+>> Okay.>> So, primarily C# and VP.net.
+
+42 
+00:01:38.461 --> 00:01:41.560
+>> Gotcha, so then, what's thedifference between entity framework,
+
+43 
+00:01:41.561 --> 00:01:43.550
+and now I hearEntity Framework Core?
+
+44 
+00:01:43.551 --> 00:01:46.706
+>> Yeah, so we often refer tothat as Entity Framework 6.X,
+
+45 
+00:01:46.707 --> 00:01:49.520
+because we're currently on 6.1.3>> So,
+
+46 
+00:01:49.521 --> 00:01:51.660
+that's how we talk aboutthat part of the stack.
+
+47 
+00:01:51.661 --> 00:01:53.110
+>> Okay.>> Entity from a core is this kind
+
+48 
+00:01:53.111 --> 00:01:54.750
+of newer lighter weight thing.
+
+49 
+00:01:54.751 --> 00:01:58.000
+It fits very nicely when we thinkabout .NET Core and ASP.NET Core.
+
+50 
+00:01:58.001 --> 00:01:58.940
+It's lightweight,
+
+51 
+00:01:58.941 --> 00:02:02.960
+it's cross-platform, and it's kindof a re-imagination of the framework
+
+52 
+00:02:02.961 --> 00:02:05.670
+we want to take forward forthe years to come.
+
+53 
+00:02:05.671 --> 00:02:08.390
+It is, obviously,the new thing at the moment, too.
+
+54 
+00:02:08.391 --> 00:02:11.840
+Entity Framework 6 is obviouslythe battle-tested, proven thing, but
+
+55 
+00:02:11.841 --> 00:02:15.460
+of course, only runs on the full.NET framework, not these new places
+
+56 
+00:02:15.461 --> 00:02:18.830
+like UWP and cross-platformwhere .NET Core is taking us.
+
+57 
+00:02:18.831 --> 00:02:19.760
+>> Cool, all right.
+
+58 
+00:02:19.761 --> 00:02:21.560
+Why don't you show usa little bit about that?
+
+59 
+00:02:21.561 --> 00:02:22.950
+>> Yes, let's hop over to my screen.
+
+60 
+00:02:22.951 --> 00:02:24.990
+I've got Visual Studio open here,
+
+61 
+00:02:24.991 --> 00:02:28.538
+and I've created the start ofan ASP.NET Core application.
+
+62 
+00:02:28.539 --> 00:02:30.911
+And I've basically just donefile new project with the new
+
+63 
+00:02:30.912 --> 00:02:31.910
+project template.
+
+64 
+00:02:31.911 --> 00:02:33.220
+>> Okay.>> There's a couple of things I've
+
+65 
+00:02:33.221 --> 00:02:34.850
+changed, which I'll just walkyou through quickly now.
+
+66 
+00:02:34.851 --> 00:02:35.413
+If we go and
+
+67 
+00:02:35.414 --> 00:02:40.134
+look in my project JSON- Asidefrom what is installed by default,
+
+68 
+00:02:40.135 --> 00:02:43.310
+you see I've had references toa couple of other packages here.
+
+69 
+00:02:43.311 --> 00:02:46.300
+So I've gotEntityFrameworkCore.SqlServer here.
+
+70 
+00:02:46.301 --> 00:02:49.800
+So this would be the SQL Serverprovider for Entity Framework Core.
+
+71 
+00:02:49.801 --> 00:02:51.790
+We should mention thatEntity Framework works great
+
+72 
+00:02:51.791 --> 00:02:54.580
+with SQL Server, but also works witha whole bunch of other databases.
+
+73 
+00:02:54.581 --> 00:02:56.509
+>> Okay.>> SQLite, MySQL,
+
+74 
+00:02:56.510 --> 00:02:59.362
+all the other main databases.
+
+75 
+00:02:59.363 --> 00:03:01.167
+And so we are installingSQL Server Provider,
+
+76 
+00:03:01.168 --> 00:03:04.000
+because that is what I am goingto use for this particular demo.
+
+77 
+00:03:04.001 --> 00:03:04.680
+>> Okay.
+
+78 
+00:03:04.681 --> 00:03:08.060
+>> And I've also installedthe Entity Framework Core tools.
+
+79 
+00:03:08.061 --> 00:03:11.250
+>> So this allows me to use commandline tooling that is part of
+
+80 
+00:03:11.251 --> 00:03:12.122
+Entity Framework Core.
+
+81 
+00:03:12.123 --> 00:03:16.304
+And then you'll also notice I've gotthe SQLServer.design package here,
+
+82 
+00:03:16.305 --> 00:03:19.120
+and this just plugs in someextra tooling that's specific to
+
+83 
+00:03:19.121 --> 00:03:21.690
+SQL Server, which we'llsee in action in a minute.
+
+84 
+00:03:21.691 --> 00:03:23.814
+>> Okay, andthese are updates to project JSON,
+
+85 
+00:03:23.815 --> 00:03:27.640
+these are NuGet packages that wereinstalled either by Visual Studio,
+
+86 
+00:03:27.641 --> 00:03:29.620
+or by running that.NET restore command.
+
+87 
+00:03:29.621 --> 00:03:32.310
+>> Yep, so, could have right clickedon references and manage packages.
+
+88 
+00:03:32.311 --> 00:03:33.996
+I could have handed inmy project JSON, and
+
+89 
+00:03:33.997 --> 00:03:36.500
+I could have run commandsin Package Manager Console.
+
+90 
+00:03:36.501 --> 00:03:37.010
+>> Okay, cool.
+
+91 
+00:03:37.011 --> 00:03:38.770
+>> So you get packages.
+
+92 
+00:03:38.771 --> 00:03:42.850
+Okay, now, when we demo EF,we often start with a new database.
+
+93 
+00:03:42.851 --> 00:03:45.050
+We write some code, and then wegenerate a database from the model,
+
+94 
+00:03:45.051 --> 00:03:47.150
+which is how somepeople get to work.
+
+95 
+00:03:47.151 --> 00:03:48.893
+But lots of us have towrite applications against
+
+96 
+00:03:48.894 --> 00:03:49.748
+an existing database.
+
+97 
+00:03:49.749 --> 00:03:51.277
+>> Yeah.>> I thought today we would actually
+
+98 
+00:03:51.278 --> 00:03:52.850
+start with an existing database.
+
+99 
+00:03:52.851 --> 00:03:54.230
+>> Cool.>> I've got SQL Server object
+
+100 
+00:03:54.231 --> 00:03:55.490
+explorer here in Visual Studio.
+
+101 
+00:03:55.491 --> 00:03:58.530
+You see I have a productsdatabase here,
+
+102 
+00:03:58.531 --> 00:04:00.860
+very simple model that we shouldall be pretty familiar with now,
+
+103 
+00:04:00.861 --> 00:04:03.300
+has a products anda categories table.
+
+104 
+00:04:03.301 --> 00:04:05.660
+>> They would have all of thecolumns we would expect in there and
+
+105 
+00:04:05.661 --> 00:04:08.540
+a relationship between them, okay?
+
+106 
+00:04:08.541 --> 00:04:12.000
+Now we want to, we could handed it,we could hand code a model here.
+
+107 
+00:04:12.001 --> 00:04:14.550
+We could write some code toconnect to this database.
+
+108 
+00:04:14.551 --> 00:04:16.520
+But that's gonna be prettytime consuming to do.
+
+109 
+00:04:16.521 --> 00:04:19.165
+For a trivial database like thiswith two tables, not too bad.
+
+110 
+00:04:19.166 --> 00:04:21.363
+But if I had something bigger,with hundreds of tables in it?
+
+111 
+00:04:21.364 --> 00:04:24.120
+That would take a really long time.
+
+112 
+00:04:24.121 --> 00:04:25.020
+>> And when I try to do that,
+
+113 
+00:04:25.021 --> 00:04:28.480
+I always gets a disconnect betweenmy data types, and some of
+
+114 
+00:04:28.481 --> 00:04:32.860
+the constraints on the data typeswhen I'm building my .NET classes.
+
+115 
+00:04:32.861 --> 00:04:35.940
+>> Yeah, and so, you're gonna spenda lot of time debugging trivial
+
+116 
+00:04:35.941 --> 00:04:39.240
+things that don't really help writeyour application at all, right?
+
+117 
+00:04:39.241 --> 00:04:42.070
+So, be better to spend our timejust focusing on the finer
+
+118 
+00:04:42.071 --> 00:04:42.960
+aspects of our model.
+
+119 
+00:04:42.961 --> 00:04:44.480
+So we're gonna use sometooling that we had,
+
+120 
+00:04:44.481 --> 00:04:46.289
+we saw those toolspackages I had installed.
+
+121 
+00:04:47.840 --> 00:04:50.927
+So we're gonna use a commandcalled Scaffold-DbContext-
+
+122 
+00:04:50.928 --> 00:04:51.533
+>> Okay.
+
+123 
+00:04:51.534 --> 00:04:54.840
+>> Because I'm scaffoldinga DbContext from a database.
+
+124 
+00:04:54.841 --> 00:04:57.010
+Now, I need to pass thisa connection string.
+
+125 
+00:04:57.011 --> 00:04:58.420
+Everyone knows how towrite connection strings.
+
+126 
+00:04:58.421 --> 00:05:00.360
+I'm just gonna copy andpaste it in there, right?
+
+127 
+00:05:00.361 --> 00:05:02.460
+You don't want towatch me type that.
+
+128 
+00:05:02.461 --> 00:05:04.740
+The three things I'm calling outin my connection string here are,
+
+129 
+00:05:04.741 --> 00:05:05.680
+first up, the server.
+
+130 
+00:05:05.681 --> 00:05:07.230
+I'm connecting to mylocal DbInstance.
+
+131 
+00:05:08.430 --> 00:05:10.110
+The database on thatis called Products,
+
+132 
+00:05:10.111 --> 00:05:11.460
+that's the one I just showed you.
+
+133 
+00:05:11.461 --> 00:05:13.187
+And we're using integratedauthentication,
+
+134 
+00:05:13.188 --> 00:05:14.403
+Windows Security, basically.
+
+135 
+00:05:14.404 --> 00:05:15.752
+>> Okay.
+
+136 
+00:05:15.753 --> 00:05:18.119
+>> And then the next thing I need todo is tell it what provider to use
+
+137 
+00:05:18.120 --> 00:05:20.130
+to connect, becausethe connection string doesn't
+
+138 
+00:05:20.131 --> 00:05:21.751
+tell me that this isa SQL Server database.
+
+139 
+00:05:21.752 --> 00:05:22.412
+>> Mm-hm.
+
+140 
+00:05:22.413 --> 00:05:27.915
+>> Okay, so we're gonna point it toMicrosoft.EntityFrameworkCore.SqlSe-
+
+141 
+00:05:27.916 --> 00:05:29.870
+rverProvider.
+
+142 
+00:05:29.871 --> 00:05:31.775
+That is the name of the NuGetpackage, basically.
+
+143 
+00:05:31.776 --> 00:05:33.507
+That's a easy way toknow what to type there.
+
+144 
+00:05:33.508 --> 00:05:34.022
+>> Okay.
+
+145 
+00:05:34.023 --> 00:05:36.523
+>> So, the name of our provider isthe same as the name of the new
+
+146 
+00:05:36.524 --> 00:05:38.950
+package you installto get the provider.
+
+147 
+00:05:38.951 --> 00:05:39.835
+>> Okay.>> And we saw that
+
+148 
+00:05:39.836 --> 00:05:40.930
+name in my project JSON.
+
+149 
+00:05:40.931 --> 00:05:44.618
+>> And is that by convention, or isthat truly the NuGet package name,
+
+150 
+00:05:44.619 --> 00:05:48.954
+because if I grab somebody else's,some third-party provider's package,
+
+151 
+00:05:48.955 --> 00:05:50.653
+is it still that package name?
+
+152 
+00:05:50.654 --> 00:05:51.981
+>> It's actually the assembly name->> Okay.
+
+153 
+00:05:51.982 --> 00:05:54.730
+>> Which almost always alignswith the NuGet package.
+
+154 
+00:05:54.731 --> 00:05:58.490
+So, yes, essentially it is,by convention, the NuGet package.
+
+155 
+00:05:58.491 --> 00:06:00.800
+Now, because I'm inASP.NET application,
+
+156 
+00:06:00.801 --> 00:06:04.390
+I would typically put my modelclasses in a folder called Models.
+
+157 
+00:06:04.391 --> 00:06:07.130
+That's not always the case on alldifferent types of platforms,
+
+158 
+00:06:07.131 --> 00:06:09.100
+but ASP.NET,that's typically what I do.
+
+159 
+00:06:09.101 --> 00:06:11.335
+So I'm just saying the outputdirectory is Models.
+
+160 
+00:06:11.336 --> 00:06:11.892
+>> Okay.>> I really
+
+161 
+00:06:11.893 --> 00:06:14.580
+want this stuff inthe root of my project.
+
+162 
+00:06:14.581 --> 00:06:16.951
+So I'll run that,it should execute pretty quick, and
+
+163 
+00:06:16.952 --> 00:06:18.372
+then it will generate some code.
+
+164 
+00:06:23.051 --> 00:06:26.107
+Let's swap back toSolution Explorer.
+
+165 
+00:06:26.108 --> 00:06:28.566
+We'll see that we havethe New Models folder here, and
+
+166 
+00:06:28.567 --> 00:06:31.137
+I'm gonna walk through the codethat I generated for us.
+
+167 
+00:06:31.138 --> 00:06:31.691
+>> Sure.
+
+168 
+00:06:31.692 --> 00:06:33.930
+>> There's two parts toan Entity Framework model.
+
+169 
+00:06:33.931 --> 00:06:35.442
+There's what we callthe entity classes.
+
+170 
+00:06:35.443 --> 00:06:36.100
+>> Mm-hm.>> And
+
+171 
+00:06:36.101 --> 00:06:38.660
+these are the classes that we'regoing to interact with at runtime.
+
+172 
+00:06:38.661 --> 00:06:40.605
+So we'd expect one of these foreach of our tables.
+
+173 
+00:06:40.606 --> 00:06:43.534
+I'm gonna want to queryinstances of my product class.
+
+174 
+00:06:43.535 --> 00:06:44.782
+And then we have a context, and
+
+175 
+00:06:44.783 --> 00:06:46.798
+a context representsa session with a database and
+
+176 
+00:06:46.799 --> 00:06:49.820
+allows us to connect the databasein saved data and queried data.
+
+177 
+00:06:49.821 --> 00:06:51.270
+>> Okay.>> So let's look at the entity
+
+178 
+00:06:51.271 --> 00:06:52.890
+classes first.
+
+179 
+00:06:52.891 --> 00:06:54.920
+We have category now.
+
+180 
+00:06:54.921 --> 00:06:56.130
+I don't really likethe name categories,
+
+181 
+00:06:56.131 --> 00:06:58.140
+that doesn't make sense foran entity type, right?
+
+182 
+00:06:58.141 --> 00:06:59.450
+It should be singular category.
+
+183 
+00:06:59.451 --> 00:07:00.716
+>> Yeah.>> So I'm just gonna rename it.
+
+184 
+00:07:03.894 --> 00:07:05.949
+And this is the kind of thingI want to spend time doing
+
+185 
+00:07:05.950 --> 00:07:06.930
+like tidying up names.
+
+186 
+00:07:06.931 --> 00:07:09.320
+It's gonna ask me if I wannarename the class as well, so
+
+187 
+00:07:09.321 --> 00:07:10.270
+yes, I do wanna do that.
+
+188 
+00:07:10.271 --> 00:07:13.790
+You'll see I have a propertyhere with a getter and a setter.
+
+189 
+00:07:13.791 --> 00:07:15.710
+There's a generated,
+
+190 
+00:07:15.711 --> 00:07:17.755
+based on the columns thatwere found in the database.
+
+191 
+00:07:17.756 --> 00:07:19.370
+>> Okay.>> Then we also have a relationship
+
+192 
+00:07:19.371 --> 00:07:20.140
+between the two of them.
+
+193 
+00:07:20.141 --> 00:07:22.690
+So, a category hasa collection of products.
+
+194 
+00:07:22.691 --> 00:07:24.240
+And this is wherethe object-relational
+
+195 
+00:07:24.241 --> 00:07:24.980
+mapper really comes in.
+
+196 
+00:07:24.981 --> 00:07:28.530
+Because I don't want to have tothink about foreign key constraints
+
+197 
+00:07:28.531 --> 00:07:30.970
+and how to write a SQLabout current related data.
+
+198 
+00:07:30.971 --> 00:07:32.610
+I just want to,if I have a category, and
+
+199 
+00:07:32.611 --> 00:07:33.430
+I want to see the products,
+
+200 
+00:07:33.431 --> 00:07:35.160
+I just want to accessthe products collection.
+
+201 
+00:07:35.161 --> 00:07:37.780
+So that's where theobject-relational mapper comes in.
+
+202 
+00:07:37.781 --> 00:07:39.660
+We'll go look at the productclasses as well.
+
+203 
+00:07:39.661 --> 00:07:40.890
+This one has a few more properties,
+
+204 
+00:07:40.891 --> 00:07:43.240
+cuz it had a few extracolumns in the database.
+
+205 
+00:07:43.241 --> 00:07:45.060
+And we'll see pointingback the other way if we
+
+206 
+00:07:45.061 --> 00:07:47.220
+have another navigationproperty here.
+
+207 
+00:07:47.221 --> 00:07:49.667
+So when the product belongsto a single category, so
+
+208 
+00:07:49.668 --> 00:07:52.225
+we just have one of those,you'll also see the foreign
+
+209 
+00:07:52.226 --> 00:07:54.519
+key property listed hereas well as category ID.
+
+210 
+00:07:54.520 --> 00:07:56.851
+So, those navigation properties,
+
+211 
+00:07:56.852 --> 00:07:59.710
+those are actuallynothing in the database,
+
+212 
+00:07:59.711 --> 00:08:03.574
+it's just a way to traversethe foreign key relationships.
+
+213 
+00:08:03.575 --> 00:08:07.060
+>> Exactly,you can think of it as .NET code
+
+214 
+00:08:07.061 --> 00:08:09.710
+based obstruction over the foreignkey constraint in the database.
+
+215 
+00:08:09.711 --> 00:08:10.480
+>> Cool.
+
+216 
+00:08:10.481 --> 00:08:11.532
+>> So let's rename this one too,
+
+217 
+00:08:11.533 --> 00:08:13.324
+products does make sense,let's call it product.
+
+218 
+00:08:15.507 --> 00:08:17.644
+And we'll just say yes when itasks us if we want to rename
+
+219 
+00:08:17.645 --> 00:08:18.378
+the class as well.
+
+220 
+00:08:20.569 --> 00:08:23.031
+Okay, so those are the entityclasses, let's look at the context,
+
+221 
+00:08:23.032 --> 00:08:24.610
+cuz that one's a littlemore interesting.
+
+222 
+00:08:25.820 --> 00:08:28.960
+Now, it's worth noting the toolingthat we used can be used on
+
+223 
+00:08:28.961 --> 00:08:32.590
+all different types of applications,not just ASP.NET Core.
+
+224 
+00:08:32.591 --> 00:08:33.620
+So for that reason,
+
+225 
+00:08:33.621 --> 00:08:36.120
+it's just put the connectionstring here for us in code, but
+
+226 
+00:08:36.121 --> 00:08:38.350
+it's added a warning saying thatthis isn't the right place for
+
+227 
+00:08:38.351 --> 00:08:39.730
+your connection string to be.
+
+228 
+00:08:39.731 --> 00:08:41.360
+Depending on how you'rebuilding your application,
+
+229 
+00:08:41.361 --> 00:08:44.090
+this connection string shouldgo in your user secrets or
+
+230 
+00:08:44.091 --> 00:08:46.364
+your environment variables oran app.config-
+
+231 
+00:08:46.365 --> 00:08:47.120
+>> Mm-hm, mm-hm.
+
+232 
+00:08:47.121 --> 00:08:47.820
+>> Or somewhere else,
+
+233 
+00:08:47.821 --> 00:08:51.640
+depending on what kind ofapplication you're writing.
+
+234 
+00:08:51.641 --> 00:08:55.540
+Now, in ASP.NET Core, things likethat belong in the settings system.
+
+235 
+00:08:55.541 --> 00:08:57.920
+So actually gonna put it in appsettings JSON for the moment.
+
+236 
+00:08:57.921 --> 00:09:00.140
+There is nothing sensitive in here,it doesn't have user names and
+
+237 
+00:09:00.141 --> 00:09:00.970
+passwords in it.
+
+238 
+00:09:00.971 --> 00:09:03.080
+If it did, I might wannalook at user secrets or
+
+239 
+00:09:03.081 --> 00:09:05.360
+a environment variable instead.
+
+240 
+00:09:05.361 --> 00:09:07.580
+But this one, we're just relyingon integrated authentication.
+
+241 
+00:09:08.660 --> 00:09:10.180
+So I have a connectionstring sitting here,
+
+242 
+00:09:10.181 --> 00:09:12.199
+we'll just give it a name,let's call it products.
+
+243 
+00:09:14.410 --> 00:09:16.440
+And I'll just paste in thatconnection string exactly as it
+
+244 
+00:09:16.441 --> 00:09:17.090
+generated in there.
+
+245 
+00:09:18.440 --> 00:09:21.500
+Okay, now,the other thing that's not
+
+246 
+00:09:21.501 --> 00:09:25.500
+very in line with how we typicallygo to ASP.NET Core applications,
+
+247 
+00:09:25.501 --> 00:09:28.222
+we just get a bit more room onthe screen here is I'm configuring
+
+248 
+00:09:28.223 --> 00:09:31.590
+where I'm telling what databaseto connect to and everything.
+
+249 
+00:09:31.591 --> 00:09:35.760
+If I was using entity framework in,say, UWP application or winforms, or
+
+250 
+00:09:35.761 --> 00:09:38.230
+something like that, it would makesense to do this inline here.
+
+251 
+00:09:38.231 --> 00:09:42.106
+But in ASP.NET Core, all this stuffis usually done in startup.cs.
+
+252 
+00:09:42.107 --> 00:09:45.356
+Okay, so let's, let's make thisa little bit more dependency
+
+253 
+00:09:45.357 --> 00:09:47.234
+injection ASP.NET Core friendly.
+
+254 
+00:09:47.235 --> 00:09:49.030
+So we're actually gonnadelete all of that.
+
+255 
+00:09:49.031 --> 00:09:51.729
+Instead of setting up the DBcontext options here,
+
+256 
+00:09:51.730 --> 00:09:55.118
+I'm gonna add a constructor tothe context that allows them to be
+
+257 
+00:09:55.119 --> 00:09:56.391
+passed in externally.
+
+258 
+00:09:56.392 --> 00:09:59.488
+And the tendency injection is gonnatake care of typing the options that
+
+259 
+00:09:59.489 --> 00:10:00.479
+are set up in startup.
+
+260 
+00:10:00.480 --> 00:10:02.771
+And passing them into my context.
+
+261 
+00:10:02.772 --> 00:10:03.860
+So we'll add that constructor.
+
+262 
+00:10:05.190 --> 00:10:08.334
+For folks that don't know that,I just used a little shortcut there.
+
+263 
+00:10:08.335 --> 00:10:10.313
+So CTOR, tab, that's snippet.
+
+264 
+00:10:10.314 --> 00:10:11.960
+We'll give you a constructor.
+
+265 
+00:10:11.961 --> 00:10:13.320
+That's standard in Visual Studio.
+
+266 
+00:10:13.321 --> 00:10:17.110
+And what I'm gonna take inhere is a DbContextOptions.
+
+267 
+00:10:17.111 --> 00:10:18.570
+And we'll call it options.
+
+268 
+00:10:18.571 --> 00:10:19.950
+We can actually be a littlebit more specific.
+
+269 
+00:10:19.951 --> 00:10:22.615
+We can say this is actuallya DbContextOptions for
+
+270 
+00:10:22.616 --> 00:10:23.635
+product context.
+
+271 
+00:10:27.746 --> 00:10:29.290
+I don't have to do that.
+
+272 
+00:10:29.291 --> 00:10:31.820
+This would just help if I hadmultiple different contexts in my
+
+273 
+00:10:31.821 --> 00:10:32.710
+application.
+
+274 
+00:10:32.711 --> 00:10:35.740
+And in fact his can be true ifI'm using ASP.NET identity.
+
+275 
+00:10:35.741 --> 00:10:39.180
+It uses an EF context and so I mightwanna say that, specifically I want
+
+276 
+00:10:39.181 --> 00:10:41.970
+the options for the products contextinto this one not the options for
+
+277 
+00:10:41.971 --> 00:10:43.050
+the identity context.
+
+278 
+00:10:43.051 --> 00:10:45.598
+>> Sure, they could livein different databases.
+
+279 
+00:10:45.599 --> 00:10:46.158
+>> Yeah.>> Yeah.
+
+280 
+00:10:46.159 --> 00:10:50.134
+[CROSSTALK] There are some othersettings we could set up as well.
+
+281 
+00:10:50.135 --> 00:10:51.680
+And we don't have to doanything with those options.
+
+282 
+00:10:51.681 --> 00:10:54.840
+Other than pass them to the baseconstructor of DB Context.
+
+283 
+00:10:54.841 --> 00:10:55.514
+>> Cool.>> And actually
+
+284 
+00:10:55.515 --> 00:10:57.589
+that's an important pointthat I didn't point out here.
+
+285 
+00:10:57.590 --> 00:10:59.600
+Our products context inheritsfrom DB Context, and
+
+286 
+00:10:59.601 --> 00:11:02.020
+this is basically what givesit all of its behavior.
+
+287 
+00:11:02.021 --> 00:11:02.550
+>> Okay.
+
+288 
+00:11:02.551 --> 00:11:04.258
+>> I often thinkDB Context is effectively
+
+289 
+00:11:04.259 --> 00:11:05.630
+a session with the database.
+
+290 
+00:11:05.631 --> 00:11:07.070
+An instance of one ofthese represents a session
+
+291 
+00:11:07.071 --> 00:11:07.683
+with the database.
+
+292 
+00:11:07.684 --> 00:11:09.267
+>> Yeah.
+
+293 
+00:11:09.268 --> 00:11:13.279
+>> Okay, so there's some otherthings happening in this class, too.
+
+294 
+00:11:13.280 --> 00:11:15.565
+When EF runs, it's goingto look at our classes and
+
+295 
+00:11:15.566 --> 00:11:17.276
+work out how theymap to the database.
+
+296 
+00:11:17.277 --> 00:11:19.946
+And by default it will say, if I seea property named name, I'm gonna
+
+297 
+00:11:19.947 --> 00:11:22.670
+assume that there's a columncalled name in the database too.
+
+298 
+00:11:22.671 --> 00:11:23.754
+>> Okay.>> But when it was reverse
+
+299 
+00:11:23.755 --> 00:11:24.678
+engineering our model,
+
+300 
+00:11:24.679 --> 00:11:27.191
+there were a few things that itwasn't gonna pick up by convention.
+
+301 
+00:11:27.192 --> 00:11:30.860
+For example, we had a pricethat was of type decimal.
+
+302 
+00:11:30.861 --> 00:11:32.739
+So if we go and look atthe price property on product,
+
+303 
+00:11:33.930 --> 00:11:35.530
+we'll say that it's of type decimal.
+
+304 
+00:11:35.531 --> 00:11:36.900
+>> Okay.>> By default that maps to
+
+305 
+00:11:36.901 --> 00:11:38.040
+the SQL Server decimal type.
+
+306 
+00:11:38.041 --> 00:11:39.530
+>> Sure.>> But in my database I've
+
+307 
+00:11:39.531 --> 00:11:42.380
+actually used the SQL Servermoney data type.
+
+308 
+00:11:42.381 --> 00:11:44.840
+So we see a little bitof config here saying
+
+309 
+00:11:44.841 --> 00:11:47.820
+the property price should actuallyhave a common type of money.
+
+310 
+00:11:47.821 --> 00:11:49.550
+>> Okay.>> And then the other thing here,
+
+311 
+00:11:49.551 --> 00:11:51.700
+the name of my foreign keyconstraint in the database doesn't
+
+312 
+00:11:51.701 --> 00:11:53.980
+match what EF wouldcalculate by convention.
+
+313 
+00:11:53.981 --> 00:11:55.680
+>> Yeah.>> So there's a little bit of config
+
+314 
+00:11:55.681 --> 00:11:58.850
+here to configure the name ofthe foreign key constraint as well.
+
+315 
+00:11:58.851 --> 00:11:59.490
+>> Okay.
+
+316 
+00:11:59.491 --> 00:12:02.650
+>> Okay, now we'll talk more aboutdifferent options for doing this.
+
+317 
+00:12:02.651 --> 00:12:05.510
+One of them is to do them in linein this OnModelCreating method,
+
+318 
+00:12:05.511 --> 00:12:08.905
+you can also do them usingannotations on your classes as well.
+
+319 
+00:12:08.906 --> 00:12:11.480
+And a little bit later we'll lookat that, because some people don't
+
+320 
+00:12:11.481 --> 00:12:13.380
+wanna pollute theirclasses with attributes.
+
+321 
+00:12:13.381 --> 00:12:16.610
+Other people would prefer attributesover the complexity of writing
+
+322 
+00:12:16.611 --> 00:12:18.440
+code like this.
+
+323 
+00:12:18.441 --> 00:12:20.400
+>> Yeah,using some of those attributes and
+
+324 
+00:12:20.401 --> 00:12:23.580
+putting them on the classes, alsohelps with your validation then.
+
+325 
+00:12:23.581 --> 00:12:24.730
+>> Exactly, yeah.
+
+326 
+00:12:24.731 --> 00:12:27.448
+And so what often people would dosomething like maximum length.
+
+327 
+00:12:27.449 --> 00:12:30.929
+So if I had a name should havemaximum 200 characters in it.
+
+328 
+00:12:30.930 --> 00:12:31.567
+>> Yeah, sure.
+
+329 
+00:12:31.568 --> 00:12:33.900
+That makes sense in the classbecause that's used by ASP.NET.
+
+330 
+00:12:33.901 --> 00:12:36.030
+It's used to dovalidation like you said.
+
+331 
+00:12:36.031 --> 00:12:38.870
+Something like configuringthe SQL server column type, and
+
+332 
+00:12:38.871 --> 00:12:40.470
+that's starting to makesconcern a little bit.
+
+333 
+00:12:40.471 --> 00:12:43.610
+So a lot of people would rather keepthat out of the entity classes.
+
+334 
+00:12:43.611 --> 00:12:44.310
+>> Sure, makes sense.
+
+335 
+00:12:44.311 --> 00:12:46.380
+>> So you can pick whatmakes sense for you.
+
+336 
+00:12:46.381 --> 00:12:48.910
+The last thing we have hereis DB set properties for
+
+337 
+00:12:48.911 --> 00:12:49.890
+each type in our model.
+
+338 
+00:12:49.891 --> 00:12:51.530
+And there's only two for us, right?
+
+339 
+00:12:51.531 --> 00:12:53.347
+Product and category.
+
+340 
+00:12:53.348 --> 00:12:56.706
+We'll see in a minute these are theproperties that we're gonna interact
+
+341 
+00:12:56.707 --> 00:12:59.685
+with when we want to either changedata in the database by saving or
+
+342 
+00:12:59.686 --> 00:13:03.020
+when we want to write a queryto fetch data from the database.
+
+343 
+00:13:03.021 --> 00:13:03.928
+>> Okay.>> Okay.
+
+344 
+00:13:06.216 --> 00:13:08.690
+Okay, now we have to go andwork in Startup.cs.
+
+345 
+00:13:08.691 --> 00:13:10.600
+And there's two thingswe wanna do there.
+
+346 
+00:13:10.601 --> 00:13:13.250
+One, we wanna do the configurationfor our context in there.
+
+347 
+00:13:13.251 --> 00:13:16.220
+But we're also gonna wanna use ourcontext in all of our controllers
+
+348 
+00:13:16.221 --> 00:13:17.490
+and everything, right?
+
+349 
+00:13:17.491 --> 00:13:18.000
+>> Right.>> So
+
+350 
+00:13:18.001 --> 00:13:20.090
+this means in the languageof dependency injection,
+
+351 
+00:13:20.091 --> 00:13:21.680
+this would be known as a service.
+
+352 
+00:13:21.681 --> 00:13:22.233
+>> Yep.>> Context is
+
+353 
+00:13:22.234 --> 00:13:25.080
+a service that I want to be ableto make use of in our controllers.
+
+354 
+00:13:25.081 --> 00:13:27.360
+So we need to setupthe context as a service.
+
+355 
+00:13:28.670 --> 00:13:31.489
+>> Now can you talk a littlebit about what a service is in
+
+356 
+00:13:31.490 --> 00:13:32.843
+dependency injection.
+
+357 
+00:13:32.844 --> 00:13:36.386
+We didn't use that term when wetalked about dependency injection.
+
+358 
+00:13:36.387 --> 00:13:38.330
+>> Okay, did you use a differentterm earlier today or
+
+359 
+00:13:38.331 --> 00:13:39.025
+we should just?
+
+360 
+00:13:39.026 --> 00:13:41.750
+>> We used,we talked about singletons.
+
+361 
+00:13:41.751 --> 00:13:42.420
+>> Okay, all right.>> So I
+
+362 
+00:13:42.421 --> 00:13:44.150
+think that's whereyou're going with this.
+
+363 
+00:13:44.151 --> 00:13:45.885
+We also talked about the scope.
+
+364 
+00:13:45.886 --> 00:13:47.230
+>> Mm-hmm, okay.
+
+365 
+00:13:47.231 --> 00:13:50.450
+So when I add my context,it's typically used for
+
+366 
+00:13:50.451 --> 00:13:51.190
+a single operation.
+
+367 
+00:13:51.191 --> 00:13:53.990
+It's not thread safe, I shouldn'tkeep it around for a long time.
+
+368 
+00:13:53.991 --> 00:13:56.410
+I should use it to query some dataand maybe make some changes and
+
+369 
+00:13:56.411 --> 00:13:57.220
+then throw it away.
+
+370 
+00:13:57.221 --> 00:13:59.480
+>> Right.>> So when we talk about scopes,
+
+371 
+00:13:59.481 --> 00:14:00.420
+it's gonna be a scoped.
+
+372 
+00:14:00.421 --> 00:14:01.310
+>> Right.
+
+373 
+00:14:01.311 --> 00:14:03.690
+>> Which means I get oneof them per request.
+
+374 
+00:14:03.691 --> 00:14:06.350
+So, if I have two request comingfrom two different people, they're
+
+375 
+00:14:06.351 --> 00:14:09.070
+gonna have two different instancesin my context class if we use them,
+
+376 
+00:14:09.071 --> 00:14:10.470
+so that they're isolated either way.
+
+377 
+00:14:10.471 --> 00:14:14.200
+>> Cool.>> A service is just a component or
+
+378 
+00:14:14.201 --> 00:14:15.710
+class orsomething that we put in DI,
+
+379 
+00:14:15.711 --> 00:14:18.990
+that we're gonna want to make useof somewhere in our application.
+
+380 
+00:14:18.991 --> 00:14:21.435
+Other examples would belike the login manager for
+
+381 
+00:14:21.436 --> 00:14:23.140
+ASP.NET Identity>> Sure.
+
+382 
+00:14:23.141 --> 00:14:26.200
+>> Something that's in this bag ofcomponents that I might want to use,
+
+383 
+00:14:26.201 --> 00:14:29.150
+and then in my controller I cansay hey, give me the context.
+
+384 
+00:14:29.151 --> 00:14:31.700
+I don't have to worry about creatingit or knowing what scope it is or
+
+385 
+00:14:31.701 --> 00:14:34.020
+anything I just say,I need one of these.
+
+386 
+00:14:34.021 --> 00:14:35.250
+>> Right.>> Dependency injection will take
+
+387 
+00:14:35.251 --> 00:14:36.290
+care of giving me one.
+
+388 
+00:14:36.291 --> 00:14:36.970
+>> Yeah.>> Okay.
+
+389 
+00:14:36.971 --> 00:14:40.667
+>> It sets up all the connection foryou.
+
+390 
+00:14:40.668 --> 00:14:41.270
+>> Yeah.
+
+391 
+00:14:41.271 --> 00:14:43.214
+So we need a connection string, so
+
+392 
+00:14:43.215 --> 00:14:45.833
+we're going to get thatfrom configuration.
+
+393 
+00:14:47.928 --> 00:14:50.481
+GetConnectionStrings is justbasically a sugar method that's
+
+394 
+00:14:50.482 --> 00:14:52.937
+going to go and look in thatconnection strings section that we
+
+395 
+00:14:52.938 --> 00:14:54.250
+had in our appsettings.JSON.
+
+396 
+00:14:54.251 --> 00:14:55.140
+And we call them products.
+
+397 
+00:14:55.141 --> 00:14:57.430
+So it's just going to do a patternmatch, it's going to look for
+
+398 
+00:14:57.431 --> 00:14:59.920
+connection strings colonproducts in our complete system.
+
+399 
+00:14:59.921 --> 00:15:02.880
+Cool And now that we havethe connection string,
+
+400 
+00:15:02.881 --> 00:15:07.360
+we're gonna do services, and we'regonna say we want to AddDBContext.
+
+401 
+00:15:07.361 --> 00:15:09.040
+Again, this is justa sugar method for
+
+402 
+00:15:09.041 --> 00:15:11.810
+helping you get the contextwith the correct spelling for
+
+403 
+00:15:11.811 --> 00:15:13.990
+getting the option set upcorrectly and everything.
+
+404 
+00:15:13.991 --> 00:15:15.807
+You don't have to use this,you can go ahead and
+
+405 
+00:15:15.808 --> 00:15:18.307
+just register your options andregister your context to scope and
+
+406 
+00:15:18.308 --> 00:15:20.825
+all those things, but this makeslife easier, so we'll use it.
+
+407 
+00:15:22.446 --> 00:15:24.440
+We'll do the product context.
+
+408 
+00:15:24.441 --> 00:15:28.473
+And then I have the options,or the option,
+
+409 
+00:15:28.474 --> 00:15:32.290
+to, Set up all that stuff.
+
+410 
+00:15:32.291 --> 00:15:34.080
+So all that stuff thatwasn't on-configuring,
+
+411 
+00:15:34.081 --> 00:15:36.610
+now I have exactlythe same API here.
+
+412 
+00:15:36.611 --> 00:15:37.220
+>> Okay.
+
+413 
+00:15:37.221 --> 00:15:40.140
+>> So, the method that we usedbefore was UseSqlServer which
+
+414 
+00:15:40.141 --> 00:15:43.320
+telling it go ahead andconnect to a SQL server data base,
+
+415 
+00:15:43.321 --> 00:15:47.000
+using the connection string thatwe just put out of conflict, okay.
+
+416 
+00:15:47.001 --> 00:15:48.160
+There's other option on here too.
+
+417 
+00:15:48.161 --> 00:15:51.283
+So, after I've done UseSqlServer,
+
+418 
+00:15:51.284 --> 00:15:56.272
+I can do things like tellingit can I say batch I see you
+
+419 
+00:15:59.126 --> 00:16:01.930
+Yeah, we can setup logging, orwe can override the model cache, or
+
+420 
+00:16:01.931 --> 00:16:04.260
+we can externally pass in the model,things like that.
+
+421 
+00:16:04.261 --> 00:16:05.710
+So there's extra stuffI can do here, but
+
+422 
+00:16:05.711 --> 00:16:08.170
+the main thing that I woulddo from your SQL Server,
+
+423 
+00:16:08.171 --> 00:16:09.970
+is tell it whatdatabase to connect to.
+
+424 
+00:16:09.971 --> 00:16:10.620
+>> Sure.
+
+425 
+00:16:10.621 --> 00:16:14.340
+>> Okay, so now we have our contextinterdependency injection container.
+
+426 
+00:16:14.341 --> 00:16:16.690
+We can use it our controllers,and we're ready to go.
+
+427 
+00:16:16.691 --> 00:16:17.190
+>> Okay.>> Right.
+
+428 
+00:16:18.280 --> 00:16:20.112
+Now I have made a start onthe controller, just so
+
+429 
+00:16:20.113 --> 00:16:21.541
+we have to typea little bit less code,
+
+430 
+00:16:21.542 --> 00:16:24.742
+because I'm sure you've shownguys how to write controllers.
+
+431 
+00:16:24.743 --> 00:16:25.242
+>> Yeah.
+
+432 
+00:16:26.460 --> 00:16:29.151
+>> Now, we wanna make useof our context here, so
+
+433 
+00:16:29.152 --> 00:16:31.023
+we need to write a constructor.
+
+434 
+00:16:31.024 --> 00:16:34.732
+We'll use the ctor, stop it again,and all I need to do to get a hold
+
+435 
+00:16:34.733 --> 00:16:37.340
+of is say that I wantthe product context here.
+
+436 
+00:16:39.110 --> 00:16:42.710
+And dependency injection willtake care of passing it for me.
+
+437 
+00:16:42.711 --> 00:16:44.030
+I want somewhere to stash it.
+
+438 
+00:16:44.031 --> 00:16:46.700
+So, I'm going to sayyou say ProductContext,
+
+439 
+00:16:46.701 --> 00:16:50.635
+create a local field for it to livein, and I'll just stash it away, so
+
+440 
+00:16:50.636 --> 00:16:52.530
+that we can use it in our actions.
+
+441 
+00:16:54.800 --> 00:16:55.910
+Making sense so far?
+
+442 
+00:16:55.911 --> 00:16:56.790
+Absolutely.
+
+443 
+00:16:56.791 --> 00:16:59.070
+All right Index onthe products controller.
+
+444 
+00:16:59.071 --> 00:17:01.730
+We probably want it just to displaya list of all the products in
+
+445 
+00:17:01.731 --> 00:17:02.410
+the database, right?
+
+446 
+00:17:02.411 --> 00:17:03.020
+>> Sure.
+
+447 
+00:17:03.021 --> 00:17:07.310
+>> Okay, so let's write our firstbit of actual data access code.
+
+448 
+00:17:07.311 --> 00:17:10.640
+So we're gonna sayproducts = context.
+
+449 
+00:17:10.641 --> 00:17:12.650
+Now, this is an instantsub DB context, and
+
+450 
+00:17:12.651 --> 00:17:14.885
+it's effectively a sessionwith the database.
+
+451 
+00:17:14.886 --> 00:17:18.010
+Products is the DBSet of Productthat we looked at before.
+
+452 
+00:17:19.230 --> 00:17:20.953
+And then I can say, ToList.
+
+453 
+00:17:22.537 --> 00:17:23.870
+Simplest query I can write.
+
+454 
+00:17:23.871 --> 00:17:26.040
+It's gonna get all of the productsout of the database and
+
+455 
+00:17:26.041 --> 00:17:27.260
+put them in a list.
+
+456 
+00:17:27.261 --> 00:17:28.030
+>> Okay.
+
+457 
+00:17:28.031 --> 00:17:29.710
+>> Now we should make thisa little bit more complicated,
+
+458 
+00:17:29.711 --> 00:17:32.860
+because ASP.NET Coreworks well with Async.
+
+459 
+00:17:32.861 --> 00:17:37.110
+So we should actually swap anduse ToListAsync and await.
+
+460 
+00:17:37.111 --> 00:17:40.414
+Because it's an IO operation,there's no need to tie-up this .NET
+
+461 
+00:17:40.415 --> 00:17:43.158
+thread while I wait forthis query to execute in database,
+
+462 
+00:17:43.159 --> 00:17:45.796
+because .NET has no work todo on SQL server processes.
+
+463 
+00:17:45.797 --> 00:17:48.850
+So this is gonna tell itto use this thread for
+
+464 
+00:17:48.851 --> 00:17:51.660
+something else while we do it.
+
+465 
+00:17:51.661 --> 00:17:52.440
+And then what we're going
+
+466 
+00:17:52.441 --> 00:17:55.120
+to do is return a viewwith the product on it.
+
+467 
+00:17:55.121 --> 00:17:56.030
+Like so.
+
+468 
+00:17:57.300 --> 00:17:57.940
+Okay, now.
+
+469 
+00:17:57.941 --> 00:17:58.770
+>> Easy enough.
+
+470 
+00:17:58.771 --> 00:17:59.760
+>> I've already written the views,
+
+471 
+00:17:59.761 --> 00:18:01.390
+just because it would takea long time to write that.
+
+472 
+00:18:01.391 --> 00:18:03.180
+So, let me show you whatthe index one looks like.
+
+473 
+00:18:04.460 --> 00:18:07.060
+This is very similar to what youwould get scaffolded by default,
+
+474 
+00:18:07.061 --> 00:18:07.960
+if you're scaffolding.
+
+475 
+00:18:07.961 --> 00:18:10.540
+We use, we're basically goingthrough it, and doing a table.
+
+476 
+00:18:10.541 --> 00:18:12.900
+And it's gonna display the name, andthe description, and the process,
+
+477 
+00:18:12.901 --> 00:18:16.210
+and then some links to go andEdit, Delete, etc.
+
+478 
+00:18:16.211 --> 00:18:16.780
+>> Right.
+
+479 
+00:18:16.781 --> 00:18:17.425
+>> Make sense?
+
+480 
+00:18:17.426 --> 00:18:20.380
+>> Yep,we've seen this structure earlier.
+
+481 
+00:18:20.381 --> 00:18:21.579
+>> Great let's run it.
+
+482 
+00:18:27.888 --> 00:18:29.877
+So when our application lights up,I'm gonna go ahead and
+
+483 
+00:18:29.878 --> 00:18:30.940
+hit the products controller.
+
+484 
+00:18:30.941 --> 00:18:32.480
+Of course it's gonnahit our index action.
+
+485 
+00:18:35.440 --> 00:18:37.410
+And we'll see all the productsfrom the database displayed on
+
+486 
+00:18:37.411 --> 00:18:38.280
+the screen here.
+
+487 
+00:18:38.281 --> 00:18:39.900
+So these are the onesI happen to have.
+
+488 
+00:18:39.901 --> 00:18:41.720
+You might notice there'sa bit of a unicorn them here.
+
+489 
+00:18:41.721 --> 00:18:44.294
+We can actually thankScott Hanselman for that.
+
+490 
+00:18:44.295 --> 00:18:48.710
+Entity framework 4.1 was dubbed byhim as the magic unicorn edition.
+
+491 
+00:18:48.711 --> 00:18:51.150
+Unicorn has kind ofstuck around since then.
+
+492 
+00:18:51.151 --> 00:18:53.609
+You'll see it crop upin a number of places.
+
+493 
+00:18:56.218 --> 00:18:57.810
+Now, let's go backto our controller.
+
+494 
+00:18:58.960 --> 00:19:01.490
+What we wrote here was a query,it's actually using something
+
+495 
+00:19:01.491 --> 00:19:03.660
+called link,which is language integrated query.
+
+496 
+00:19:03.661 --> 00:19:05.810
+>> Yep.>> This is a way of expressing
+
+497 
+00:19:05.811 --> 00:19:09.460
+queries not in transact sequel,but in c shop.
+
+498 
+00:19:09.461 --> 00:19:11.187
+And so I did the simplestthing possible here.
+
+499 
+00:19:11.188 --> 00:19:15.298
+I took the products, which isa DB set, which DB set implements
+
+500 
+00:19:15.299 --> 00:19:19.117
+Iqueriable, which is kind ofthe root interface of link.
+
+501 
+00:19:19.118 --> 00:19:20.220
+>> Right.>> And I did a tool list on
+
+502 
+00:19:20.221 --> 00:19:21.580
+it, okay.
+
+503 
+00:19:21.581 --> 00:19:24.900
+We can do extra things on here likewe can do sorting and grouping and
+
+504 
+00:19:26.490 --> 00:19:28.850
+basically anything I can thinkof that I wanna do with queries.
+
+505 
+00:19:28.851 --> 00:19:30.490
+So let's look ata really simple one.
+
+506 
+00:19:30.491 --> 00:19:31.550
+So we can do it in order by here.
+
+507 
+00:19:33.480 --> 00:19:35.040
+And say order by name.
+
+508 
+00:19:35.041 --> 00:19:38.500
+>> And the actual translationof this C sharp code,
+
+509 
+00:19:38.501 --> 00:19:41.190
+right, translationcompilation of it to
+
+510 
+00:19:41.191 --> 00:19:45.630
+SQL code that SQL Server understandsis all being done behind the scenes.
+
+511 
+00:19:45.631 --> 00:19:48.710
+It's not something we needto execute ahead of time,
+
+512 
+00:19:48.711 --> 00:19:50.380
+it just happens.
+
+513 
+00:19:50.381 --> 00:19:51.240
+>> Yes, I'm going to run this again.
+
+514 
+00:19:51.241 --> 00:19:53.258
+I already have SQL Profilerrunning in the background.
+
+515 
+00:19:53.259 --> 00:19:54.949
+So let's run this.
+
+516 
+00:19:54.950 --> 00:19:56.739
+Let's hit the action withthe change we made, and
+
+517 
+00:19:56.740 --> 00:19:58.410
+then we'll look at the SQLthat it generated.
+
+518 
+00:19:58.411 --> 00:19:59.293
+>> Okay.
+
+519 
+00:19:59.294 --> 00:20:00.170
+>> In the background.
+
+520 
+00:20:02.786 --> 00:20:03.583
+So we'll go to Products.
+
+521 
+00:20:03.584 --> 00:20:06.776
+We'll notice this time that allthe products are alphabetically
+
+522 
+00:20:06.777 --> 00:20:07.820
+sorted here.
+
+523 
+00:20:07.821 --> 00:20:11.980
+And then if I swap to SQL Profiler,and we'll see,
+
+524 
+00:20:11.981 --> 00:20:14.990
+this is the query that wasexecuted in the database.
+
+525 
+00:20:14.991 --> 00:20:17.250
+Now, one thing to note here,
+
+526 
+00:20:17.251 --> 00:20:18.860
+this looks pretty similarto what I'd write by hand.
+
+527 
+00:20:18.861 --> 00:20:20.690
+We make a real effort inEntity Framework to try to and
+
+528 
+00:20:20.691 --> 00:20:21.980
+keep the queries assimple as possible.
+
+529 
+00:20:21.981 --> 00:20:25.490
+And we've actually done a lot ofwork with the transition to EF Core
+
+530 
+00:20:25.491 --> 00:20:28.630
+to simplify the actualSQL that we generate.
+
+531 
+00:20:28.631 --> 00:20:30.690
+>> The query syntax, nice.
+
+532 
+00:20:30.691 --> 00:20:33.814
+>> Now, in our case it'sa pretty easy translation,
+
+533 
+00:20:33.815 --> 00:20:37.447
+because our property names allmatch our column names, and
+
+534 
+00:20:37.448 --> 00:20:40.296
+our type name almostmatches our table names.
+
+535 
+00:20:40.297 --> 00:20:42.380
+So there's not a lot ofmapping to be done here.
+
+536 
+00:20:42.381 --> 00:20:45.321
+But you also, it's pulling backall of the requested columns, and
+
+537 
+00:20:45.322 --> 00:20:48.209
+we have our order by here that wewrote in LINQ has been translated to
+
+538 
+00:20:48.210 --> 00:20:49.410
+an order by in SQL.
+
+539 
+00:20:49.411 --> 00:20:50.317
+>> Sure. Sure.
+
+540 
+00:20:50.318 --> 00:20:52.403
+And in previous versions,
+
+541 
+00:20:52.404 --> 00:20:57.790
+I remember seeing a lot of p0 andp1 aliases for the table names.
+
+542 
+00:20:57.791 --> 00:21:01.770
+So it's cool to see that it'ssimplified and a lot more concise,
+
+543 
+00:21:01.771 --> 00:21:03.910
+and like you said,something that I would write.
+
+544 
+00:21:03.911 --> 00:21:04.780
+>> Yeah, exactly.
+
+545 
+00:21:04.781 --> 00:21:07.500
+And in all honesty, a lot ofthe times when you saw SQL that
+
+546 
+00:21:07.501 --> 00:21:11.052
+wasn't what you would write, itactually still performed the same.
+
+547 
+00:21:11.053 --> 00:21:11.575
+>> Certainly.
+
+548 
+00:21:11.576 --> 00:21:14.680
+>> Like the SQL Server QueryOptimizer is pretty smart.
+
+549 
+00:21:14.681 --> 00:21:17.236
+But even that being so, you wantto be able to look at your SQL and
+
+550 
+00:21:17.237 --> 00:21:18.850
+understand what it's doing, right?
+
+551 
+00:21:18.851 --> 00:21:20.520
+>> Yeah.>> So if you're seeing,
+
+552 
+00:21:20.521 --> 00:21:22.930
+you would often see thingsselected into extent 01, and
+
+553 
+00:21:22.931 --> 00:21:25.283
+then selected again from that, and
+
+554 
+00:21:25.284 --> 00:21:27.295
+it just makes it really hardto work out what's going on.
+
+555 
+00:21:27.296 --> 00:21:30.610
+>> Trying to debug that workingwith a database administrator to.
+
+556 
+00:21:30.611 --> 00:21:34.220
+>> Yeah.>> No, not fun to do.
+
+557 
+00:21:35.890 --> 00:21:37.000
+>> Okay, so that's simple.
+
+558 
+00:21:37.001 --> 00:21:39.050
+We've looked at queryingback a collection.
+
+559 
+00:21:39.051 --> 00:21:40.010
+Let's just do another one.
+
+560 
+00:21:40.011 --> 00:21:42.300
+So we can also use LINQ toquery back a single object.
+
+561 
+00:21:42.301 --> 00:21:45.200
+So we have a Details action herewhere I would drill into the details
+
+562 
+00:21:45.201 --> 00:21:46.880
+of one particular product.
+
+563 
+00:21:46.881 --> 00:21:50.252
+And what I get to do thatis the ID that I'm after.
+
+564 
+00:21:50.253 --> 00:21:52.130
+So I'm gonna say I want the product.
+
+565 
+00:21:52.131 --> 00:21:55.990
+Again, we're going use the contextand go into the Products DB set.
+
+566 
+00:21:55.991 --> 00:21:57.150
+We'll write a where clause.
+
+567 
+00:21:57.151 --> 00:21:59.730
+So this is a new LINQ operatorthat we haven't used yet.
+
+568 
+00:21:59.731 --> 00:22:00.720
+>> Right.
+
+569 
+00:22:00.721 --> 00:22:04.380
+>> Product, andwe wanna say where the Id equals id.
+
+570 
+00:22:05.580 --> 00:22:08.230
+And I don't want two lists, becauseI would expect one of these to come
+
+571 
+00:22:08.231 --> 00:22:09.430
+back from the database, right?
+
+572 
+00:22:09.431 --> 00:22:10.746
+>> Yeah.>> So rather than two lists,
+
+573 
+00:22:10.747 --> 00:22:11.444
+let's do single.
+
+574 
+00:22:16.708 --> 00:22:19.337
+And we'll again returna view with prod in it.
+
+575 
+00:22:19.338 --> 00:22:20.856
+And when I'm callingthis helper method,
+
+576 
+00:22:20.857 --> 00:22:22.501
+I'm not sure if you'vecovered this yet, but
+
+577 
+00:22:22.502 --> 00:22:25.190
+it's basically returning the viewassociated with this action.
+
+578 
+00:22:25.191 --> 00:22:25.732
+>> Yep.>> And
+
+579 
+00:22:25.733 --> 00:22:27.461
+it's passing this inas the model data.
+
+580 
+00:22:27.462 --> 00:22:28.006
+>> Yep.
+
+581 
+00:22:28.007 --> 00:22:29.125
+>> The product that I've returned.
+
+582 
+00:22:29.126 --> 00:22:31.839
+Now, again,we should be async friendly, so
+
+583 
+00:22:31.840 --> 00:22:33.610
+let's swap to SingleAsync.
+
+584 
+00:22:33.611 --> 00:22:35.010
+And we'll put an awaitin front of this.
+
+585 
+00:22:36.610 --> 00:22:38.145
+And then let's go ahead and run.
+
+586 
+00:22:40.739 --> 00:22:43.396
+>> And because we're usinga where method here,
+
+587 
+00:22:43.397 --> 00:22:47.290
+it's gonna generate a where clauselike I would see in regular SQL.
+
+588 
+00:22:47.291 --> 00:22:48.790
+>> Andbecause I only want one result,
+
+589 
+00:22:48.791 --> 00:22:52.220
+I wouldn't expect it to return allthe data from the database, right?
+
+590 
+00:22:52.221 --> 00:22:53.410
+>> Right.
+
+591 
+00:22:53.411 --> 00:22:54.483
+>> Sowe'll go to the Products tab again,
+
+592 
+00:22:54.484 --> 00:22:56.250
+and we'll just go tothe details on one of these.
+
+593 
+00:22:57.550 --> 00:22:59.477
+And then we'll swap to SQL Profiler.
+
+594 
+00:22:59.478 --> 00:23:02.888
+And so let's look at a fewdifferent things here.
+
+595 
+00:23:02.889 --> 00:23:05.931
+So one thing that might not beimmediately obvious is it's doing
+
+596 
+00:23:05.932 --> 00:23:06.980
+a SELECT TOP(2).
+
+597 
+00:23:06.981 --> 00:23:09.086
+But I only asked for single record.
+
+598 
+00:23:09.087 --> 00:23:12.164
+And the reasons it's doing that isSingle is very specific, it says,
+
+599 
+00:23:12.165 --> 00:23:14.266
+there should be one record andonly one record.
+
+600 
+00:23:14.267 --> 00:23:16.238
+So if you find two,you need to throw.
+
+601 
+00:23:16.239 --> 00:23:17.500
+So that's the reason we select two,
+
+602 
+00:23:17.501 --> 00:23:18.933
+just to make sure thatthere's only one.
+
+603 
+00:23:18.934 --> 00:23:19.555
+>> Okay.
+
+604 
+00:23:19.556 --> 00:23:20.670
+>> If two results come back,we'll throw.
+
+605 
+00:23:20.671 --> 00:23:23.666
+If you just want the first one,there's another LINQ operator called
+
+606 
+00:23:23.667 --> 00:23:25.695
+first, which will justgive you the first, and
+
+607 
+00:23:25.696 --> 00:23:27.520
+it doesn't care of there's extras.
+
+608 
+00:23:27.521 --> 00:23:28.040
+>> Okay.
+
+609 
+00:23:28.041 --> 00:23:30.310
+>> So the reason we're selecting toptwo here is to make sure of that.
+
+610 
+00:23:30.311 --> 00:23:32.160
+And then you'll alsonotice the where clause.
+
+611 
+00:23:32.161 --> 00:23:33.830
+Another very importantthing to note here,
+
+612 
+00:23:33.831 --> 00:23:35.900
+we obviously used parameterization.
+
+613 
+00:23:35.901 --> 00:23:37.460
+We don't just hack strings together,
+
+614 
+00:23:37.461 --> 00:23:40.460
+because then you open yourselfup to SQL injection attacks.
+
+615 
+00:23:40.461 --> 00:23:43.330
+So we're passing in, the id wehappened to be after was 5, and so
+
+616 
+00:23:43.331 --> 00:23:45.592
+we're passing that in asa parameter to the query.
+
+617 
+00:23:45.593 --> 00:23:46.681
+>> Okay.
+
+618 
+00:23:46.682 --> 00:23:47.652
+>> All right.
+
+619 
+00:23:49.003 --> 00:23:52.356
+We've looked at a little bit ofLINQ, but you cannot express
+
+620 
+00:23:52.357 --> 00:23:55.669
+everything in LINQ that youmight wanna do in T-SQL right?
+
+621 
+00:23:55.670 --> 00:23:57.350
+>> Yeah.>> So a good example of that,
+
+622 
+00:23:57.351 --> 00:24:00.350
+I have our third action here, andthis is the last query one we're
+
+623 
+00:24:00.351 --> 00:24:02.990
+gonna do, where I wannasearch based on a term.
+
+624 
+00:24:02.991 --> 00:24:08.830
+Now, I could products= _context.Products.
+
+625 
+00:24:08.831 --> 00:24:11.060
+And then I could start puttingtogether where clauses here, right.
+
+626 
+00:24:12.690 --> 00:24:16.470
+So we might say where the namecontains, and I look for
+
+627 
+00:24:16.471 --> 00:24:18.924
+the search term, andthen I probably wanna hack together.
+
+628 
+00:24:18.925 --> 00:24:21.778
+There are database-specifictechnologies built to solve this
+
+629 
+00:24:21.779 --> 00:24:24.802
+problem, so full text search wouldbe a good example in SQL Server.
+
+630 
+00:24:24.803 --> 00:24:25.572
+>> Yeah.
+
+631 
+00:24:25.573 --> 00:24:26.428
+Right.
+
+632 
+00:24:26.429 --> 00:24:29.032
+>> Now I actually have,if I go over to my database,
+
+633 
+00:24:29.033 --> 00:24:32.040
+you'll see that I havea table-valued function here.
+
+634 
+00:24:32.041 --> 00:24:36.010
+So we'll look in Programmability >Functions > Table-valued Functions,
+
+635 
+00:24:36.011 --> 00:24:37.475
+and you'll see how Ihave a search product,
+
+636 
+00:24:37.476 --> 00:24:40.050
+Table-valued Function in here.
+
+637 
+00:24:40.051 --> 00:24:43.280
+And this is making use ofwhatever database features it can
+
+638 
+00:24:43.281 --> 00:24:45.860
+to do the most efficient andmost thorough text search for
+
+639 
+00:24:45.861 --> 00:24:46.900
+this term on Products.
+
+640 
+00:24:46.901 --> 00:24:51.636
+>> So I can select from the resultsof this function as though this
+
+641 
+00:24:51.637 --> 00:24:53.282
+function is a table?
+
+642 
+00:24:53.283 --> 00:24:55.360
+>> Yes, and we're actually gonnaget to why that's important.
+
+643 
+00:24:55.361 --> 00:24:58.560
+So what I'm about to show would workwhether this was a stored procedure
+
+644 
+00:24:58.561 --> 00:25:00.730
+or just a function or a table-valuedfunction or whatever, okay?
+
+645 
+00:25:00.731 --> 00:25:04.380
+So what we're gonna do is actually,Instead of querying using LINQ,
+
+646 
+00:25:04.381 --> 00:25:06.870
+we're gonna drop down to raw SQL.
+
+647 
+00:25:06.871 --> 00:25:09.150
+But we're not gonna lose allthe benefits of Entity Framework.
+
+648 
+00:25:09.151 --> 00:25:11.730
+So I'm not gonna be responsible forcreating instances of my types.
+
+649 
+00:25:11.731 --> 00:25:13.260
+I'm not gonna be responsible for
+
+650 
+00:25:13.261 --> 00:25:14.990
+knowing which columnmaps to which property.
+
+651 
+00:25:14.991 --> 00:25:16.645
+EF is still gonna do all that forme,
+
+652 
+00:25:16.646 --> 00:25:19.962
+it's just gonna let me replace myLINQ query with a raw SQL query.
+
+653 
+00:25:19.963 --> 00:25:20.690
+>> Fantastic.
+
+654 
+00:25:20.691 --> 00:25:21.640
+>> Okay, so let's look at that.
+
+655 
+00:25:22.990 --> 00:25:24.470
+So let's get rid ofthis where clause.
+
+656 
+00:25:24.471 --> 00:25:27.190
+And we're going to use a methodthat is only in EF Core,
+
+657 
+00:25:27.191 --> 00:25:31.520
+it's not in Entity Framework 6,FromSql, which takes in a string.
+
+658 
+00:25:31.521 --> 00:25:35.090
+And as you said, with a table-valuedfunction, I do a select star from.
+
+659 
+00:25:36.470 --> 00:25:39.174
+And the name of itwas SearchProducts.
+
+660 
+00:25:39.175 --> 00:25:42.640
+And then it took a single parameter,which was the search term.
+
+661 
+00:25:42.641 --> 00:25:45.581
+Now, this looks like I'mabout to do a string.format,
+
+662 
+00:25:45.582 --> 00:25:47.799
+cuz this would bestring.format syntax.
+
+663 
+00:25:47.800 --> 00:25:49.642
+Which obviously wouldbe a horrible idea,
+
+664 
+00:25:49.643 --> 00:25:51.850
+cuz that would open us upto a SQL injection attack.
+
+665 
+00:25:51.851 --> 00:25:57.760
+Cuz if someone searches forsemicolon, delete from.
+
+666 
+00:25:57.761 --> 00:26:01.430
+>> Those magic charactersthat do things.
+
+667 
+00:26:01.431 --> 00:26:03.948
+>> So FromSql,after it's taken the string,
+
+668 
+00:26:03.949 --> 00:26:06.270
+can take some extraobjects after that.
+
+669 
+00:26:06.271 --> 00:26:07.551
+So I'm gonna pass in term.
+
+670 
+00:26:07.552 --> 00:26:10.503
+And it will take of wrappingthose up into SQL parameters and
+
+671 
+00:26:10.504 --> 00:26:13.980
+passing them back into the stringwhere these placeholders are.
+
+672 
+00:26:13.981 --> 00:26:16.038
+So this doesn't meanit's gonna take this and
+
+673 
+00:26:16.039 --> 00:26:17.938
+directly translatethe string into here,
+
+674 
+00:26:17.939 --> 00:26:20.628
+it means it's gonna createa parameter, perhaps this, and
+
+675 
+00:26:20.629 --> 00:26:23.762
+it's gonna put the name of thatparameter where this placeholder is.
+
+676 
+00:26:23.763 --> 00:26:27.128
+So we are SQL injectionprotected by doing this.
+
+677 
+00:26:27.129 --> 00:26:27.858
+>> Fantastic.
+
+678 
+00:26:27.859 --> 00:26:28.800
+>> So we'll do ToListAsync.
+
+679 
+00:26:32.829 --> 00:26:36.900
+Of course, I need to await that.
+
+680 
+00:26:36.901 --> 00:26:38.970
+And same thing we've been doing sofar.
+
+681 
+00:26:38.971 --> 00:26:43.324
+I'm just going to quicklyshow that this works.
+
+682 
+00:26:43.325 --> 00:26:45.099
+And what we would expect is for
+
+683 
+00:26:45.100 --> 00:26:48.080
+Entity Framework to notdo anything fancy here.
+
+684 
+00:26:48.081 --> 00:26:50.220
+I told it what SQL to run, soI would expect it to go and
+
+685 
+00:26:50.221 --> 00:26:52.100
+execute exactly that SQL for me.
+
+686 
+00:26:52.101 --> 00:26:53.710
+>> Yeah, pass it right over.
+
+687 
+00:26:53.711 --> 00:26:54.310
+>> So let's search for
+
+688 
+00:26:54.311 --> 00:26:56.310
+shirt, cuz I know I havea few shirts in the database.
+
+689 
+00:26:58.910 --> 00:27:00.276
+Okay, the shirts come back.
+
+690 
+00:27:00.277 --> 00:27:04.266
+And if we go look in SQL Profiler,we'll see that the last
+
+691 
+00:27:04.267 --> 00:27:08.690
+query to execute was exactly thatpiece of SQL that I passed in.
+
+692 
+00:27:08.691 --> 00:27:09.920
+And we'll see there'sa parameter there.
+
+693 
+00:27:09.921 --> 00:27:13.076
+And we'll see that my term shirt hasbeen passed in as a parameter value.
+
+694 
+00:27:13.077 --> 00:27:13.985
+>> Cool.
+
+695 
+00:27:13.986 --> 00:27:18.060
+>> Now, when I drop down to SQL,in the past,
+
+696 
+00:27:18.061 --> 00:27:21.800
+I've been restricted to writingthe rest of my query in SQL.
+
+697 
+00:27:21.801 --> 00:27:24.000
+So say I wanted this data ordered.
+
+698 
+00:27:24.001 --> 00:27:28.275
+I would have to go over here andI would have to keep writing in SQL.
+
+699 
+00:27:28.276 --> 00:27:30.642
+I would have to say orderby name and so forth.
+
+700 
+00:27:30.643 --> 00:27:35.043
+Then I'm losing all the benefitof the ability of EF to translate
+
+701 
+00:27:35.044 --> 00:27:36.357
+things into LINQ.
+
+702 
+00:27:36.358 --> 00:27:43.595
+So now in EF Core, I can actuallydo an OrderBy product.Name.
+
+703 
+00:27:43.596 --> 00:27:47.347
+And let's run this again, it'lljust take a second to compile and
+
+704 
+00:27:47.348 --> 00:27:48.200
+restart.
+
+705 
+00:27:48.201 --> 00:27:51.440
+So, interestingly, what I've donehere is I started with SQL, but
+
+706 
+00:27:51.441 --> 00:27:53.850
+then I started composingon top of it using LINQ.
+
+707 
+00:27:53.851 --> 00:27:54.830
+>> Right.
+
+708 
+00:27:54.831 --> 00:27:58.960
+So you were able to extend that baseSQL statement that you wrote that
+
+709 
+00:27:58.961 --> 00:28:01.300
+was optimized for your needs,
+
+710 
+00:28:01.301 --> 00:28:04.240
+and might have beentrickier to write, and
+
+711 
+00:28:04.241 --> 00:28:06.710
+you've turned it into an extended,into something pretty useful here.
+
+712 
+00:28:06.711 --> 00:28:08.300
+>> Yeah, so now we'resorted alphabetically here.
+
+713 
+00:28:08.301 --> 00:28:11.550
+And if we look in SQL Profiler,we'll see it took that statement
+
+714 
+00:28:11.551 --> 00:28:13.930
+that I wrote andwrapped it a SELECT,
+
+715 
+00:28:13.931 --> 00:28:16.160
+because it's a table-valuedfunction, it can do that.
+
+716 
+00:28:16.161 --> 00:28:19.480
+And it's put my ORDER BY atthe end here, which is quite nice.
+
+717 
+00:28:19.481 --> 00:28:22.350
+Now, you can't do this withevery piece of raw SQL.
+
+718 
+00:28:22.351 --> 00:28:24.465
+For example, you can't do it whenyou select from a stored procedure,
+
+719 
+00:28:24.466 --> 00:28:27.110
+cuz stored procedures don'tsupport this composition type
+
+720 
+00:28:27.111 --> 00:28:28.240
+thing we're doing here.
+
+721 
+00:28:28.241 --> 00:28:31.671
+But because it was a table-valuedfunction we can compose on top of it
+
+722 
+00:28:31.672 --> 00:28:32.332
+using LINQ.
+
+723 
+00:28:32.333 --> 00:28:35.317
+An easy way to remember that,basically if the fragment that you
+
+724 
+00:28:35.318 --> 00:28:38.469
+pass in starts with SELECT, thenit's composable in SQL Server and
+
+725 
+00:28:38.470 --> 00:28:40.365
+compiler can tell ifwe're using LINQ.
+
+726 
+00:28:41.560 --> 00:28:44.090
+>> Yeah, I suppose if you were in astored procedure returning more than
+
+727 
+00:28:44.091 --> 00:28:47.180
+one table,you would run into problems here.
+
+728 
+00:28:47.181 --> 00:28:47.970
+>> Yeah, absolutely.
+
+729 
+00:28:47.971 --> 00:28:50.550
+So this is restricted tothings that work with SELECT.
+
+730 
+00:28:51.580 --> 00:28:52.470
+>> Okay.>> Okay, so
+
+731 
+00:28:52.471 --> 00:28:53.770
+this was kind ofan introduction to query.
+
+732 
+00:28:53.771 --> 00:28:55.670
+>> Very cool.>> Obviously, we've covered,
+
+733 
+00:28:55.671 --> 00:28:58.700
+kind of, we've skimmed the surfaceof what's possible with LINQ.
+
+734 
+00:28:58.701 --> 00:29:00.900
+You can write LINQ queriesthat take up pages in coding.
+
+735 
+00:29:00.901 --> 00:29:02.710
+>> Ugh.>> They can get very complicated.
+
+736 
+00:29:02.711 --> 00:29:05.500
+But we've showed youbasically how LINQ works and
+
+737 
+00:29:05.501 --> 00:29:06.620
+how we have [INAUDIBLE].
+
+738 
+00:29:06.621 --> 00:29:08.580
+>> Yeah.We can do our simple
+
+739 
+00:29:08.581 --> 00:29:09.769
+reads from the database.
+
+740 
+00:29:10.860 --> 00:29:13.762
+And some more advance queriesif we need to using the FromSql.
+
+741 
+00:29:13.763 --> 00:29:14.762
+>> Absolutely.>> Cool.
+
+742 
+00:29:14.763 --> 00:29:16.254
+>> Okay, sothe next thing I think we should,
+
+743 
+00:29:16.255 --> 00:29:17.497
+we can get data out of the database,
+
+744 
+00:29:17.498 --> 00:29:19.539
+let's look at changing the datathat's in the database.
+
+745 
+00:29:19.540 --> 00:29:21.975
+So I've got some codecommented out here,
+
+746 
+00:29:21.976 --> 00:29:23.875
+I'm just going to uncomment it.
+
+747 
+00:29:23.876 --> 00:29:26.955
+And these are actions that we'regonna use to create, edit, and
+
+748 
+00:29:26.956 --> 00:29:28.759
+delete instances from the database.
+
+749 
+00:29:29.850 --> 00:29:31.200
+Now, I'm not gonna gosuper detailed and
+
+750 
+00:29:31.201 --> 00:29:32.380
+run it after we implement each one.
+
+751 
+00:29:32.381 --> 00:29:36.324
+My idea here is to introduce you tothe API surface and how you use it
+
+752 
+00:29:36.325 --> 00:29:40.796
+with Entity Framework, and then I'llpoint you to the EF docs at the end.
+
+753 
+00:29:40.797 --> 00:29:43.213
+And this gives a whole bunch ofdetail on exactly how these things
+
+754 
+00:29:43.214 --> 00:29:44.690
+work and everything.
+
+755 
+00:29:44.691 --> 00:29:47.540
+So, okay, so there's alwaystwo parts to these things.
+
+756 
+00:29:47.541 --> 00:29:49.660
+There's when we wantto create something.
+
+757 
+00:29:49.661 --> 00:29:50.692
+There's the first action,
+
+758 
+00:29:50.693 --> 00:29:52.770
+which just kind of populatesthe create screen for you.
+
+759 
+00:29:52.771 --> 00:29:53.980
+>> Yeah.>> And so in our case,
+
+760 
+00:29:53.981 --> 00:29:55.728
+a product is related to a category.
+
+761 
+00:29:55.729 --> 00:29:58.253
+And so one of the things it's doingis creating a select list and
+
+762 
+00:29:58.254 --> 00:30:00.732
+giving that data to the form toallow you to have a drop down with
+
+763 
+00:30:00.733 --> 00:30:01.555
+the category in it.
+
+764 
+00:30:01.556 --> 00:30:02.149
+Okay.
+
+765 
+00:30:02.150 --> 00:30:03.248
+>> Okay.
+
+766 
+00:30:03.249 --> 00:30:05.126
+The interesting one is whenthat create comes back.
+
+767 
+00:30:05.127 --> 00:30:07.374
+And so it's gonna say, here'san instance of the product, and
+
+768 
+00:30:07.375 --> 00:30:08.365
+we'll see that over here.
+
+769 
+00:30:08.366 --> 00:30:09.100
+>> Mm-hm.
+
+770 
+00:30:09.101 --> 00:30:10.930
+>> Here is an instanceof the product.
+
+771 
+00:30:10.931 --> 00:30:12.610
+And I want you to savethis to the database.
+
+772 
+00:30:14.130 --> 00:30:16.940
+Now, I'm gonna keep the codein here really simple.
+
+773 
+00:30:16.941 --> 00:30:18.810
+Obviously, as you write realapplications there's gonna be some
+
+774 
+00:30:18.811 --> 00:30:20.098
+validation you want to do.
+
+775 
+00:30:20.099 --> 00:30:23.540
+>> Yeah, yep, we were lookingat working with model state in
+
+776 
+00:30:23.541 --> 00:30:28.390
+our previous module that wewere talking about Web API, so.
+
+777 
+00:30:28.391 --> 00:30:29.260
+>> So for example,
+
+778 
+00:30:30.360 --> 00:30:32.040
+just based on this domainthat we're in at the moment,
+
+779 
+00:30:32.041 --> 00:30:35.576
+it probably doesn't make sense forproducts to have negative prices. But,
+
+780 
+00:30:35.577 --> 00:30:35.670
+>> No.
+
+781 
+00:30:35.671 --> 00:30:36.810
+>> The requirement is
+
+782 
+00:30:36.811 --> 00:30:40.680
+just to see a lot of typed decimalsso, of course, negative prices could
+
+783 
+00:30:40.681 --> 00:30:43.116
+be added in the form we willneed some form of validation.
+
+784 
+00:30:43.117 --> 00:30:44.109
+>> Yeah.>> [CROSSTALK] So
+
+785 
+00:30:44.110 --> 00:30:47.801
+we're just gonna stick with thebasics of how do I save this data.
+
+786 
+00:30:47.802 --> 00:30:48.515
+>> Okay.
+
+787 
+00:30:48.516 --> 00:30:50.680
+>> So I would say, context.products.
+
+788 
+00:30:50.681 --> 00:30:52.730
+Products being the DB setwhich we have used to query.
+
+789 
+00:30:52.731 --> 00:30:54.709
+But instead of querying this time,we're gonna say add.
+
+790 
+00:30:55.800 --> 00:30:58.360
+And we're going to pass inthat instance of the product
+
+791 
+00:30:58.361 --> 00:31:00.800
+which MVC has handedback to us to save.
+
+792 
+00:31:00.801 --> 00:31:01.590
+>> Okay.
+
+793 
+00:31:01.591 --> 00:31:05.150
+>> Now, one thing of note here isthat context, when we do this,
+
+794 
+00:31:05.151 --> 00:31:06.990
+it doesn't immediately go andput it in the database.
+
+795 
+00:31:08.030 --> 00:31:10.670
+DB context is often referredto as a unit of work.
+
+796 
+00:31:10.671 --> 00:31:12.938
+It kind of saves things up andit gets ready, and
+
+797 
+00:31:12.939 --> 00:31:15.966
+then you tell it when to persistthose changes to the database.
+
+798 
+00:31:15.967 --> 00:31:19.480
+In basic NBC actions, it's typicallyonly one thing you're doing.
+
+799 
+00:31:19.481 --> 00:31:21.940
+You're creating one thing oryou're deleting one thing.
+
+800 
+00:31:21.941 --> 00:31:24.550
+But as you write a more advancedapplication, you might be inserting
+
+801 
+00:31:24.551 --> 00:31:26.675
+three or four entities as partof creating a new product.
+
+802 
+00:31:26.676 --> 00:31:27.780
+>> Right.>> Maybe you need to create
+
+803 
+00:31:27.781 --> 00:31:31.980
+a product details with a photo onit and some audit entry records and
+
+804 
+00:31:31.981 --> 00:31:33.120
+things like that as well.
+
+805 
+00:31:33.121 --> 00:31:36.750
+>> Then you need those all intothe database at the same time or
+
+806 
+00:31:36.751 --> 00:31:38.030
+very close together.
+
+807 
+00:31:38.031 --> 00:31:40.720
+>> Yeah, and so what we ever do,we actually batch all those up into
+
+808 
+00:31:40.721 --> 00:31:43.400
+a single command andsend that to the database.
+
+809 
+00:31:43.401 --> 00:31:44.860
+So if you insert four objects,
+
+810 
+00:31:44.861 --> 00:31:47.110
+we'd insert four objects aspart of the same command.
+
+811 
+00:31:47.111 --> 00:31:48.698
+And more importantly,we do it transactionally.
+
+812 
+00:31:48.699 --> 00:31:51.450
+So that whole save changes isalways wrapped in the transaction.
+
+813 
+00:31:51.451 --> 00:31:53.380
+So you don't have to do anythingwith transactions unless you're
+
+814 
+00:31:53.381 --> 00:31:56.230
+doing something complicated EFwhen you call save changes,
+
+815 
+00:31:56.231 --> 00:31:57.900
+which is what we're gonna call now.
+
+816 
+00:31:57.901 --> 00:31:59.250
+And that's async, so we'll await it.
+
+817 
+00:32:01.680 --> 00:32:05.240
+Think of this as flash allchanges to the database and
+
+818 
+00:32:05.241 --> 00:32:06.040
+it does it automically.
+
+819 
+00:32:06.041 --> 00:32:07.680
+So if it inserts two things and
+
+820 
+00:32:07.681 --> 00:32:10.700
+then one fails, the wholetransaction gets rolled back.
+
+821 
+00:32:10.701 --> 00:32:13.860
+In our case it's only one thingwe're inserting anyway so.
+
+822 
+00:32:13.861 --> 00:32:16.295
+>> Yeah it shouldn't be too risky.
+
+823 
+00:32:16.296 --> 00:32:18.370
+[LAUGH]>> Okay, so
+
+824 
+00:32:18.371 --> 00:32:20.050
+that's how we add a product.
+
+825 
+00:32:20.051 --> 00:32:21.240
+Let's scroll downa little bit further.
+
+826 
+00:32:21.241 --> 00:32:22.780
+So we're gonna do edit next.
+
+827 
+00:32:22.781 --> 00:32:26.620
+Again, this first action is the onethat populates the edit screen, so
+
+828 
+00:32:26.621 --> 00:32:28.800
+it gets the data up in the form forthe user to edit.
+
+829 
+00:32:28.801 --> 00:32:31.400
+And sothis query looks very familiar.
+
+830 
+00:32:31.401 --> 00:32:32.650
+We're doing single async and
+
+831 
+00:32:32.651 --> 00:32:35.860
+we're fetching back the singleobject with the ID.
+
+832 
+00:32:35.861 --> 00:32:38.536
+One thing want I want to justcall out here, there's actually
+
+833 
+00:32:38.537 --> 00:32:41.624
+an overload of single async whichallows you to pass in, effectively,
+
+834 
+00:32:41.625 --> 00:32:42.354
+a where clause.
+
+835 
+00:32:42.355 --> 00:32:45.571
+So where as we didour products.ware and
+
+836 
+00:32:45.572 --> 00:32:49.457
+m.id = id single asyncwithout anything in it.
+
+837 
+00:32:49.458 --> 00:32:51.942
+You can actually collapsethose down into one column.
+
+838 
+00:32:51.943 --> 00:32:53.880
+Which is why this looksa little different.
+
+839 
+00:32:53.881 --> 00:32:54.850
+>> Okay.
+
+840 
+00:32:54.851 --> 00:32:55.590
+>> Okay.
+
+841 
+00:32:55.591 --> 00:32:57.880
+The one that we're particularlyinterested in is the edit when
+
+842 
+00:32:57.881 --> 00:32:58.490
+it comes back.
+
+843 
+00:32:58.491 --> 00:33:01.400
+And so in this case, it's giving usthe ID and it's giving us the actual
+
+844 
+00:33:01.401 --> 00:33:04.070
+product that needs to besaved back to the database.
+
+845 
+00:33:04.071 --> 00:33:05.890
+Now, there are lots ofdifferent ways to implement
+
+846 
+00:33:05.891 --> 00:33:07.370
+the body of an edit method.
+
+847 
+00:33:07.371 --> 00:33:09.130
+I'm gonna do the simplest one and
+
+848 
+00:33:09.131 --> 00:33:11.960
+then I'll talk about theshortcomings of that in a second.
+
+849 
+00:33:11.961 --> 00:33:13.950
+So we'll go to the context,we would say products and
+
+850 
+00:33:13.951 --> 00:33:20.030
+we would say Update(product) andthen of course, we're going to flash
+
+851 
+00:33:20.031 --> 00:33:24.790
+that out to the database so we wouldaway on context.SaveChangesAsync.
+
+852 
+00:33:24.791 --> 00:33:28.937
+All right so, update is very simpleand it adjust literally, sends
+
+853 
+00:33:28.938 --> 00:33:33.319
+an update statement and sets everyproperty to be the incoming values.
+
+854 
+00:33:33.320 --> 00:33:35.903
+>> Now how does it knowwhich product to update?
+
+855 
+00:33:35.904 --> 00:33:37.661
+>> Because of the IDbased on the products.
+
+856 
+00:33:37.662 --> 00:33:38.274
+>> Gotcha.
+
+857 
+00:33:38.275 --> 00:33:40.096
+>> Soby coming back has an ID on it,
+
+858 
+00:33:40.097 --> 00:33:43.873
+they will send in an update set allof the columns to the values out of
+
+859 
+00:33:43.874 --> 00:33:47.319
+the properties where the ID isequal to the ID of the product.
+
+860 
+00:33:47.320 --> 00:33:49.086
+Now there are some cases whereyou might wanna do that.
+
+861 
+00:33:49.087 --> 00:33:51.849
+One, if you have auditing orsomething the database,
+
+862 
+00:33:51.850 --> 00:33:55.090
+you're updating a lot of columnyou might just be setting them to
+
+863 
+00:33:55.091 --> 00:33:55.941
+the same value.
+
+864 
+00:33:55.942 --> 00:33:58.119
+Okay, soyou can see that some people,
+
+865 
+00:33:58.120 --> 00:34:00.693
+if all the user changeson the form is the name,
+
+866 
+00:34:00.694 --> 00:34:05.350
+he might wanna simpler SQL statementthat just updates the name column.
+
+867 
+00:34:05.351 --> 00:34:06.880
+>> Okay.>> So in that case what you could do
+
+868 
+00:34:06.881 --> 00:34:10.390
+is you would query back fromthe incidence of the database and
+
+869 
+00:34:10.391 --> 00:34:11.970
+then you would->> And then set the value.
+
+870 
+00:34:11.971 --> 00:34:13.680
+>> Copy the values over the top.
+
+871 
+00:34:13.681 --> 00:34:16.740
+Another place you mightnot want to do it is if
+
+872 
+00:34:16.741 --> 00:34:19.820
+You don't have all of the propertiesof the product on the form.
+
+873 
+00:34:19.821 --> 00:34:22.430
+In which case, you can't just updatethem all because some of them
+
+874 
+00:34:22.431 --> 00:34:24.880
+are gonna be null and you don'twant to set nulls in the database.
+
+875 
+00:34:24.881 --> 00:34:26.330
+>> Okay.>> And then also if I'm doing
+
+876 
+00:34:26.331 --> 00:34:29.880
+concurrency detection where,I'm saying, if another user's edited
+
+877 
+00:34:29.881 --> 00:34:33.180
+the record, don't just dumpyour changes over the top.
+
+878 
+00:34:33.181 --> 00:34:34.380
+Check with the user to make sure
+
+879 
+00:34:34.381 --> 00:34:36.240
+that that's actuallywhat they wanna do.
+
+880 
+00:34:36.241 --> 00:34:36.820
+Yeah, we used to->> So if I'm
+
+881 
+00:34:36.821 --> 00:34:37.850
+changing a person's name but
+
+882 
+00:34:37.851 --> 00:34:40.280
+someone else has changed theSocial Security number, you should
+
+883 
+00:34:40.281 --> 00:34:43.260
+probably double-check whether that'sa right edit before saving it.
+
+884 
+00:34:43.261 --> 00:34:44.630
+>> Yeah.>> Yeah, so
+
+885 
+00:34:44.631 --> 00:34:47.440
+this is a very naive approach, it'ssimple, it gets you off the ground.
+
+886 
+00:34:47.441 --> 00:34:51.257
+You can write much more complicatedcodes to achieve more complicated
+
+887 
+00:34:51.258 --> 00:34:51.910
+outcomes.
+
+888 
+00:34:51.911 --> 00:34:55.312
+All right Delete, again it's twoactions that work together so
+
+889 
+00:34:55.313 --> 00:34:58.777
+first one just gets a product fromthe database and displays it and
+
+890 
+00:34:58.778 --> 00:35:01.742
+says are you sure that this isthe one you want to delete?
+
+891 
+00:35:03.669 --> 00:35:06.741
+And then in our Delete Confirm we'resaying yes, I want to go ahead and
+
+892 
+00:35:06.742 --> 00:35:08.330
+delete this product with this ID.
+
+893 
+00:35:08.331 --> 00:35:10.550
+So we don't get the whole productthis time, we just get the ID.
+
+894 
+00:35:11.560 --> 00:35:13.840
+So actually, again, there'svarious ways to implement this.
+
+895 
+00:35:13.841 --> 00:35:15.100
+The easiest one is to go ahead and
+
+896 
+00:35:15.101 --> 00:35:16.880
+fetch that productfrom the database.
+
+897 
+00:35:16.881 --> 00:35:21.461
+And then once we have it,we're gonna say Products.Remove that
+
+898 
+00:35:21.462 --> 00:35:24.638
+product that we justfetched based on the ID.
+
+899 
+00:35:24.639 --> 00:35:27.808
+And then as we're familiar nowwe would await on our call to
+
+900 
+00:35:27.809 --> 00:35:28.980
+SaveChangesAsync.
+
+901 
+00:35:30.850 --> 00:35:31.880
+Makes sense.>> Makes sense.
+
+902 
+00:35:31.881 --> 00:35:33.250
+>> Yeah.>> Let's just test out
+
+903 
+00:35:33.251 --> 00:35:38.240
+one of these actions to make surethat we did everything right.
+
+904 
+00:35:38.241 --> 00:35:41.240
+>> It's interestingthat the create and
+
+905 
+00:35:41.241 --> 00:35:42.805
+the edit>> Right.
+
+906 
+00:35:43.945 --> 00:35:47.325
+>> They're synchronously operatinglocally but it's when they flush,
+
+907 
+00:35:47.326 --> 00:35:50.115
+when they persist those changes,that's when goes async.
+
+908 
+00:35:50.116 --> 00:35:52.885
+>> Yeah, so when they're doingthings like adding to the context,
+
+909 
+00:35:52.886 --> 00:35:54.111
+that is completely in memory.
+
+910 
+00:35:54.112 --> 00:35:55.197
+>> Mm-hm.
+
+911 
+00:35:55.198 --> 00:35:59.095
+>> So the .NET thread has workto do the whole time that that
+
+912 
+00:35:59.096 --> 00:36:00.135
+is executing.
+
+913 
+00:36:00.136 --> 00:36:02.105
+The place where the .NET threaddoesn't have anything to do
+
+914 
+00:36:02.106 --> 00:36:03.515
+is when we flush themto the database,
+
+915 
+00:36:03.516 --> 00:36:06.810
+it goes through SQL Client, Andthen it drops out of .NET and
+
+916 
+00:36:06.811 --> 00:36:09.140
+goes down and across the networkto the server and back again.
+
+917 
+00:36:09.141 --> 00:36:10.940
+And there's nothing for.NET to do in that period.
+
+918 
+00:36:10.941 --> 00:36:15.030
+And so that thread can go serviceanother request while that happens.
+
+919 
+00:36:15.031 --> 00:36:16.490
+>> Okay.>> Let's just delete one
+
+920 
+00:36:16.491 --> 00:36:17.210
+of these products.
+
+921 
+00:36:17.211 --> 00:36:19.140
+So let's delete the Unicorn Pencil.
+
+922 
+00:36:19.141 --> 00:36:20.330
+It's not been a very good seller.
+
+923 
+00:36:21.840 --> 00:36:24.543
+So we got the query from thedatabase, the confirmation screen,
+
+924 
+00:36:24.544 --> 00:36:25.337
+we'll delete it.
+
+925 
+00:36:25.338 --> 00:36:28.188
+And then if we go look atSQL profile we should see a,
+
+926 
+00:36:30.265 --> 00:36:31.955
+Delete statement issuedto the database.
+
+927 
+00:36:31.956 --> 00:36:32.950
+>> Cool.
+
+928 
+00:36:32.951 --> 00:36:36.700
+>> We say it's paramaterized againon the Id properties, effectively,
+
+929 
+00:36:36.701 --> 00:36:37.640
+is what we're being based on.
+
+930 
+00:36:38.770 --> 00:36:40.820
+That all make sense?
+
+931 
+00:36:40.821 --> 00:36:43.760
+>> Yeah, and it even selects rowcount at the end just to make sure
+
+932 
+00:36:43.761 --> 00:36:46.435
+that it got that one row changed.
+
+933 
+00:36:46.436 --> 00:36:47.530
+>> Yeah, absolutely,
+
+934 
+00:36:47.531 --> 00:36:50.890
+we always check that when weissue anything to the database.
+
+935 
+00:36:50.891 --> 00:36:53.990
+It created an insert or delete,we always make sure that the right
+
+936 
+00:36:53.991 --> 00:36:55.840
+amount of data gotupdated in the database.
+
+937 
+00:36:55.841 --> 00:36:58.800
+If it didn't we roll a transactionback and we let the user know with
+
+938 
+00:36:58.801 --> 00:37:00.860
+an exception or the developerknow with an exception that.
+
+939 
+00:37:00.861 --> 00:37:03.000
+We would call thata concurrency violation,
+
+940 
+00:37:03.001 --> 00:37:05.960
+so you tried to delete a row butit didn't change
+
+941 
+00:37:05.961 --> 00:37:08.880
+anything which probably isn't whatyou expected, so here's an exception
+
+942 
+00:37:08.881 --> 00:37:10.680
+with all the details ofwhat you were trying to do.
+
+943 
+00:37:10.681 --> 00:37:13.190
+We'll roll the transaction back andleave the database alone.
+
+944 
+00:37:13.191 --> 00:37:15.580
+And you can write code to decidewhat to do when that happens.
+
+945 
+00:37:15.581 --> 00:37:16.700
+>> Cool, all right.
+
+946 
+00:37:18.280 --> 00:37:19.600
+>> Any questions onthis before we move on?
+
+947 
+00:37:19.601 --> 00:37:22.660
+So the next thing that I wantedto show you quickly was,
+
+948 
+00:37:22.661 --> 00:37:25.180
+we looked at creating a modelfrom an existing database.
+
+949 
+00:37:25.181 --> 00:37:26.054
+Right.
+
+950 
+00:37:26.055 --> 00:37:27.528
+>> Now,what if I don't wanna work it?
+
+951 
+00:37:27.529 --> 00:37:28.808
+What if I wanna start and code and
+
+952 
+00:37:28.809 --> 00:37:31.180
+then have a database create it forme?.
+
+953 
+00:37:31.181 --> 00:37:33.450
+And then what if I wannachange that code and
+
+954 
+00:37:33.451 --> 00:37:35.490
+bring the database up to datewith those changes in code.
+
+955 
+00:37:35.491 --> 00:37:36.430
+>> Yeah.All right,
+
+956 
+00:37:36.431 --> 00:37:39.680
+this is what we saw with migrationwhen we did things with identity.
+
+957 
+00:37:39.681 --> 00:37:40.890
+>> Yeah, absolutely.
+
+958 
+00:37:40.891 --> 00:37:42.080
+>> In an earlier module.
+
+959 
+00:37:42.081 --> 00:37:42.940
+>> Okay.
+
+960 
+00:37:42.941 --> 00:37:44.450
+So let's just close allour windows down here.
+
+961 
+00:37:44.451 --> 00:37:47.990
+And I get things a littlemore squared away.
+
+962 
+00:37:49.180 --> 00:37:50.100
+So in that situation,
+
+963 
+00:37:50.101 --> 00:37:52.320
+we would have a model written incode that we would write by hand,
+
+964 
+00:37:52.321 --> 00:37:53.710
+and we wouldn't have a database.
+
+965 
+00:37:53.711 --> 00:37:55.860
+So, we're actually gonna stayworking in the same application.
+
+966 
+00:37:55.861 --> 00:37:58.030
+I'm just gonna literally deletethis products database from my
+
+967 
+00:37:58.031 --> 00:37:58.770
+local DB instance.
+
+968 
+00:37:58.771 --> 00:38:04.190
+Will take a minute I
+
+969 
+00:38:04.191 --> 00:38:06.740
+think I had an open connection therewhen I was looking at data from it.
+
+970 
+00:38:07.800 --> 00:38:11.010
+And, we would at this point,
+
+971 
+00:38:11.011 --> 00:38:12.760
+we would've written allthese things by hand.
+
+972 
+00:38:12.761 --> 00:38:14.490
+So I would write my entity classes,
+
+973 
+00:38:14.491 --> 00:38:17.310
+to represent the domain modelthat I want for my application.
+
+974 
+00:38:17.311 --> 00:38:22.480
+I would have written a contextthat would have had DB sets for
+
+975 
+00:38:22.481 --> 00:38:23.298
+all the types of the model.
+
+976 
+00:38:23.299 --> 00:38:24.650
+>> Sure.>> Cuz ips.net core,
+
+977 
+00:38:24.651 --> 00:38:26.520
+I would have taken myoptions externally so
+
+978 
+00:38:26.521 --> 00:38:28.850
+it's the same as all the codethat was generated for us.
+
+979 
+00:38:28.851 --> 00:38:31.080
+And then, I could havedone optional config here.
+
+980 
+00:38:31.081 --> 00:38:33.140
+Now, interestingly in this case,
+
+981 
+00:38:33.141 --> 00:38:35.540
+I don't really care what EF picksas the name for this constraint.
+
+982 
+00:38:35.541 --> 00:38:37.443
+So I'm actually even justgonna delete this just to keep
+
+983 
+00:38:37.444 --> 00:38:38.013
+things simple.
+
+984 
+00:38:39.599 --> 00:38:41.550
+Don't have to, butI don't mind what that's called.
+
+985 
+00:38:41.551 --> 00:38:42.900
+So it's less code forme to deal with.
+
+986 
+00:38:42.901 --> 00:38:45.920
+So this is something that Imight have written by hand.
+
+987 
+00:38:45.921 --> 00:38:48.210
+Okay now I want a database from it.
+
+988 
+00:38:48.211 --> 00:38:49.980
+>> Okay,>> To do that we used something
+
+989 
+00:38:49.981 --> 00:38:50.950
+called migrations.
+
+990 
+00:38:52.680 --> 00:38:59.546
+So I add migration, it's a command,We'll call this one InitialSchema,
+
+991 
+00:38:59.547 --> 00:39:01.624
+the name is not important Ican call this wherever I want,
+
+992 
+00:39:01.625 --> 00:39:02.680
+call it my first migration.
+
+993 
+00:39:03.820 --> 00:39:07.730
+All it's gonna do is it's going tolook at what has change in the model
+
+994 
+00:39:07.731 --> 00:39:10.310
+Since the last migrationwas generated.
+
+995 
+00:39:10.311 --> 00:39:12.200
+Now there aren't any previous migrations,
+
+996 
+00:39:12.201 --> 00:39:12.390
+>> Right.
+
+997 
+00:39:12.391 --> 00:39:13.640
+>> Soeverything changed in the model.
+
+998 
+00:39:15.020 --> 00:39:17.320
+So our first migrationthat gets scaffolded,
+
+999 
+00:39:17.321 --> 00:39:20.630
+we'll talk about exactly whata migration is in a minute, is some
+
+1000 
+00:39:20.631 --> 00:39:23.810
+statements that are telling it to goand do these things in the database.
+
+1001 
+00:39:23.811 --> 00:39:25.510
+Now this is very databasespecific at this point.
+
+1002 
+00:39:25.511 --> 00:39:28.180
+We're not talking about entityclasses and properties.
+
+1003 
+00:39:28.181 --> 00:39:30.870
+We're talking about tables andcolumns.
+
+1004 
+00:39:30.871 --> 00:39:33.690
+And we're talking about valuegeneration strategies being
+
+1005 
+00:39:33.691 --> 00:39:35.518
+the identity column in SQL.
+
+1006 
+00:39:35.519 --> 00:39:40.100
+>> And this is essentially the DDL,right.
+
+1007 
+00:39:40.101 --> 00:39:43.220
+That data definition language thatwe would use directly against
+
+1008 
+00:39:43.221 --> 00:39:46.870
+the database but it's being wrap upinto something that's .NET Friendly.
+
+1009 
+00:39:46.871 --> 00:39:48.114
+>> Exactly, yep.
+
+1010 
+00:39:48.115 --> 00:39:49.221
+Now Migrations,
+
+1011 
+00:39:49.222 --> 00:39:53.057
+the brief description Migrationis a well order set of steps,
+
+1012 
+00:39:53.058 --> 00:39:57.057
+to take a database from any versionup, to the current version.
+
+1013 
+00:39:57.058 --> 00:39:57.912
+>> Okay.
+
+1014 
+00:39:57.913 --> 00:39:59.397
+>> My database doesn'texist at the moment.
+
+1015 
+00:39:59.398 --> 00:40:00.234
+>> Yeah.
+
+1016 
+00:40:00.235 --> 00:40:01.714
+>> Now I have one Migration.
+
+1017 
+00:40:01.715 --> 00:40:05.642
+So, there's one step toget from no database to.
+
+1018 
+00:40:05.643 --> 00:40:06.171
+>> A database.
+
+1019 
+00:40:06.172 --> 00:40:09.419
+>> Current model, which would be tocreate the database and run the code
+
+1020 
+00:40:09.420 --> 00:40:12.500
+that's in here to do all the stuffcreating the two tables for me.
+
+1021 
+00:40:12.501 --> 00:40:14.040
+So, let's do that.
+
+1022 
+00:40:14.041 --> 00:40:17.544
+The way I do that iswith Update-Database.
+
+1023 
+00:40:19.790 --> 00:40:23.450
+And given that I think you lookedbriefly at migrations in identity
+
+1024 
+00:40:23.451 --> 00:40:26.090
+I'm gonna take a little more time totalk about how migrations works cuz
+
+1025 
+00:40:26.091 --> 00:40:27.510
+that's an important thingto have in your mind.
+
+1026 
+00:40:27.511 --> 00:40:28.370
+>> Please yes.
+
+1027 
+00:40:28.371 --> 00:40:30.960
+>> We say the database error but>> Per page.
+
+1028 
+00:40:30.961 --> 00:40:35.010
+Database exception page whereit gave us that cool button to
+
+1029 
+00:40:35.011 --> 00:40:38.910
+click and apply the migrations butwe didn't go through and
+
+1030 
+00:40:38.911 --> 00:40:39.920
+do this on the command line.
+
+1031 
+00:40:39.921 --> 00:40:42.200
+We kind of got the helpthrough the user interface,
+
+1032 
+00:40:42.201 --> 00:40:44.210
+through the web browser And
+
+1033 
+00:40:44.211 --> 00:40:49.530
+I don't want my QA folks or,gosh, even my users in production
+
+1034 
+00:40:49.531 --> 00:40:51.960
+to have to click that button inorder to update my database.
+
+1035 
+00:40:51.961 --> 00:40:52.690
+>> In fact, they shouldn't,
+
+1036 
+00:40:52.691 --> 00:40:54.750
+that piece of middlewareshould only be used locally.
+
+1037 
+00:40:54.751 --> 00:40:57.650
+It's more designed as an educationthing, what I'm developing.
+
+1038 
+00:40:57.651 --> 00:41:00.910
+I think once people get used to thaterror page, they should probably
+
+1039 
+00:41:00.911 --> 00:41:03.530
+proactively do that stuff inVisual Studio before they run.
+
+1040 
+00:41:03.531 --> 00:41:06.870
+>> Sure, sure, but I could seealso in a team scenario where
+
+1041 
+00:41:06.871 --> 00:41:09.680
+You're working on one set of code,I'm working on another set of code,
+
+1042 
+00:41:09.681 --> 00:41:12.810
+when we both get upto date the next day
+
+1043 
+00:41:12.811 --> 00:41:14.390
+there's some changes that you made>> Exactly.
+
+1044 
+00:41:14.391 --> 00:41:15.750
+>> I can push that button>> Yeah.
+
+1045 
+00:41:15.751 --> 00:41:17.680
+>> Without running through anythingand my stuff's up to date.
+
+1046 
+00:41:17.681 --> 00:41:19.180
+Yeah, absolutely.
+
+1047 
+00:41:19.181 --> 00:41:20.310
+Okay, so the way this worked.
+
+1048 
+00:41:20.311 --> 00:41:22.370
+It look at the migrationsin my compiled application.
+
+1049 
+00:41:22.371 --> 00:41:23.090
+>> Yep.>> So, the first
+
+1050 
+00:41:23.091 --> 00:41:24.970
+thing it did was compilethe application.
+
+1051 
+00:41:24.971 --> 00:41:26.410
+And then looked at my assemblies andall and
+
+1052 
+00:41:26.411 --> 00:41:27.710
+there's one migration in there.
+
+1053 
+00:41:27.711 --> 00:41:29.749
+This one called,let's go back over, so
+
+1054 
+00:41:29.750 --> 00:41:33.270
+the migration we'll talk aboutthe modal snap shot in a second.
+
+1055 
+00:41:35.485 --> 00:41:38.860
+So, we'll talk aboutsnap shot in a minute.
+
+1056 
+00:41:38.861 --> 00:41:42.350
+The initial schema,as long as one migration said,
+
+1057 
+00:41:42.351 --> 00:41:43.810
+this hasn't been appliedto the database.
+
+1058 
+00:41:43.811 --> 00:41:45.310
+In fact,there isn't even a database.
+
+1059 
+00:41:45.311 --> 00:41:48.060
+So, created the database andapplied this migration.
+
+1060 
+00:41:48.061 --> 00:41:51.250
+>> So, when you,When you added the migration there
+
+1061 
+00:41:51.251 --> 00:41:55.500
+in the PowerShell window inthe package manager console.
+
+1062 
+00:41:55.501 --> 00:41:59.230
+It created a class it didn't writeSQL statement it created another
+
+1063 
+00:41:59.231 --> 00:42:02.480
+class that defined,here's what needs to be applied.
+
+1064 
+00:42:02.481 --> 00:42:04.380
+>> Yap.So, in the same way that writing
+
+1065 
+00:42:04.381 --> 00:42:07.240
+into different link queries andthings like that is an obstruction
+
+1066 
+00:42:07.241 --> 00:42:10.430
+over Writing select statements andinsert, update, delete statements.
+
+1067 
+00:42:10.431 --> 00:42:13.890
+Migration is an abstractionover writing create table and
+
+1068 
+00:42:13.891 --> 00:42:14.590
+create foreign key.
+
+1069 
+00:42:14.591 --> 00:42:16.780
+>> Those DDL statements, yeah.
+
+1070 
+00:42:16.781 --> 00:42:17.620
+Okay.
+
+1071 
+00:42:17.621 --> 00:42:18.260
+>> So, it's a bridge.
+
+1072 
+00:42:18.261 --> 00:42:20.460
+It's kind of part way betweenyour model and the database.
+
+1073 
+00:42:20.461 --> 00:42:22.190
+It's written in termsof database objects but
+
+1074 
+00:42:22.191 --> 00:42:24.340
+it's still in C# anda little bit abstracted.
+
+1075 
+00:42:24.341 --> 00:42:25.530
+>> Right, right, okay.
+
+1076 
+00:42:25.531 --> 00:42:29.140
+>> The other important pointtoo is Because it's not SQL,
+
+1077 
+00:42:29.141 --> 00:42:31.080
+different providers cantranslate it differently.
+
+1078 
+00:42:31.081 --> 00:42:33.470
+So, I can run the same migrationon SQL Server and SQL Lite,
+
+1079 
+00:42:33.471 --> 00:42:36.530
+and they might generateslightly different DDL.
+
+1080 
+00:42:36.531 --> 00:42:38.590
+Cuz SQL Lite doesn't haveidentity columns in it.
+
+1081 
+00:42:38.591 --> 00:42:42.160
+>> Right.>> Okay, so we'll refresh this,
+
+1082 
+00:42:42.161 --> 00:42:43.680
+we now have the productsdatabase back.
+
+1083 
+00:42:44.820 --> 00:42:46.040
+It looks a littledifferent this time though.
+
+1084 
+00:42:46.041 --> 00:42:48.090
+It has out products in categorytables, that's what we'd expect.
+
+1085 
+00:42:48.091 --> 00:42:50.140
+But it has this new table,EFMigrationsHistory, so
+
+1086 
+00:42:50.141 --> 00:42:52.850
+let's open that.
+
+1087 
+00:42:52.851 --> 00:42:55.560
+This is how EF tells what'sbeen applied to the database.
+
+1088 
+00:42:55.561 --> 00:42:58.159
+So, remember I said it'sa well ordered set of steps?
+
+1089 
+00:42:58.160 --> 00:43:00.380
+It needs to know which stepsit needs to go through.
+
+1090 
+00:43:00.381 --> 00:43:02.310
+And so the way it knows whichones have already been taken on
+
+1091 
+00:43:02.311 --> 00:43:04.200
+the database is bylooking in this table.
+
+1092 
+00:43:04.201 --> 00:43:05.420
+So, now recorded.>> It just stores a copy.
+
+1093 
+00:43:05.421 --> 00:43:07.360
+>> This migration has been applied.
+
+1094 
+00:43:07.361 --> 00:43:08.370
+>> Nice.
+
+1095 
+00:43:08.371 --> 00:43:10.410
+>> To really get the gistof how migrations work,
+
+1096 
+00:43:10.411 --> 00:43:12.580
+we need to look at making a change.
+
+1097 
+00:43:12.581 --> 00:43:14.230
+So, I've been coding awayon my app for a while and
+
+1098 
+00:43:14.231 --> 00:43:19.950
+I realized that I really want arating property on my product, okay?
+
+1099 
+00:43:21.200 --> 00:43:22.430
+>> Social interactions.
+
+1100 
+00:43:22.431 --> 00:43:26.050
+>> Yes, absolutely, okay, So,at this point my model and
+
+1101 
+00:43:26.051 --> 00:43:27.020
+my database are out of sync.
+
+1102 
+00:43:27.021 --> 00:43:28.960
+There's no ratingcolumn in the database.
+
+1103 
+00:43:28.961 --> 00:43:30.370
+So, I'm gonna use immigration.
+
+1104 
+00:43:30.371 --> 00:43:33.330
+>> So, I'm gonna ask the question.
+
+1105 
+00:43:33.331 --> 00:43:34.070
+>> Go for it.
+
+1106 
+00:43:34.071 --> 00:43:35.270
+>> So what if they're out of sync?
+
+1107 
+00:43:35.271 --> 00:43:38.465
+That's where we start to seethat white screen error, right?
+
+1108 
+00:43:38.466 --> 00:43:39.190
+>> Mm-hm.>> Okay.
+
+1109 
+00:43:39.191 --> 00:43:41.770
+>> So, if I tried to selectproducts, it would try to select
+
+1110 
+00:43:41.771 --> 00:43:44.680
+the rating for the product and itwould generate invalid cycle because
+
+1111 
+00:43:44.681 --> 00:43:46.680
+it would try to selectfrom the rating column.
+
+1112 
+00:43:46.681 --> 00:43:49.580
+And there wouldn't be one, soI would see a SQL exception.
+
+1113 
+00:43:49.581 --> 00:43:50.510
+>> Okay.>> And, to your point,
+
+1114 
+00:43:50.511 --> 00:43:54.360
+if you have the database separationname it would be smart and tell you
+
+1115 
+00:43:54.361 --> 00:43:56.840
+this is probably because your modeland your database are out of sync.
+
+1116 
+00:43:56.841 --> 00:43:58.380
+You should scaffold a new migration.
+
+1117 
+00:43:58.381 --> 00:43:59.330
+>> Okay.
+
+1118 
+00:43:59.331 --> 00:44:02.280
+It never generates a select star,because it is
+
+1119 
+00:44:02.281 --> 00:44:05.170
+generating the select statementwith each of the properties listed.
+
+1120 
+00:44:05.171 --> 00:44:07.280
+>> Yep.>> Because you added the property
+
+1121 
+00:44:07.281 --> 00:44:08.370
+on C# side.
+
+1122 
+00:44:08.371 --> 00:44:12.290
+It doesn't exist SQLServer side soit has that disconnect.
+
+1123 
+00:44:12.291 --> 00:44:15.330
+>> Helps us know ahead of time thatall those columns need to be present
+
+1124 
+00:44:15.331 --> 00:44:16.000
+in this statement.
+
+1125 
+00:44:16.001 --> 00:44:19.710
+>> So, do you have that same problemif you add a field to SQLServer and
+
+1126 
+00:44:19.711 --> 00:44:20.520
+you don't have it in C#?
+
+1127 
+00:44:20.521 --> 00:44:21.910
+>> Depends what you're trying to do.
+
+1128 
+00:44:21.911 --> 00:44:23.850
+>> Okay.>> So, In terms of select, no.
+
+1129 
+00:44:23.851 --> 00:44:25.450
+Because to your point,we don't do a select star.
+
+1130 
+00:44:25.451 --> 00:44:27.100
+We only select the columnswe care about and
+
+1131 
+00:44:27.101 --> 00:44:29.990
+it's perfectly valid to havecolumns in your database.
+
+1132 
+00:44:29.991 --> 00:44:31.570
+That you don't care aboutin your application.
+
+1133 
+00:44:31.571 --> 00:44:32.130
+>> Okay.
+
+1134 
+00:44:32.131 --> 00:44:34.655
+>> So, maybe you have a particularcolumn that the DBI keeps
+
+1135 
+00:44:34.656 --> 00:44:38.590
+up-to-date, or a column that'smaintained by a completely separate application
+
+1136 
+00:44:38.591 --> 00:44:38.730
+>> Sure.
+
+1137 
+00:44:38.731 --> 00:44:40.530
+>> That isn't related tothe line you are working on.
+
+1138 
+00:44:40.531 --> 00:44:41.590
+>> Not in my context.
+
+1139 
+00:44:41.591 --> 00:44:44.350
+>> Yeah, so for a select it's notgonna matter because we'll just skip
+
+1140 
+00:44:44.351 --> 00:44:45.850
+that column from the statement. Yep.
+
+1141 
+00:44:45.851 --> 00:44:46.810
+>> For an insert,
+
+1142 
+00:44:46.811 --> 00:44:49.620
+it's not gonna matter as longas the database is set up to
+
+1143 
+00:44:49.621 --> 00:44:52.530
+allow either null or it hasa default value on that column.
+
+1144 
+00:44:52.531 --> 00:44:55.350
+So, it's not gonna matter if wemiss it from instant statement.
+
+1145 
+00:44:55.351 --> 00:44:57.140
+>> Got you, that makes sense, okay.
+
+1146 
+00:44:57.141 --> 00:44:58.230
+>> So, that is perfectly valid.
+
+1147 
+00:44:58.231 --> 00:44:59.250
+>> Cool.
+
+1148 
+00:44:59.251 --> 00:45:00.430
+>> Again,I can call this whatever I want.
+
+1149 
+00:45:00.431 --> 00:45:03.480
+I'm gonna call it ProductRatings cuzthat will help me remember what this
+
+1150 
+00:45:03.481 --> 00:45:07.760
+guy did Now what it's doingat the moment is working out
+
+1151 
+00:45:07.761 --> 00:45:10.840
+what changed since Igenerated the last migration.
+
+1152 
+00:45:10.841 --> 00:45:14.170
+This is where that snapshot filethat I pointed to comes into play.
+
+1153 
+00:45:14.171 --> 00:45:19.060
+So, this snapshot, over here, andsolution explorer is a snapshot of
+
+1154 
+00:45:19.061 --> 00:45:22.020
+what the model looked like whenthe last migration was generated.
+
+1155 
+00:45:22.021 --> 00:45:25.110
+And the way EF works out what'schanged is it runs your code and
+
+1156 
+00:45:25.111 --> 00:45:26.750
+gets your current model.
+
+1157 
+00:45:26.751 --> 00:45:30.660
+It runs this product snapshot codeto get the previous model and
+
+1158 
+00:45:30.661 --> 00:45:32.330
+then it does it different forthe two of them.
+
+1159 
+00:45:32.331 --> 00:45:33.050
+And in this case, it's gonna
+
+1160 
+00:45:33.051 --> 00:45:35.250
+work out that there wasa ratings property added.
+
+1161 
+00:45:35.251 --> 00:45:38.210
+Which should result in a ratingscolumn being added in the database.
+
+1162 
+00:45:40.260 --> 00:45:42.850
+>> So, at some point thatsnapshot will be updated.
+
+1163 
+00:45:42.851 --> 00:45:46.300
+>> Yeah, this snapshot now hasthe ratings Property in it.
+
+1164 
+00:45:46.301 --> 00:45:46.820
+>> Okay, so
+
+1165 
+00:45:46.821 --> 00:45:50.658
+if we're going to look through itwe found the products one, we'd say
+
+1166 
+00:45:50.659 --> 00:45:52.892
+there's a Property [CROSSTALK]>> There's a rating?
+
+1167 
+00:45:52.893 --> 00:45:53.453
+>> Yeah.
+
+1168 
+00:45:53.454 --> 00:45:56.418
+Now this is very weakly typedbecause I might later on in
+
+1169 
+00:45:56.419 --> 00:45:58.950
+the future delete thatratings property.
+
+1170 
+00:45:58.951 --> 00:46:01.790
+And so this code doesn'treference your model at all.
+
+1171 
+00:46:01.791 --> 00:46:04.220
+It's kind of weakly-ish typed.
+
+1172 
+00:46:04.221 --> 00:46:08.500
+So, it doesn't matter what happensNow migrations are the code,
+
+1173 
+00:46:08.501 --> 00:46:10.990
+they're not, don't thinkof them as designer code.
+
+1174 
+00:46:10.991 --> 00:46:11.570
+>> No.
+
+1175 
+00:46:11.571 --> 00:46:14.540
+>> These are not, you can touchthese things, we don't know get it
+
+1176 
+00:46:14.541 --> 00:46:17.030
+right, this is our estimate of whatneeds to happen in the database.
+
+1177 
+00:46:17.031 --> 00:46:19.276
+Now for simple operationslike adding a column,
+
+1178 
+00:46:19.277 --> 00:46:22.507
+it's gonna be right but I mightwanna it like default value for
+
+1179 
+00:46:22.508 --> 00:46:24.920
+the existing data in the database.
+
+1180 
+00:46:24.921 --> 00:46:27.240
+Rating of zero doesn'tnecessarily make sense for
+
+1181 
+00:46:27.241 --> 00:46:28.000
+all the existing products.
+
+1182 
+00:46:28.001 --> 00:46:30.330
+I might say all our existingproducts should get a default value
+
+1183 
+00:46:30.331 --> 00:46:31.510
+of three.
+
+1184 
+00:46:31.511 --> 00:46:33.040
+>> So, I can enter this code.
+
+1185 
+00:46:33.041 --> 00:46:34.250
+I might want to reorder operation.
+
+1186 
+00:46:34.251 --> 00:46:39.050
+I might know why in my generateddrop and create a new column, but I
+
+1187 
+00:46:39.051 --> 00:46:41.980
+actually know that that data shouldbe copied across before we drop so
+
+1188 
+00:46:41.981 --> 00:46:43.670
+I can write extra stuff in here.
+
+1189 
+00:46:45.820 --> 00:46:48.470
+It's got a package managerconsole we'll run the update.
+
+1190 
+00:46:48.471 --> 00:46:49.165
+>> Update database again.
+
+1191 
+00:46:49.166 --> 00:46:49.665
+>> Database command.
+
+1192 
+00:46:54.999 --> 00:46:58.259
+Now what it's doing it's looking atall of the migrations in my solution
+
+1193 
+00:46:58.260 --> 00:46:59.711
+or in my compiled application.
+
+1194 
+00:46:59.712 --> 00:47:00.584
+There's two of them now.
+
+1195 
+00:47:00.585 --> 00:47:03.770
+It's looking in the migrationhistory table in the database.
+
+1196 
+00:47:03.771 --> 00:47:05.500
+It only has one recordthat is applied to it,
+
+1197 
+00:47:05.501 --> 00:47:08.460
+now it knows that it needsto apply my product ratings.
+
+1198 
+00:47:08.461 --> 00:47:11.080
+>> It did the diff between the two,to see here's the one's that I need
+
+1199 
+00:47:11.081 --> 00:47:14.680
+to apply, and then there's an orderthat they need to be applied.
+
+1200 
+00:47:14.681 --> 00:47:15.240
+>> Yep, absolutely.
+
+1201 
+00:47:15.241 --> 00:47:17.340
+So, this is a date andtime stamp at the start of them,
+
+1202 
+00:47:17.341 --> 00:47:19.020
+and this defines the order.
+
+1203 
+00:47:19.021 --> 00:47:20.660
+>> Cool, they're applied in.
+
+1204 
+00:47:20.661 --> 00:47:23.230
+>> Okay, now in both of my casesthere's only been one pending
+
+1205 
+00:47:23.231 --> 00:47:25.800
+migration but of course Imight be a developer that
+
+1206 
+00:47:25.801 --> 00:47:28.640
+pulls this applicationfrom source control.
+
+1207 
+00:47:28.641 --> 00:47:30.810
+And I run update database andI don't have a database yet
+
+1208 
+00:47:30.811 --> 00:47:33.340
+in which case it will createthe database and it will apply our
+
+1209 
+00:47:33.341 --> 00:47:37.360
+first migration, then our secondmigration and now I'm up to date.
+
+1210 
+00:47:37.361 --> 00:47:38.160
+Cool.
+
+1211 
+00:47:38.161 --> 00:47:39.900
+>> Okay.And just to show that it work.
+
+1212 
+00:47:39.901 --> 00:47:43.350
+If we go and look in the migrationhistory table.Review
+
+1213 
+00:47:43.351 --> 00:47:44.090
+the data on that.
+
+1214 
+00:47:46.080 --> 00:47:46.760
+>> To records.
+
+1215 
+00:47:46.761 --> 00:47:49.220
+>> To records.That's what would we expect.
+
+1216 
+00:47:49.221 --> 00:47:50.890
+And if i look at the products table.
+
+1217 
+00:47:53.220 --> 00:47:54.590
+I will now see the new rating.
+
+1218 
+00:47:54.591 --> 00:47:55.430
+>> The rating, cool.
+
+1219 
+00:47:55.431 --> 00:47:55.930
+>> I'll introduce that.
+
+1220 
+00:47:58.516 --> 00:48:00.674
+Okay, any questions onhow migrations work?
+
+1221 
+00:48:00.675 --> 00:48:04.620
+>> No, no, you've answered them verywell as we've been going along.
+
+1222 
+00:48:04.621 --> 00:48:05.260
+>> Okay, great.
+
+1223 
+00:48:06.640 --> 00:48:09.270
+The last thing I wanted toleave you with, obviously this
+
+1224 
+00:48:09.271 --> 00:48:12.090
+has been a skim acrossthe surface of what EF can do.
+
+1225 
+00:48:12.091 --> 00:48:13.070
+>> Sure.
+
+1226 
+00:48:13.071 --> 00:48:16.569
+>> So, I just wanted toclose by linking to our docs
+
+1227 
+00:48:17.580 --> 00:48:19.100
+>> Lets close down this and
+
+1228 
+00:48:19.101 --> 00:48:22.395
+go back into edge,now the site im going to is
+
+1229 
+00:48:22.396 --> 00:48:26.640
+docs.efproject.net this willlink to our documentation for
+
+1230 
+00:48:26.641 --> 00:48:30.840
+Entity Framework Core OK, and you'llsee the things I've organized,
+
+1231 
+00:48:30.841 --> 00:48:34.380
+we have getting started for each ofthe different types of platforms, so
+
+1232 
+00:48:34.381 --> 00:48:37.690
+were looking at getting started forasp.netcore Then this would give
+
+1233 
+00:48:37.691 --> 00:48:39.740
+a walk through very similarto what we just did now.
+
+1234 
+00:48:39.741 --> 00:48:40.320
+>> Right.Okay.
+
+1235 
+00:48:40.321 --> 00:48:44.220
+>> And then the sections are reallyorganized into the same way that we
+
+1236 
+00:48:44.221 --> 00:48:45.960
+had our module organize today.
+
+1237 
+00:48:45.961 --> 00:48:47.730
+So, there's a sectionon creating a model and
+
+1238 
+00:48:47.731 --> 00:48:51.890
+I talked about how you do things,one of the things that we looked at,
+
+1239 
+00:48:51.891 --> 00:48:54.060
+we we're looking at renamingrelationships we had or
+
+1240 
+00:48:54.061 --> 00:49:00.100
+specifying data types So we had datatypes here that was example we did.
+
+1241 
+00:49:00.101 --> 00:49:02.550
+We mapped to the money data type so
+
+1242 
+00:49:02.551 --> 00:49:06.149
+you'll see here as an exampleof mapping to Varchar 200.
+
+1243 
+00:49:06.150 --> 00:49:06.879
+>> Sure.>> Okay so
+
+1244 
+00:49:06.880 --> 00:49:10.479
+how that you would find all thatstuff if I'm creating a model and
+
+1245 
+00:49:10.480 --> 00:49:13.013
+then there is querying data andsaving data,
+
+1246 
+00:49:13.014 --> 00:49:14.946
+which were the two topics which and
+
+1247 
+00:49:14.947 --> 00:49:18.428
+that covers the vast majorityof operations [CROSSTALK] Cool.
+
+1248 
+00:49:18.429 --> 00:49:20.659
+>> All right soI think that's a good introduction,
+
+1249 
+00:49:20.660 --> 00:49:22.102
+obviously there's a lot more.
+
+1250 
+00:49:22.103 --> 00:49:25.482
+But folks can go off and learn that,browse through our docs and yeah,
+
+1251 
+00:49:25.483 --> 00:49:27.269
+get up and running with data access.
+
+1252 
+00:49:27.270 --> 00:49:31.022
+>> That's a great intro andthat gets you 80 to 90% there for
+
+1253 
+00:49:31.023 --> 00:49:33.560
+most of the stuff that you need.
+
+1254 
+00:49:33.561 --> 00:49:35.939
+So, thank's so much for joining us.
+
+1255 
+00:49:37.440 --> 00:49:40.340
+That's what we're gonna talk about,it's all we've got for
+
+1256 
+00:49:40.341 --> 00:49:42.100
+the entity frameworkmodule here today.
+
+1257 
+00:49:43.570 --> 00:49:46.265
+Come on back in a little bit,we're gonna talk about publishing.
+
+1258 
+00:49:46.266 --> 00:49:50.463
+Our applications in the nextmodule of the ASP Net Core 1.0
+
+1259 
+00:49:50.464 --> 00:49:51.787
+Virtual Academy.
+

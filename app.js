@@ -6,6 +6,10 @@
  */
 var https = require("https");
 var subtitleUrl = "https://cp-mlxprod-static.microsoft.com/014952-1005/en-us/content/content_kvl35kmjd_4306218965/video_cc.xml?v=636172487285008486";
+    subtitleUrl = "https://cp-mlxprod-static.microsoft.com/014952-1006/en-us/content/content_cm8fklmjd_4006218965/video_cc.xml?v=636172487514221799";
+    subtitleUrl = "https://cp-mlxprod-static.microsoft.com/014952-1006/en-us/content/content_yrzdzlmjd_5906218965/video_cc.xml?v=636172502424382948";
+    subtitleUrl = "https://cp-mlxprod-static.microsoft.com/014952-1006/en-us/content/content_8s9b3lmjd_5906218965/video_cc.xml?v=636172502992476793";
+    subtitleUrl = "https://cp-mlxprod-static.microsoft.com/014952-1006/en-us/content/content_xdlmnmmjd_4806218965/video_cc.xml?v=636172488010302396";
 var parseString = require('xml2js').parseString;
 var fs = require("fs");
 https.get(subtitleUrl, res=>{
@@ -25,7 +29,10 @@ https.get(subtitleUrl, res=>{
     res.setEncoding("utf-8");
     let rawdata =  '';
     let result = "";
-    var fileName = "Introduction to tag helpers.srt";
+    var fileName = "authentication.srt";
+        fileName = "Custom Middleware.srt";
+        fileName = "Depedeny Injection.srt";
+        fileName = "Entity framework core.srt";
     res.on("data",(chunk)=>rawdata+=chunk);
     res.on("end",()=>{
         // console.log(rawdata);

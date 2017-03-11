@@ -1,0 +1,2396 @@
+1 
+00:00:00.620 --> 00:00:03.959
+Hey, we're back andit's intermediate ASP.NET Core 1.0,
+
+2 
+00:00:03.960 --> 00:00:05.060
+I'm Scott Hansman.
+
+3 
+00:00:05.061 --> 00:00:06.508
+>> I'm Jeff Fritz>> And
+
+4 
+00:00:06.509 --> 00:00:11.630
+moving our way forward toa different sections of ASP.NET.
+
+5 
+00:00:11.631 --> 00:00:13.987
+We talked a littleabout tag helpers and
+
+6 
+00:00:13.988 --> 00:00:16.781
+right now let's talkabout authentication.
+
+7 
+00:00:16.782 --> 00:00:18.597
+>> That's different fromauthorization, isn't it?
+
+8 
+00:00:18.598 --> 00:00:20.732
+>> Yes.They call it auth-auth. Right?
+
+9 
+00:00:20.733 --> 00:00:21.162
+>> Yeah
+
+10 
+00:00:21.163 --> 00:00:23.373
+>> Authentication and authorization.
+
+11 
+00:00:23.374 --> 00:00:25.491
+There's some things that are built
+
+12 
+00:00:25.492 --> 00:00:28.025
+into ASP.NET identityout of the box.
+
+13 
+00:00:28.026 --> 00:00:32.823
+So if we take a look here on mymachine, and I say file new project,
+
+14 
+00:00:32.824 --> 00:00:36.925
+and I pick a core applicationby default and we hit Okay,
+
+15 
+00:00:36.926 --> 00:00:42.164
+you see the options on the left areEmpty, Web API and Web Application,
+
+16 
+00:00:42.165 --> 00:00:47.261
+but don't forget this button whereit says change authentication.
+
+17 
+00:00:47.262 --> 00:00:49.251
+By default it says no auth.
+
+18 
+00:00:49.252 --> 00:00:50.542
+>> That's the way I'd normally rule.
+
+19 
+00:00:50.543 --> 00:00:51.548
+>> Right, there's no auth.
+
+20 
+00:00:51.549 --> 00:00:52.267
+>> Everybody gets it.
+
+21 
+00:00:52.268 --> 00:00:54.120
+>> Anonymous for everyone.
+
+22 
+00:00:54.121 --> 00:00:56.500
+If you click onindividual user accounts,
+
+23 
+00:00:56.501 --> 00:00:59.620
+you'll store user profilein a SQL database.
+
+24 
+00:00:59.621 --> 00:01:03.900
+You can also plug in to activedirectory or Office365 or
+
+25 
+00:01:03.901 --> 00:01:05.740
+you can use kind of Windows or
+
+26 
+00:01:05.741 --> 00:01:09.920
+classic NTLM authentication forintranet applications.
+
+27 
+00:01:09.921 --> 00:01:13.300
+I'm gonna clickIndividual User Accounts, all right?
+
+28 
+00:01:13.301 --> 00:01:14.920
+I did that before.
+
+29 
+00:01:14.921 --> 00:01:16.880
+So I'll switch over tothe one I did that on.
+
+30 
+00:01:16.881 --> 00:01:19.870
+And you're gonna get an MVC
+
+31 
+00:01:19.871 --> 00:01:24.040
+application that's got a little bitmore going on than typical, right?
+
+32 
+00:01:24.041 --> 00:01:27.840
+You don't just have controller causeyou have an account controller and
+
+33 
+00:01:27.841 --> 00:01:31.080
+a manage controller as inaddition to the home one that
+
+34 
+00:01:31.081 --> 00:01:32.500
+we saw before, okay?
+
+35 
+00:01:33.800 --> 00:01:37.840
+You also gonna have some databasemigration for the database.
+
+36 
+00:01:37.841 --> 00:01:40.340
+We'll talk about those whenwe get to entity framework,
+
+37 
+00:01:40.341 --> 00:01:42.470
+but rest assured there is one there.
+
+38 
+00:01:43.530 --> 00:01:45.850
+Then there is the View Models.
+
+39 
+00:01:45.851 --> 00:01:48.580
+We talked a little aboutView Models in our first day.
+
+40 
+00:01:49.620 --> 00:01:54.220
+The View Models representthe information that is being
+
+41 
+00:01:54.221 --> 00:01:57.410
+displayed when you login, orwhen you forget your password,
+
+42 
+00:01:57.411 --> 00:02:00.135
+or when you need to send the codefor two factor authentication.
+
+43 
+00:02:00.136 --> 00:02:03.385
+>> It is being massaged fromthe database to include that extra
+
+44 
+00:02:03.386 --> 00:02:04.985
+information that youwant to display,
+
+45 
+00:02:04.986 --> 00:02:07.675
+it is not necessary allcoming from one table.
+
+46 
+00:02:07.676 --> 00:02:08.615
+>> Exactly.
+
+47 
+00:02:08.616 --> 00:02:11.428
+When, if the database happento look exactly like the view,
+
+48 
+00:02:11.429 --> 00:02:14.175
+you might bring that over, butmore often than not it doesn't.
+
+49 
+00:02:14.176 --> 00:02:14.675
+>> Yeah.>> So
+
+50 
+00:02:14.676 --> 00:02:18.140
+these objects hold that modelas it goes up the view.
+
+51 
+00:02:18.141 --> 00:02:19.060
+Excellent.
+
+52 
+00:02:19.061 --> 00:02:22.800
+And then here under services,theoretically our application could
+
+53 
+00:02:22.801 --> 00:02:27.290
+send emails if forgot your password,or send a text message.
+
+54 
+00:02:27.291 --> 00:02:30.220
+Those messaging servicesare encapsulated within those
+
+55 
+00:02:31.430 --> 00:02:31.980
+interfaces.
+
+56 
+00:02:33.010 --> 00:02:35.740
+We got our home aboutstuff that we saw before.
+
+57 
+00:02:35.741 --> 00:02:38.765
+But we've also got manage logins andall those kinds of things.
+
+58 
+00:02:38.766 --> 00:02:42.885
+Now we saw tag helpers, butit is worthwhile to kinda go and
+
+59 
+00:02:42.886 --> 00:02:47.270
+look at what a fairly sophisticatedlooking page looks like.
+
+60 
+00:02:47.271 --> 00:02:51.390
+And it is a mixture of logic andtag helpers.
+
+61 
+00:02:51.391 --> 00:02:54.320
+>> Yeah,I'm looking at the form element now.
+
+62 
+00:02:54.321 --> 00:02:56.040
+And that one's in purple.
+
+63 
+00:02:56.041 --> 00:03:01.700
+And I'm seeing now that similarASP action type thing that we saw
+
+64 
+00:03:01.701 --> 00:03:05.860
+on the anchor tag and now it'san attribute here pointing to where,
+
+65 
+00:03:05.861 --> 00:03:08.440
+I'm guessing,we're gonna post that form back to.
+
+66 
+00:03:08.441 --> 00:03:10.550
+>> Right, so here we're gonna go and
+
+67 
+00:03:10.551 --> 00:03:13.480
+talk to the managed controllercalling RemoveLogIn.
+
+68 
+00:03:13.481 --> 00:03:15.180
+We've set it up as a post, and
+
+69 
+00:03:15.181 --> 00:03:18.700
+then we're gonna post thisform back to that controller.
+
+70 
+00:03:18.701 --> 00:03:21.630
+Only if this particularbit of information
+
+71 
+00:03:21.631 --> 00:03:23.930
+in the view data is seen. Okay?
+
+72 
+00:03:23.931 --> 00:03:25.080
+Let's take a look at what this looks
+
+73 
+00:03:25.081 --> 00:03:26.100
+like first.
+
+74 
+00:03:26.101 --> 00:03:27.404
+All right?
+
+75 
+00:03:27.405 --> 00:03:32.141
+So we'll hit control F5.
+
+76 
+00:03:32.142 --> 00:03:33.356
+And we'll run our application.
+
+77 
+00:03:33.357 --> 00:03:35.600
+I like to hit control F5.
+
+78 
+00:03:35.601 --> 00:03:39.440
+Rather than F5, because I findthat it's faster than debugging?
+
+79 
+00:03:39.441 --> 00:03:40.110
+>> It is?
+
+80 
+00:03:40.111 --> 00:03:42.190
+>> Mhm.Do you do that?
+
+81 
+00:03:42.191 --> 00:03:42.770
+>> No.
+
+82 
+00:03:42.771 --> 00:03:44.830
+I like having the debugger attached.
+
+83 
+00:03:44.831 --> 00:03:48.503
+I guess I'm a little bitmore insecure in my coding.
+
+84 
+00:03:48.504 --> 00:03:50.721
+>> Interesting.>> And I want that debugger there so
+
+85 
+00:03:50.722 --> 00:03:51.860
+that I can reach in.
+
+86 
+00:03:51.861 --> 00:03:53.596
+>> Sure.>> And get that intermediate window
+
+87 
+00:03:53.597 --> 00:03:56.497
+and start testing things,or bring up my watches.
+
+88 
+00:03:56.498 --> 00:03:57.388
+Immediately.
+
+89 
+00:03:57.389 --> 00:04:00.110
+>> Well, so speaking of debugging,here is an interesting thing I like
+
+90 
+00:04:00.111 --> 00:04:03.040
+personally when we're doing virtualacademies and things like this that
+
+91 
+00:04:03.041 --> 00:04:08.103
+if a mistake happen or if somethinggoes wrong I like to keep rolling.
+
+92 
+00:04:08.104 --> 00:04:09.888
+>> Sure.>> So take a look at this,
+
+93 
+00:04:09.889 --> 00:04:15.107
+I hit Ctrl+F5 to launch things andit launches up into this 44355,
+
+94 
+00:04:15.108 --> 00:04:18.153
+it's on a high port andit's not loading.
+
+95 
+00:04:18.154 --> 00:04:21.340
+So of course what do they say?
+
+96 
+00:04:21.341 --> 00:04:23.800
+The definition of insanity is tryingthe same thing over and over.
+
+97 
+00:04:23.801 --> 00:04:24.430
+>> Over and over again.
+
+98 
+00:04:24.431 --> 00:04:25.330
+So hit F5.>> Well
+
+99 
+00:04:25.331 --> 00:04:27.930
+nothing's gonna happen becauseit's obviously not working, right?
+
+100 
+00:04:27.931 --> 00:04:28.490
+>> Yeah.
+
+101 
+00:04:28.491 --> 00:04:32.660
+>> Now I can come down here toIIS Express though, all right.
+
+102 
+00:04:32.661 --> 00:04:34.490
+And find out what ports is on.
+
+103 
+00:04:34.491 --> 00:04:38.670
+Well it's on 61821,totally different port.
+
+104 
+00:04:38.671 --> 00:04:39.460
+>> Yeah.
+
+105 
+00:04:39.461 --> 00:04:41.390
+>> So we talked a littlebit about this before, but
+
+106 
+00:04:41.391 --> 00:04:43.130
+it's an important reminder.
+
+107 
+00:04:43.131 --> 00:04:47.460
+That the thing that controlsthe servers port is different
+
+108 
+00:04:47.461 --> 00:04:49.280
+from the thing thatlaunches the browser.
+
+109 
+00:04:49.281 --> 00:04:49.990
+>> Yeah.
+
+110 
+00:04:49.991 --> 00:04:52.670
+>> So I have to go intolaunch settings here and
+
+111 
+00:04:52.671 --> 00:04:55.050
+make sure that I'mdoing the right thing.
+
+112 
+00:04:55.051 --> 00:04:57.375
+My application URL and
+
+113 
+00:04:57.376 --> 00:05:01.020
+what URL I'm listening onare a little bit different.
+
+114 
+00:05:02.070 --> 00:05:06.490
+What I wanna do is remember have I
+
+115 
+00:05:06.491 --> 00:05:10.820
+turned on SSL or not.
+
+116 
+00:05:10.821 --> 00:05:15.310
+You can actually enable SSL locallyand then have I done anything to my
+
+117 
+00:05:15.311 --> 00:05:20.420
+application to always haveit talking over SSL and
+
+118 
+00:05:20.421 --> 00:05:26.000
+in fact a little bit earlier as Irecall I did something like that but
+
+119 
+00:05:26.001 --> 00:05:28.190
+what I wanna do isto turn on SSL here.
+
+120 
+00:05:28.191 --> 00:05:33.697
+And you'll notice there isunsecure and a secure port.
+
+121 
+00:05:33.698 --> 00:05:35.310
+>> And there is that port number,right.
+
+122 
+00:05:35.311 --> 00:05:36.700
+>> There is port number.
+
+123 
+00:05:36.701 --> 00:05:39.630
+Now, when I click that andhit Save and go on and run that,
+
+124 
+00:05:40.660 --> 00:05:46.110
+Visual studio may say wouldyou like us to trust this.
+
+125 
+00:05:46.111 --> 00:05:48.180
+This self-signed certificate.
+
+126 
+00:05:48.181 --> 00:05:49.940
+>> Yeah.>> I'm doing this under SSL
+
+127 
+00:05:49.941 --> 00:05:52.500
+because when I wanna domy development, I'm gonna
+
+128 
+00:05:54.910 --> 00:05:59.030
+be posting secure passwords andstuff around.
+
+129 
+00:05:59.031 --> 00:06:01.160
+So I wanna do it evenover kinda fake SSL.
+
+130 
+00:06:01.161 --> 00:06:02.070
+You know what I mean?
+
+131 
+00:06:02.071 --> 00:06:05.020
+>> Right,we wanna imitate as close to
+
+132 
+00:06:05.021 --> 00:06:07.375
+communicating acrossthe Internet as possible.
+
+133 
+00:06:07.376 --> 00:06:07.875
+>> Mm-hm.
+
+134 
+00:06:09.000 --> 00:06:14.729
+So this is still not working,so it's 44355.
+
+135 
+00:06:14.730 --> 00:06:15.891
+So I'm gonna go and confirm.
+
+136 
+00:06:15.892 --> 00:06:16.743
+I think that number is wrong.
+
+137 
+00:06:16.744 --> 00:06:17.693
+>> Yeah.
+
+138 
+00:06:17.694 --> 00:06:21.830
+>> 44321.
+
+139 
+00:06:21.831 --> 00:06:25.740
+The large settings filecontrols what gets launched.
+
+140 
+00:06:26.900 --> 00:06:29.270
+>> Okay.>> And then here is your app URL and
+
+141 
+00:06:29.271 --> 00:06:31.150
+here is your SSL port.
+
+142 
+00:06:31.151 --> 00:06:34.510
+If you mess with your portmanually as I tended to
+
+143 
+00:06:34.511 --> 00:06:36.040
+you can get those out of sync and
+
+144 
+00:06:36.041 --> 00:06:39.260
+you get yourself in a situationthat we just got ourselves into.
+
+145 
+00:06:39.261 --> 00:06:40.360
+So now let us give it a try.
+
+146 
+00:06:42.982 --> 00:06:47.290
+I'm gonna run our applicationon the right port and it works.
+
+147 
+00:06:47.291 --> 00:06:51.820
+Now to be clear,this is a SSL certificate, but
+
+148 
+00:06:51.821 --> 00:06:54.900
+if we look at this certificate,it's localhost.
+
+149 
+00:06:54.901 --> 00:06:57.390
+>> Yeah.>> It's a trusted certificate that
+
+150 
+00:06:57.391 --> 00:06:59.190
+I generated and consciously trusted.
+
+151 
+00:06:59.191 --> 00:07:00.960
+It is not a good thing.
+
+152 
+00:07:00.961 --> 00:07:03.920
+It's just there becausewe wanna do some testing.
+
+153 
+00:07:03.921 --> 00:07:06.750
+And additionally,when you do external logins,
+
+154 
+00:07:06.751 --> 00:07:09.490
+they don't like to postback to insecure locations.
+
+155 
+00:07:09.491 --> 00:07:11.820
+So if you gonna try Facebook orTwitter login,
+
+156 
+00:07:11.821 --> 00:07:14.970
+they don't like to redirect backto local hosts without SSL.
+
+157 
+00:07:14.971 --> 00:07:16.390
+>> Right.
+
+158 
+00:07:16.391 --> 00:07:17.950
+The local host stuff there,
+
+159 
+00:07:17.951 --> 00:07:19.990
+you're not gonna go outto production with this.
+
+160 
+00:07:19.991 --> 00:07:23.270
+You are gonna have to engage andget a real SSL Certificate.
+
+161 
+00:07:23.271 --> 00:07:28.030
+>> Absolutely, so here,I can go and put in a name and
+
+162 
+00:07:28.031 --> 00:07:30.480
+password anddo local authentication.
+
+163 
+00:07:30.481 --> 00:07:34.227
+So I'm gonna go andregister this locally and login.
+
+164 
+00:07:34.228 --> 00:07:39.180
+And you'll notice that it sayscannot open this database.
+
+165 
+00:07:39.181 --> 00:07:42.070
+>> I think this isthe coolest new little
+
+166 
+00:07:42.071 --> 00:07:44.734
+white screen error page thatis in ASP.NET Core app.
+
+167 
+00:07:44.735 --> 00:07:45.247
+This is really.>> Yeah, yeah.
+
+168 
+00:07:45.248 --> 00:07:46.500
+It's not the yellow screen of death.
+
+169 
+00:07:46.501 --> 00:07:47.073
+>> No.
+
+170 
+00:07:47.074 --> 00:07:48.980
+>> It's the calming lightblue screen of death.
+
+171 
+00:07:48.981 --> 00:07:50.220
+>> It's you know what?
+
+172 
+00:07:50.221 --> 00:07:52.300
+Something's wrong here, butlet me help you fix it.
+
+173 
+00:07:52.301 --> 00:07:54.240
+>> Yeah.So here it saying, well,
+
+174 
+00:07:54.241 --> 00:07:55.680
+there is no identity schema, so
+
+175 
+00:07:55.681 --> 00:07:59.420
+it's saying that the databasehas not yet been updated.
+
+176 
+00:07:59.421 --> 00:08:02.370
+And is letting me know that Ican potentially do that here.
+
+177 
+00:08:02.371 --> 00:08:05.640
+Or I could click apply migration andit will try to do it for me.
+
+178 
+00:08:05.641 --> 00:08:08.970
+So the error page is tryingto fix this problem.
+
+179 
+00:08:08.971 --> 00:08:11.150
+It may or may not work,we will find out.
+
+180 
+00:08:12.410 --> 00:08:15.620
+Typically this can bea two steps process.
+
+181 
+00:08:15.621 --> 00:08:18.550
+So here it says, I didthe migrations, refresh the page.
+
+182 
+00:08:19.720 --> 00:08:22.880
+And then I could come back anddo that again.
+
+183 
+00:08:24.580 --> 00:08:27.700
+But did it createeverything it needed to?
+
+184 
+00:08:29.100 --> 00:08:30.910
+Make sure that that's correct.
+
+185 
+00:08:33.923 --> 00:08:37.948
+My password skillsare well-known and epic.
+
+186 
+00:08:40.118 --> 00:08:41.100
+For crying out loud.
+
+187 
+00:08:42.200 --> 00:08:44.940
+That's an exampleof good validation.
+
+188 
+00:08:44.941 --> 00:08:46.080
+>> Very good validation.
+
+189 
+00:08:46.081 --> 00:08:52.420
+But all of the security checks foryour password are enabled.
+
+190 
+00:08:52.421 --> 00:08:53.370
+>> It's slowing me down.
+
+191 
+00:08:53.371 --> 00:08:53.880
+There we go.
+
+192 
+00:08:53.881 --> 00:08:54.500
+>> There you go.
+
+193 
+00:08:54.501 --> 00:08:57.850
+>> So now>> Now, to be clear,
+
+194 
+00:08:57.851 --> 00:09:01.070
+those security checksare by default defined.
+
+195 
+00:09:01.071 --> 00:09:02.720
+They're in our account controller.
+
+196 
+00:09:02.721 --> 00:09:04.450
+>> That's a great point.
+
+197 
+00:09:04.451 --> 00:09:08.290
+>> And you can change those tomeet your needs appropriately for
+
+198 
+00:09:08.291 --> 00:09:10.740
+your environment if you'remanaging your own users.
+
+199 
+00:09:10.741 --> 00:09:11.270
+>> Right.
+
+200 
+00:09:11.271 --> 00:09:14.670
+So we're building on topof this identity user.
+
+201 
+00:09:14.671 --> 00:09:19.010
+We can actually login to,where is our login page account?
+
+202 
+00:09:19.011 --> 00:09:20.930
+>> Login, you can see all this.
+
+203 
+00:09:20.931 --> 00:09:24.040
+Again, you don't want to rollyour own crypto, as they say.
+
+204 
+00:09:24.041 --> 00:09:27.110
+But you can certainlydecided what you're password
+
+205 
+00:09:28.940 --> 00:09:30.960
+complexity requirements are.
+
+206 
+00:09:30.961 --> 00:09:32.630
+And all that kind of stuff.
+
+207 
+00:09:32.631 --> 00:09:34.550
+So you have control over that.
+
+208 
+00:09:34.551 --> 00:09:36.530
+Now look down here.
+
+209 
+00:09:36.531 --> 00:09:39.535
+It says use anotherservice to login.
+
+210 
+00:09:40.800 --> 00:09:44.200
+All right?And then it says, get external
+
+211 
+00:09:44.201 --> 00:09:47.430
+authentication schemes, meaningI wanna log in with Facebook,
+
+212 
+00:09:47.431 --> 00:09:50.310
+I wanna login with Twitter, orI wanna log in with whatever.
+
+213 
+00:09:50.311 --> 00:09:51.021
+>> And you know what?
+
+214 
+00:09:51.022 --> 00:09:54.931
+Facebook I think is being able tologin with Facebook to another
+
+215 
+00:09:54.932 --> 00:09:56.789
+application is so valuable.
+
+216 
+00:09:56.790 --> 00:10:00.523
+Because there are people like,I talk about my parents, or
+
+217 
+00:10:00.524 --> 00:10:01.952
+my mother-in-law.
+
+218 
+00:10:01.953 --> 00:10:03.837
+Who they have their Facebook IDs.
+
+219 
+00:10:03.838 --> 00:10:06.493
+They wanna be able to just getinto that next application.
+
+220 
+00:10:06.494 --> 00:10:09.064
+Without having to go createanother user ID and password.
+
+221 
+00:10:09.065 --> 00:10:10.649
+>> Yep, absolutely.
+
+222 
+00:10:10.650 --> 00:10:12.101
+Actually we made an acronym,
+
+223 
+00:10:12.102 --> 00:10:14.920
+non gender specificnon technical parent.
+
+224 
+00:10:14.921 --> 00:10:16.640
+>> Okay.>> And
+
+225 
+00:10:16.641 --> 00:10:18.710
+my parents are like that as well.
+
+226 
+00:10:18.711 --> 00:10:21.477
+And if my dad can log in withFacebook, then he is happy.
+
+227 
+00:10:21.478 --> 00:10:23.299
+So, on the right hand side it says.
+
+228 
+00:10:23.300 --> 00:10:26.380
+There are no externalauthentication services configured.
+
+229 
+00:10:26.381 --> 00:10:27.650
+What made that?
+
+230 
+00:10:28.700 --> 00:10:29.570
+That's this.
+
+231 
+00:10:29.571 --> 00:10:33.110
+SignInManager says,are there any other login providers?
+
+232 
+00:10:33.111 --> 00:10:37.720
+You can register login providerswith ASP.NET, and it's all built in.
+
+233 
+00:10:37.721 --> 00:10:43.067
+What's nice about this is that thereis an article set up to do that.
+
+234 
+00:10:43.068 --> 00:10:46.959
+So, why don't we,rebels that we are, click on that.
+
+235 
+00:10:46.960 --> 00:10:52.090
+And try to enablesome Facebook logins.
+
+236 
+00:10:52.091 --> 00:10:52.616
+Shall we?
+
+237 
+00:10:52.617 --> 00:10:54.504
+>> Sure.>> You can also see that,
+
+238 
+00:10:54.505 --> 00:10:58.169
+by the way, if we go into Startup,let's try this.
+
+239 
+00:10:59.590 --> 00:11:02.360
+Let's just explore this just brieflybefore we get started actually.
+
+240 
+00:11:02.361 --> 00:11:06.360
+So, here's our Startup, we've gotour app settings, that's cool.
+
+241 
+00:11:06.361 --> 00:11:08.196
+There's gonna be this UserSecrets.
+
+242 
+00:11:08.197 --> 00:11:11.176
+They're not really secret ina sense of they're encrypted.
+
+243 
+00:11:11.177 --> 00:11:12.910
+They're just not inthe current folder.
+
+244 
+00:11:12.911 --> 00:11:14.298
+>> They're not inthe current folder.
+
+245 
+00:11:14.299 --> 00:11:18.280
+They're hidden so that you can'taccidentally check them into GitHub.
+
+246 
+00:11:18.281 --> 00:11:18.815
+>> Right.
+
+247 
+00:11:18.816 --> 00:11:20.534
+So, UserSecrets are meant so
+
+248 
+00:11:20.535 --> 00:11:24.054
+that you don't hurt yourselfby checking in secret things.
+
+249 
+00:11:24.055 --> 00:11:24.604
+>> Yeah, yeah.
+
+250 
+00:11:24.605 --> 00:11:27.213
+>> Like the key that we'regonna use to log into Facebook.
+
+251 
+00:11:27.214 --> 00:11:27.991
+>> Right.
+
+252 
+00:11:27.992 --> 00:11:29.963
+>> Okay, but they are not->> It's not like we're gonna publish
+
+253 
+00:11:29.964 --> 00:11:31.480
+that in a video thateverybody's gonna see.
+
+254 
+00:11:31.481 --> 00:11:32.745
+>> Right, exactly,you would never do that.
+
+255 
+00:11:32.746 --> 00:11:33.894
+>> No.
+
+256 
+00:11:33.895 --> 00:11:37.287
+>> So, then we've got ourdatabases and EntityFramework.
+
+257 
+00:11:37.288 --> 00:11:38.863
+And we'll hear about thata little bit later today.
+
+258 
+00:11:38.864 --> 00:11:39.542
+>> A little bit later.
+
+259 
+00:11:39.543 --> 00:11:40.830
+>> Yup, okay.
+
+260 
+00:11:40.831 --> 00:11:44.990
+We've got some logging middlewarethat we'll learn about as well.
+
+261 
+00:11:44.991 --> 00:11:47.640
+But then we just have UseIdentity().
+
+262 
+00:11:47.641 --> 00:11:48.590
+That's what we just did.
+
+263 
+00:11:48.591 --> 00:11:50.210
+We logged in as me.
+
+264 
+00:11:50.211 --> 00:11:51.540
+Local database.
+
+265 
+00:11:51.541 --> 00:11:52.320
+Local everything.
+
+266 
+00:11:52.321 --> 00:11:53.330
+Worked great.
+
+267 
+00:11:53.331 --> 00:11:54.770
+That's identity.
+
+268 
+00:11:54.771 --> 00:11:57.320
+External authenticationmiddleware will happen below.
+
+269 
+00:11:57.321 --> 00:12:02.300
+We're gonna take this link here andfollow that. Okay?
+
+270 
+00:12:02.301 --> 00:12:04.470
+So, here's our social logins.
+
+271 
+00:12:04.471 --> 00:12:06.953
+So, what we need todo is go to Facebook,
+
+272 
+00:12:06.954 --> 00:12:09.152
+to developers.facebook.apps.
+
+273 
+00:12:09.153 --> 00:12:12.740
+We'll use Facebook but we coulduse Twitter or whatever, okay?
+
+274 
+00:12:12.741 --> 00:12:16.405
+So, I will go andadd a new app, okay?
+
+275 
+00:12:16.406 --> 00:12:18.066
+Add a website.
+
+276 
+00:12:18.067 --> 00:12:20.440
+And we'll call it the MVA app.
+
+277 
+00:12:21.905 --> 00:12:23.120
+Create a new Facebook ID.
+
+278 
+00:12:24.220 --> 00:12:27.638
+Category, Entertainment,I have no idea.
+
+279 
+00:12:29.605 --> 00:12:31.300
+Okay, this is fun.
+
+280 
+00:12:31.301 --> 00:12:33.233
+Select all the photosthat show a lion.
+
+281 
+00:12:35.384 --> 00:12:37.821
+That's a nice watch.
+
+282 
+00:12:37.822 --> 00:12:39.819
+Hopefully, I am still a real person.
+
+283 
+00:12:42.198 --> 00:12:45.873
+All right, they're tellingus about our Facebook SDK.
+
+284 
+00:12:45.874 --> 00:12:47.754
+I don't need the Quick Start.
+
+285 
+00:12:47.755 --> 00:12:50.230
+Tell us about your website, right?
+
+286 
+00:12:50.231 --> 00:12:52.034
+So, where is our website?
+
+287 
+00:12:52.035 --> 00:12:54.771
+We're gonna skip some of this stuff.
+
+288 
+00:12:54.772 --> 00:12:58.022
+Because all I really care about isthe fact that I'm on localhost at
+
+289 
+00:12:58.023 --> 00:12:58.670
+this point.
+
+290 
+00:12:58.671 --> 00:13:00.330
+I wonder if they'll care.
+
+291 
+00:13:00.331 --> 00:13:01.350
+localhost.
+
+292 
+00:13:01.351 --> 00:13:04.192
+>> Some of those things that you'reskipping are things to configure.
+
+293 
+00:13:04.193 --> 00:13:07.559
+So, that when folks visitthe application on Facebook and
+
+294 
+00:13:07.560 --> 00:13:08.530
+they learn->> Exactly.
+
+295 
+00:13:08.531 --> 00:13:09.930
+>> About the application there,
+
+296 
+00:13:09.931 --> 00:13:12.570
+it's information to givethem context on Facebook.
+
+297 
+00:13:12.571 --> 00:13:17.400
+>> Exactly,what I really need to get
+
+298 
+00:13:17.401 --> 00:13:22.960
+this done is I need my App ID,and my App Secret.
+
+299 
+00:13:22.961 --> 00:13:27.550
+The problem is Facebook changestheir UI, every 20 minutes.
+
+300 
+00:13:27.551 --> 00:13:30.750
+So, you don't always getthe same stuff that you expect.
+
+301 
+00:13:30.751 --> 00:13:32.575
+So, here is my App ID.
+
+302 
+00:13:32.576 --> 00:13:35.480
+>> It's also in the header there,on that page.
+
+303 
+00:13:35.481 --> 00:13:37.335
+>> Excellent, click to copy.
+
+304 
+00:13:37.336 --> 00:13:39.100
+I'll put that, thank you.
+
+305 
+00:13:39.101 --> 00:13:42.952
+We'll put that in Notepad.
+
+306 
+00:13:42.953 --> 00:13:45.949
+And then our App Secret,
+
+307 
+00:13:45.950 --> 00:13:51.181
+ooh is there.
+
+308 
+00:13:51.182 --> 00:13:53.239
+So, I'm gonna getboth of these things.
+
+309 
+00:13:55.150 --> 00:13:56.437
+Secret.
+
+310 
+00:13:57.971 --> 00:14:02.112
+And then the App ID.
+
+311 
+00:14:02.113 --> 00:14:03.514
+This can be revoked later.
+
+312 
+00:14:03.515 --> 00:14:05.509
+That's why you generate an app.
+
+313 
+00:14:05.510 --> 00:14:07.949
+You can say, well,that app went rogue.
+
+314 
+00:14:07.950 --> 00:14:09.897
+So, someone compromised it.
+
+315 
+00:14:09.898 --> 00:14:11.228
+I'm gonna revoke that.
+
+316 
+00:14:11.229 --> 00:14:15.971
+Then people would no longer be ableto log in with Facebook, okay.
+
+317 
+00:14:15.972 --> 00:14:16.629
+And then we could
+
+318 
+00:14:16.630 --> 00:14:19.026
+actually see Login Users withpeople using Facebook log in.
+
+319 
+00:14:19.027 --> 00:14:20.630
+So, that would be useful.
+
+320 
+00:14:20.631 --> 00:14:24.930
+Cool, so we made a note of ourApp ID and our App Secret.
+
+321 
+00:14:24.931 --> 00:14:29.060
+And then we can add in our site URL.
+
+322 
+00:14:29.061 --> 00:14:32.060
+Now the secret management, right?
+
+323 
+00:14:32.061 --> 00:14:33.720
+We have to getthe Secret Manager tool.
+
+324 
+00:14:33.721 --> 00:14:37.780
+We should probably already have thaton this particular application.
+
+325 
+00:14:37.781 --> 00:14:38.809
+Let's give it a try.
+
+326 
+00:14:38.810 --> 00:14:43.675
+So, what I'm gonna do is I'm gonnaopen up this particular folder and
+
+327 
+00:14:43.676 --> 00:14:44.670
+get the path.
+
+328 
+00:14:44.671 --> 00:14:47.689
+Cuz I wanna know wherethis website is, right?
+
+329 
+00:14:47.690 --> 00:14:51.118
+And do I come out here to the,I like to call it the DOSBox,
+
+330 
+00:14:51.119 --> 00:14:52.981
+but it's the Command Prompt.
+
+331 
+00:14:52.982 --> 00:14:54.359
+cd over into that location.
+
+332 
+00:14:54.360 --> 00:14:55.092
+>> Yeah.
+
+333 
+00:14:55.093 --> 00:14:58.004
+>> Andremember the .NET command line.
+
+334 
+00:14:58.005 --> 00:15:03.134
+I should be able to saydotnet user-secrets.
+
+335 
+00:15:05.525 --> 00:15:09.645
+Okay, .NET's gonna do sometidying up because I cleared
+
+336 
+00:15:09.646 --> 00:15:11.080
+my caches earlier.
+
+337 
+00:15:12.300 --> 00:15:13.340
+>> So, it's reconfiguring.
+
+338 
+00:15:13.341 --> 00:15:15.270
+>> It's repopulating my cache.
+
+339 
+00:15:15.271 --> 00:15:16.420
+It just takes one second.
+
+340 
+00:15:16.421 --> 00:15:19.410
+It's a local package cache,doesn't have to happen very often.
+
+341 
+00:15:19.411 --> 00:15:21.750
+Let me do that again,dotnet user-secrets.
+
+342 
+00:15:21.751 --> 00:15:27.590
+So, that is the user secretsutility that is installed here.
+
+343 
+00:15:27.591 --> 00:15:29.460
+Where is that installed, right?
+
+344 
+00:15:31.350 --> 00:15:34.490
+>> Yeah, this is a tool thatwe really don't want to be
+
+345 
+00:15:34.491 --> 00:15:36.180
+used when we deploy.
+
+346 
+00:15:36.181 --> 00:15:38.900
+>> Mm-hm, right,it's not a dependency, it's a tool.
+
+347 
+00:15:38.901 --> 00:15:42.934
+So, it's a thing we would use likeentity framework migrations or
+
+348 
+00:15:42.935 --> 00:15:44.094
+code generation.
+
+349 
+00:15:44.095 --> 00:15:48.243
+These are things that are tools notshipped when you go to production.
+
+350 
+00:15:48.244 --> 00:15:49.061
+>> Yup.
+
+351 
+00:15:49.062 --> 00:15:50.480
+>> Okay?
+
+352 
+00:15:50.481 --> 00:15:53.442
+So, we go over here,we have the UserSecrets tool.
+
+353 
+00:15:53.443 --> 00:15:55.440
+Being able to typedotnet user-secrets.
+
+354 
+00:15:55.441 --> 00:16:00.770
+The ability to be able to type thatis predicated on that being there.
+
+355 
+00:16:00.771 --> 00:16:03.030
+If it wasn't there,we couldn't do that.
+
+356 
+00:16:03.031 --> 00:16:07.650
+Okay, soit says .NET user-secrets, app ID.
+
+357 
+00:16:07.651 --> 00:16:10.480
+We'll pullover the notebook,a Notepad rather.
+
+358 
+00:16:11.950 --> 00:16:17.170
+So, would it look like this,all right?
+
+359 
+00:16:17.171 --> 00:16:18.650
+You see?
+
+360 
+00:16:18.651 --> 00:16:25.028
+And then the app-secretwould look like This
+
+361 
+00:16:31.883 --> 00:16:35.810
+I don't want to accidentally removeone of those characters, all right.
+
+362 
+00:16:36.980 --> 00:16:39.391
+So now,>> You could run those commands
+
+363 
+00:16:39.392 --> 00:16:42.004
+>> We could run those commands, exactly
+
+364 
+00:16:43.940 --> 00:16:44.880
+>> To the secret store,
+
+365 
+00:16:46.210 --> 00:16:47.450
+where is the secret store?
+
+366 
+00:16:48.970 --> 00:16:50.750
+>> It's like a spyhiding your stuff.
+
+367 
+00:16:50.751 --> 00:16:52.510
+>> Where is the secret store anyway?
+
+368 
+00:16:52.511 --> 00:16:55.240
+>> Actually you can see this secret.
+
+369 
+00:16:55.241 --> 00:16:56.790
+If you go back to Visual Studio.
+
+370 
+00:16:56.791 --> 00:16:59.360
+>> Okay>> There's a neat trick here you
+
+371 
+00:16:59.361 --> 00:16:59.990
+can use to find.
+
+372 
+00:16:59.991 --> 00:17:02.550
+If you right click onweb application there is
+
+373 
+00:17:02.551 --> 00:17:05.370
+a manage user secretsitem down here.
+
+374 
+00:17:05.371 --> 00:17:06.680
+Click that.
+
+375 
+00:17:06.681 --> 00:17:07.380
+>> My goodness.
+
+376 
+00:17:07.381 --> 00:17:09.800
+>> And now there's the itemsyou just keyed in.
+
+377 
+00:17:09.801 --> 00:17:11.610
+>> That's somehow less secretthat I thought it would be.
+
+378 
+00:17:11.611 --> 00:17:14.770
+>> But check it out,here you just mouse over the tab and
+
+379 
+00:17:14.771 --> 00:17:18.260
+there's the entire folder locationof where this file lives.
+
+380 
+00:17:18.261 --> 00:17:19.730
+It's not in your application,
+
+381 
+00:17:19.731 --> 00:17:22.890
+it's hanging out inthis GUID folder name.
+
+382 
+00:17:22.891 --> 00:17:25.700
+>> Right, again notthe intention to encrypt it.
+
+383 
+00:17:25.701 --> 00:17:27.330
+>> No.>> Not the intention to make it
+
+384 
+00:17:27.331 --> 00:17:30.040
+secure but rather make it secret.
+
+385 
+00:17:30.041 --> 00:17:31.880
+>> It's secret->> You don't check it in.
+
+386 
+00:17:31.881 --> 00:17:35.400
+>> Yeah, you don't check it in, it'ssecret in that you as a developer
+
+387 
+00:17:35.401 --> 00:17:38.510
+Own this information, andit needs to be clear and
+
+388 
+00:17:38.511 --> 00:17:41.820
+available for you as a developer tobe able to change and update later.
+
+389 
+00:17:41.821 --> 00:17:42.960
+>> Right.
+
+390 
+00:17:42.961 --> 00:17:43.780
+All right.
+
+391 
+00:17:43.781 --> 00:17:45.250
+So.
+
+392 
+00:17:45.251 --> 00:17:49.020
+We've got, if it's in development,you use secrets.
+
+393 
+00:17:49.021 --> 00:17:51.100
+Let's make sure thatthat's in there.
+
+394 
+00:17:51.101 --> 00:17:56.650
+This is in Startup We haven't gotthat, so we're in development mode.
+
+395 
+00:17:56.651 --> 00:17:59.050
+Actually, I think it'sup in the constructor.
+
+396 
+00:17:59.051 --> 00:18:00.380
+Let's try that.
+
+397 
+00:18:00.381 --> 00:18:02.990
+Pardon me, you're absolutely right.
+
+398 
+00:18:02.991 --> 00:18:04.350
+So, that's part of configuration.
+
+399 
+00:18:04.351 --> 00:18:06.710
+So, we grab our configurationfrom app settings,
+
+400 
+00:18:06.711 --> 00:18:10.360
+user sequence is a kindof configuration.
+
+401 
+00:18:10.361 --> 00:18:14.440
+If it's not in development We needto put those in a proper secret
+
+402 
+00:18:14.441 --> 00:18:16.810
+store and there are thingslike Azure Key Vault.
+
+403 
+00:18:16.811 --> 00:18:17.340
+>> Yes.
+
+404 
+00:18:17.341 --> 00:18:19.460
+>> Other places forproduction secrets.
+
+405 
+00:18:19.461 --> 00:18:22.680
+>> They may set up thingswith a PowerShell script so
+
+406 
+00:18:22.681 --> 00:18:25.180
+that they get loaded as environmentvariables there on line 34.
+
+407 
+00:18:25.181 --> 00:18:28.290
+>> And my environment variableswould be totally appropriate
+
+408 
+00:18:28.291 --> 00:18:29.920
+if it wasn't super secret.
+
+409 
+00:18:29.921 --> 00:18:30.610
+>> Yeah.>> You could go and
+
+410 
+00:18:30.611 --> 00:18:32.130
+use this in something like Azure and
+
+411 
+00:18:32.131 --> 00:18:34.960
+set it up as an environment variableand it would just be available.
+
+412 
+00:18:34.961 --> 00:18:35.510
+>> Yes.
+
+413 
+00:18:35.511 --> 00:18:38.560
+>> Excellent.The point is Don't put them in
+
+414 
+00:18:38.561 --> 00:18:40.040
+your code.
+
+415 
+00:18:40.041 --> 00:18:43.900
+So now, we're gonna go andgrab NewGit and we're gonna get
+
+416 
+00:18:43.901 --> 00:18:49.200
+the Microsoft ASP.NET coreFacebook authentication package.
+
+417 
+00:18:50.380 --> 00:18:53.790
+Now again, I can go andmanually edit but
+
+418 
+00:18:53.791 --> 00:18:56.420
+I also kind of like to use this.
+
+419 
+00:18:56.421 --> 00:18:57.140
+The user interface.
+
+420 
+00:18:57.141 --> 00:18:57.760
+>> The user interface.
+
+421 
+00:18:57.761 --> 00:18:59.200
+It is just nice now.
+
+422 
+00:18:59.201 --> 00:18:59.830
+I cannot like it.
+
+423 
+00:18:59.831 --> 00:19:01.430
+I am going back and forth.
+
+424 
+00:19:01.431 --> 00:19:02.220
+So, here I go.Here
+
+425 
+00:19:02.221 --> 00:19:04.260
+is the core middle ware for these.
+
+426 
+00:19:04.261 --> 00:19:06.130
+We go and say install.
+
+427 
+00:19:06.131 --> 00:19:08.430
+This is going to bring thatpackage down for Facebook and
+
+428 
+00:19:08.431 --> 00:19:10.880
+then whatever additionalstuff is required.
+
+429 
+00:19:10.881 --> 00:19:13.990
+You will notice down hereit is getting all worth
+
+430 
+00:19:13.991 --> 00:19:15.860
+which is independency.
+
+431 
+00:19:15.861 --> 00:19:17.056
+Of the Facebook.
+
+432 
+00:19:18.872 --> 00:19:21.378
+So, it's grabbing those tools,grabbing those things that we need.
+
+433 
+00:19:23.083 --> 00:19:24.810
+And it's now done.
+
+434 
+00:19:24.811 --> 00:19:25.310
+Excellent.
+
+435 
+00:19:26.460 --> 00:19:30.610
+Okay, soremember how we had app.UseIdentity.
+
+436 
+00:19:30.611 --> 00:19:34.640
+What we need to do isadd those external
+
+437 
+00:19:37.060 --> 00:19:38.930
+Authentication middleware is there.
+
+438 
+00:19:38.931 --> 00:19:39.950
+It's all about middleware.
+
+439 
+00:19:39.951 --> 00:19:43.170
+We're gonna dig a little bit moreinto middleware in a little bit.
+
+440 
+00:19:43.171 --> 00:19:45.120
+There's using it whichis what we're doing.
+
+441 
+00:19:45.121 --> 00:19:46.593
+>> Yep.And then there's making it which is
+
+442 
+00:19:46.594 --> 00:19:47.984
+what you're gonna teach me about.
+
+443 
+00:19:47.985 --> 00:19:50.646
+>> Yeah, we're gonna take a lookat some interesting things you
+
+444 
+00:19:50.647 --> 00:19:51.267
+can do there.
+
+445 
+00:19:51.268 --> 00:19:53.696
+>> So, I'll paste that in.
+
+446 
+00:19:53.697 --> 00:19:56.158
+>> Conveniently rightnext to the note. Yeah.
+
+447 
+00:19:56.159 --> 00:19:57.575
+How fun is that?
+
+448 
+00:19:57.576 --> 00:20:01.112
+So this string right there,we confirmed,
+
+449 
+00:20:01.113 --> 00:20:06.274
+is the name value pair that youcan find when you right-click and
+
+450 
+00:20:06.275 --> 00:20:08.800
+say manage user secrets.
+
+451 
+00:20:08.801 --> 00:20:09.680
+It's that string.
+
+452 
+00:20:10.740 --> 00:20:13.530
+So then if I had Twitter or Steam or
+
+453 
+00:20:13.531 --> 00:20:16.920
+any other log-in provider, thesecrets would show up there as well.
+
+454 
+00:20:16.921 --> 00:20:18.860
+And they just get passed in.
+
+455 
+00:20:18.861 --> 00:20:21.090
+In this case, Facebook auth,I'd have Twitter auth and
+
+456 
+00:20:21.091 --> 00:20:22.260
+I'd have different things.
+
+457 
+00:20:22.261 --> 00:20:25.940
+If you have your own auth,you can write your own middleware.
+
+458 
+00:20:25.941 --> 00:20:26.630
+>> Yes.
+
+459 
+00:20:26.631 --> 00:20:29.750
+>> And participate in identity.
+
+460 
+00:20:29.751 --> 00:20:30.250
+>> Okay.
+
+461 
+00:20:32.660 --> 00:20:34.690
+>> So now, let's go andrun the thing.
+
+462 
+00:20:35.770 --> 00:20:38.400
+And find out ifFacebook Authentication
+
+463 
+00:20:38.401 --> 00:20:41.980
+enlisted itself as an externallog in provider, okay.
+
+464 
+00:20:41.981 --> 00:20:43.680
+Let's see go and run.
+
+465 
+00:20:46.665 --> 00:20:49.765
+Fire it up.
+
+466 
+00:20:49.766 --> 00:20:51.660
+Million things couldgo wrong right now.
+
+467 
+00:20:52.700 --> 00:20:53.730
+>> Hold my breath.
+
+468 
+00:20:53.731 --> 00:20:54.600
+>> Well this is the thing now.
+
+469 
+00:20:54.601 --> 00:20:58.100
+When you do demos, you don't tryto do them so that they work.
+
+470 
+00:20:58.101 --> 00:21:00.600
+People think that when youcreate a demo, you write a demo,
+
+471 
+00:21:00.601 --> 00:21:03.505
+that you're intending forit to work on the first try.
+
+472 
+00:21:03.506 --> 00:21:04.930
+>> Right.>> I like things to break.
+
+473 
+00:21:04.931 --> 00:21:06.880
+Because I think that that'sa learning opportunity.
+
+474 
+00:21:06.881 --> 00:21:08.070
+>> Absolutely it is.
+
+475 
+00:21:08.071 --> 00:21:11.200
+>> So we see here,use another service to log on.
+
+476 
+00:21:11.201 --> 00:21:12.540
+>> And now Facebook is available.
+
+477 
+00:21:12.541 --> 00:21:14.900
+>> Before we do that and prove itworks, because we don't know yet
+
+478 
+00:21:14.901 --> 00:21:15.890
+that it works.
+
+479 
+00:21:15.891 --> 00:21:19.150
+Let's make sure that we can confirmthat we know what's happening.
+
+480 
+00:21:19.151 --> 00:21:24.660
+So, I'm on Account/Login, all right?
+
+481 
+00:21:24.661 --> 00:21:30.550
+And if you look right here, getexternal authentication's schemes.
+
+482 
+00:21:32.140 --> 00:21:34.040
+I'm assuming now thatthere is one of those.
+
+483 
+00:21:34.041 --> 00:21:35.220
+>> Take a look.
+
+484 
+00:21:35.221 --> 00:21:35.890
+>> Four each.
+
+485 
+00:21:37.100 --> 00:21:38.400
+And it generated our submit button.
+
+486 
+00:21:38.401 --> 00:21:39.770
+>> Generated our button,but look at this here.
+
+487 
+00:21:39.771 --> 00:21:41.641
+You see it says value,
+
+488 
+00:21:41.642 --> 00:21:46.384
+log in to your provider.DisplayNameaccount, right?
+
+489 
+00:21:46.385 --> 00:21:47.910
+>> Yeah, very cool.
+
+490 
+00:21:47.911 --> 00:21:48.910
+>> It is nice.
+
+491 
+00:21:48.911 --> 00:21:49.590
+Let's give it a try.
+
+492 
+00:21:52.230 --> 00:21:53.240
+So check it out.
+
+493 
+00:21:53.241 --> 00:21:57.630
+We've automatically showed upover to my personal Facebook, and
+
+494 
+00:21:57.631 --> 00:22:02.230
+it says this app will get yourprofile and your email address, and
+
+495 
+00:22:02.231 --> 00:22:03.650
+this is really important.
+
+496 
+00:22:03.651 --> 00:22:05.580
+This doesn't let the apppost to Facebook.
+
+497 
+00:22:06.670 --> 00:22:07.290
+>> Yeah.
+
+498 
+00:22:07.291 --> 00:22:08.486
+>> A little details.
+
+499 
+00:22:08.487 --> 00:22:13.712
+>> Those security restrictions>> Mm-hm.
+
+500 
+00:22:13.713 --> 00:22:15.050
+>> That are defined there are so
+
+501 
+00:22:15.051 --> 00:22:17.120
+important that a lotof people over looked.
+
+502 
+00:22:17.121 --> 00:22:18.490
+>> They really do,they just click through.
+
+503 
+00:22:18.491 --> 00:22:23.070
+And this is nice, Facebook log in,isn't a Facebook app permissions,
+
+504 
+00:22:23.071 --> 00:22:25.530
+because in the old daysit felt like anything
+
+505 
+00:22:25.531 --> 00:22:27.180
+could potentially post to Facebook.
+
+506 
+00:22:27.181 --> 00:22:28.520
+>> Right.>> But now somehow we just wanna
+
+507 
+00:22:28.521 --> 00:22:29.255
+log in.
+
+508 
+00:22:29.256 --> 00:22:30.160
+>> Mm-hm.
+
+509 
+00:22:30.161 --> 00:22:30.983
+>> So we'll say continue.
+
+510 
+00:22:34.145 --> 00:22:38.956
+And then look at that it redirectedbecause we had told Facebook
+
+511 
+00:22:38.957 --> 00:22:40.200
+the URL.
+
+512 
+00:22:40.201 --> 00:22:42.560
+I came back, andthese is really interesting.
+
+513 
+00:22:42.561 --> 00:22:43.150
+Checked this out.
+
+514 
+00:22:44.430 --> 00:22:46.030
+Associate your Facebook account.
+
+515 
+00:22:46.031 --> 00:22:51.000
+Let's see, I already have an accountthat we'd logged in on earlier.
+
+516 
+00:22:51.001 --> 00:22:54.450
+If I hit register,it's say you've already taken.
+
+517 
+00:22:54.451 --> 00:22:55.365
+So that kinda stinks.
+
+518 
+00:22:55.366 --> 00:22:57.840
+>> [LAUGH]>> I'll put in another account.
+
+519 
+00:22:59.510 --> 00:23:01.530
+I shouldn't have loggedin Facebook before.
+
+520 
+00:23:01.531 --> 00:23:02.690
+And now, there I am.
+
+521 
+00:23:03.810 --> 00:23:04.420
+>> Cool.
+
+522 
+00:23:04.421 --> 00:23:05.190
+Very cool.
+
+523 
+00:23:05.191 --> 00:23:07.470
+>> Andthis means that we can log in and
+
+524 
+00:23:07.471 --> 00:23:12.520
+out to this application withoutit seeing our password.
+
+525 
+00:23:12.521 --> 00:23:13.030
+See?
+
+526 
+00:23:13.031 --> 00:23:15.700
+I hit log off, hit log in.
+
+527 
+00:23:15.701 --> 00:23:16.730
+Log in with Facebook.
+
+528 
+00:23:16.731 --> 00:23:18.310
+Does the little bounce.
+
+529 
+00:23:18.311 --> 00:23:20.455
+And then I'm back.
+
+530 
+00:23:20.456 --> 00:23:22.790
+>> Yeah, that little bounce iskinda important right there.
+
+531 
+00:23:22.791 --> 00:23:25.100
+There's actually severalcommunications that are going on
+
+532 
+00:23:25.101 --> 00:23:26.370
+there back and fort.
+
+533 
+00:23:26.371 --> 00:23:27.330
+>> That's a great point.
+
+534 
+00:23:27.331 --> 00:23:30.280
+>> Facebook, our application andthe browser.
+
+535 
+00:23:30.281 --> 00:23:31.320
+>> Mm-hm.That's a good point.
+
+536 
+00:23:31.321 --> 00:23:32.670
+Let's look at that real quick.
+
+537 
+00:23:32.671 --> 00:23:37.050
+I'm just gonna say record networkactivity, and I'll hit log in.
+
+538 
+00:23:38.300 --> 00:23:42.794
+And what I'm gonna do isremove images and CSS and
+
+539 
+00:23:42.795 --> 00:23:46.191
+we'll just take with Java script and
+
+540 
+00:23:46.192 --> 00:23:49.820
+things that matternot the data stuff.
+
+541 
+00:23:52.380 --> 00:23:55.970
+Java script, I want that Iwant cross side scripting.
+
+542 
+00:23:55.971 --> 00:23:59.139
+I want some Java script, I want somedocuments, I want to move services.
+
+543 
+00:24:00.140 --> 00:24:03.320
+And I'm gonna say, log in Facebook.
+
+544 
+00:24:03.321 --> 00:24:05.580
+Oops, one of the things that'sinteresting when you're trying to
+
+545 
+00:24:05.581 --> 00:24:07.270
+record traffic like this.
+
+546 
+00:24:07.271 --> 00:24:09.630
+You notice that it popped.
+
+547 
+00:24:09.631 --> 00:24:11.470
+It showed me and then it cleared it.
+
+548 
+00:24:11.471 --> 00:24:14.510
+You have to go andsay, preserve log.
+
+549 
+00:24:14.511 --> 00:24:17.920
+Don't clear the log on page re-load.
+
+550 
+00:24:17.921 --> 00:24:21.870
+One of the little details thatyou just learn after time.
+
+551 
+00:24:21.871 --> 00:24:28.470
+Let's go ahead andlog off, log in, Facebook.
+
+552 
+00:24:28.471 --> 00:24:29.730
+That was quick.
+
+553 
+00:24:29.731 --> 00:24:33.720
+Interestingly, I feel like it didn'tdo a good job of representing that.
+
+554 
+00:24:34.750 --> 00:24:40.220
+Because if you look down here,here's external login, it's 302.
+
+555 
+00:24:40.221 --> 00:24:42.850
+Here's Facebook oauth.
+
+556 
+00:24:42.851 --> 00:24:44.650
+>> Right.>> With all my and stuff
+
+557 
+00:24:44.651 --> 00:24:47.840
+>> 302 then it went localhost
+
+558 
+00:24:47.841 --> 00:24:48.960
+signin Facebook.
+
+559 
+00:24:48.961 --> 00:24:53.230
+So it went all the way to Facebook,got some stuff, jump back over, gave
+
+560 
+00:24:53.231 --> 00:24:58.780
+me the result, 302 back to itself,and then launch the main page.
+
+561 
+00:24:58.781 --> 00:24:59.450
+To your right,
+
+562 
+00:24:59.451 --> 00:25:03.240
+there is a dance there what feelslike one click is like five.
+
+563 
+00:25:03.241 --> 00:25:04.990
+>> Right.It's just important to be
+
+564 
+00:25:04.991 --> 00:25:05.920
+aware of that.
+
+565 
+00:25:05.921 --> 00:25:08.740
+As you are programming these thingsif you're expecting something else
+
+566 
+00:25:08.741 --> 00:25:09.750
+to happen in there.
+
+567 
+00:25:09.751 --> 00:25:12.550
+>> Or if you want to try andmanage that process,
+
+568 
+00:25:12.551 --> 00:25:14.150
+you don't have control of that.
+
+569 
+00:25:14.151 --> 00:25:16.570
+That's the securityof your application.
+
+570 
+00:25:16.571 --> 00:25:18.070
+>> Yep, exactly.
+
+571 
+00:25:18.071 --> 00:25:23.380
+So that is kind of an overviewof identity login.
+
+572 
+00:25:23.381 --> 00:25:26.320
+We saw that we can have thatidentity stored in a local database.
+
+573 
+00:25:26.321 --> 00:25:28.530
+>> Yep.>> We can associate, and
+
+574 
+00:25:28.531 --> 00:25:32.210
+number of external logins,in this case Facebook.
+
+575 
+00:25:32.211 --> 00:25:34.490
+And if you follow those tutorials,and
+
+576 
+00:25:34.491 --> 00:25:37.910
+there's lots of greattutorials on docs.asp.net.
+
+577 
+00:25:37.911 --> 00:25:39.200
+Things will mostly work.
+
+578 
+00:25:39.201 --> 00:25:42.320
+But when they don't,it's not a black box.
+
+579 
+00:25:42.321 --> 00:25:42.920
+>> It's not.
+
+580 
+00:25:42.921 --> 00:25:44.040
+There's ways to solve this.
+
+581 
+00:25:44.041 --> 00:25:46.430
+There's a number of websitesout there from other folks in
+
+582 
+00:25:46.431 --> 00:25:48.260
+the community that havewritten providers and
+
+583 
+00:25:48.261 --> 00:25:52.170
+written documentation abouthow to use those providers.
+
+584 
+00:25:52.171 --> 00:25:55.690
+I particularly wanna callout ooffforaspnet.com.
+
+585 
+00:25:55.691 --> 00:25:56.380
+Check that one out.
+
+586 
+00:25:56.381 --> 00:25:58.240
+There's all kinds of providers for
+
+587 
+00:25:58.241 --> 00:26:01.580
+many of these services that youuse for other applications.
+
+588 
+00:26:01.581 --> 00:26:03.565
+>> Absolutely andit's not just Facebook and Twitter.
+
+589 
+00:26:03.566 --> 00:26:06.008
+>> Nope.>> It's Windows Live, it's Steam.
+
+590 
+00:26:06.009 --> 00:26:06.740
+>> Steam.
+
+591 
+00:26:06.741 --> 00:26:11.090
+>> It's Orange, anyone thatOAuth linked in you can have, so
+
+592 
+00:26:11.091 --> 00:26:13.190
+if your application needsa particular thing.
+
+593 
+00:26:13.191 --> 00:26:15.750
+They should have middleware thatsome on the community has made.
+
+594 
+00:26:15.751 --> 00:26:17.830
+Or because it's building on OF,
+
+595 
+00:26:17.831 --> 00:26:21.030
+ultimately you just have to figureout what the URL schemes are.
+
+596 
+00:26:21.031 --> 00:26:21.600
+All right.
+
+597 
+00:26:21.601 --> 00:26:22.110
+>> Cool.
+
+598 
+00:26:22.111 --> 00:26:25.310
+>> So that is doingauthentication middleware.
+
+599 
+00:26:25.311 --> 00:26:26.725
+We'll take a short break andwe'll come right back.
+
